@@ -12,21 +12,12 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-<<<<<<< HEAD
         'NAME': 'database', #zakladacie w pgAdmin baze danych o nazwie'database' i tyle, mo¿ecie daæ jakiœ opis jak chcecie i ok
         # The following settings are not used with sqlite3:
         'USER': 'postgres',#podajecie usera do INSTANCJI PostgreSQL
         'PASSWORD': 'breaking',#podajecie haslo do INSTANCJI PostgreSQL, haslo mozna w pgAdminie zmienic w "Zarejestrowane role"
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '5432', #uwstawcie sobie port na ktorym macie ustawion¹ instancje PostgreSQL
-=======
-        'NAME': 'test_database',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '5432',                      # Set to empty string for default.
->>>>>>> 1dc0011537796aa8de4597b89459d59fc4fd4454
     }
 }
 
