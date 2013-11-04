@@ -1,4 +1,4 @@
-from userprofile.models import UserProfile,UserMission,Mission,Base,Item,UserEquipment,Reward,Rewards,Chat,Team,UserTeam
+from definition.models import UserProfile,UserMission,Mission,Base,Item,UserEquipment,Reward,Rewards,Chat,Team,UserTeam
 from django.contrib import admin
 admin.site.register(UserProfile)
 admin.site.register(UserMission)
