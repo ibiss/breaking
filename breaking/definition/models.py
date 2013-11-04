@@ -1,18 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Base(models.Model):
-    name = models.CharField(max_length=100)
-    position = models.CharField(max_length=100)
-    def __unicode_(self):
-        return self.name
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     first_name = models.CharField(max_length=100)
     second_name = models.CharField(max_length=100)
     status = models.IntegerField(default=1)
-    base_id = models.ForeignKey(Base,null=True)
+	location = models.CharField(max_lengh=100)
+	
     def __unicode_(self):
         return self.user
 
@@ -24,6 +19,7 @@ class UserProfile(models.Model):
 #    def __unicode_(self):
 #        return self
 
+'''
 class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=8000)
@@ -83,3 +79,5 @@ class UserTeam(models.Model):
     status = models.IntegerField()
     def __unicode_(self):
         return self
+		
+'''
