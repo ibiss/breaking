@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 	url(r'^auth/$', 'breakingapp.views.auth_view'),
 	url(r'^user_panel/$', 'breakingapp.views.user_panel'),
 	url(r'^invalid/$', 'breakingapp.views.invalid_login'),
+	url(r'^register/$', 'breakingapp.views.register_user'),
     # url(r'^breaking/', include('breaking.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
