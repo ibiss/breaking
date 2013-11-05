@@ -60,7 +60,7 @@ class UserMission(models.Model):
         return self
 
 class Team(models.Model):
-    chat_id = models.ForeignKey(Chat)
+ #   chat_id = models.ForeignKey(Chat)
     name = models.CharField(max_length=100)
     def __unicode__(self):
         return self.name
