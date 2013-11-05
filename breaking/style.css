@@ -58,6 +58,7 @@ table {
 html{
 	width: 960px;
 	margin: 0 auto;
+	background-color: #333333;
 }
 
 /*
@@ -72,9 +73,11 @@ header{
 
 header #logo{
 	float: left;
+	margin-left: 50px;
 }
 header #logo img{
-	width: 350px;
+
+	width: 130px;
 	height: 130px;
 }
 
@@ -107,28 +110,32 @@ body{
 	height: 600px;
 }
 
-body #description{
-	width: 350px;
-	height: 440px;
-	float: left;
-	margin-left: 20px;
+body #description {
+    background-image: url("images/description.png");
+    background-repeat: no-repeat;
+    float: left;
+    height: 440px;
+    margin-left: 20px;
+    width: 350px;
 }
-
-body #description h2{
-	font-size: 1.3em;
-	font-weight: bold;
-	padding: 5px 20px 5px;
+body #description h2 {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 3px 26px;
 }
-
-body #description .node{
-	padding: 5px 10px 5px 5px;
+body #description .node {
+    background-image: url("images/node.png");
+    background-repeat: no-repeat;
+    height: 200px;
+    padding: 5px 10px 5px 7px;
+    width: 340px;
+    margin-left: 5px;
 }
-
-body #description .node h3{
-	font-size: 1.2em;
-	padding-bottom: 8px;
-	padding-left: 6px;
-	padding-top: 10px;
+body #description .node h3 {
+    font-size: 1.2em;
+    padding-bottom: 8px;
+    padding-left: 41px;
+    padding-top: 4px;
 }
 
 body #description .node p{
