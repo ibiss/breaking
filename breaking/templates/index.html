@@ -1,5 +1,58 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
-<h1>Home Site</h2>
-{% endblock content %}
+	<head>
+		<title>Breaking</title>
+		<meta charset="utf-8">
+		<meta name="keywords" content="breaking">
+		<link href="style.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<header>
+		<div id="logo">
+			<img src="" alt="breaking_logo">
+		</div>
+		<div id="registration">
+			<a href="#">Rejestracja</a>
+		</div>
+	</header>
+
+	<body>
+		<section id="description">
+			<h2>Witaj w świecie breaking!</h2>
+
+			<div class="node">
+				<h3>Czym jest breaking</h3>
+				<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+				<a href="#"><h4>Read more...</h4></a>
+			</div>
+
+			<div class="node">
+				<h3>Jak grać</h3>
+				<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+				<a href="#"><h4>Read more...</h4></a>
+			</div>
+		</section>
+
+		<section id="login_panel">
+			<h2>Zaloguj się!</h2>
+			<form id="login_form" action="#" method="POST">
+				<p>Login: <input type="text" name="login">
+				<p>Hasło: <input type="password" name="password"><br>
+				<input type="submit" name="submit" id="submit" value="Zaloguj">
+			</form>
+		</section>
+	</body>
+
+	<footer>
+		<div class="link_footer"><a href="#">Kontakt</a></div>
+		<div class="link_footer"><a href="#">O grze</a></div>
+		<div class="link_footer"><a href="#">Regulamin gry</a></div>
+		<div class="link_footer"><a href="#">FAQ</a></div>
+		<div id="rights">Copyright © 2013-2014 | Breaking team</div>
+	</footer>
+</html>
