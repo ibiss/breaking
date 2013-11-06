@@ -43,6 +43,7 @@ q:before, q:after {
 }
 a{
 	text-decoration: none;
+	color: #000000;
 }
 a:hover{
 	color: red;
@@ -58,7 +59,7 @@ table {
 html{
 	width: 960px;
 	margin: 0 auto;
-	background-color: #333333;
+	background-color: #220139;
 }
 
 /*
@@ -69,6 +70,7 @@ header{
 	width: 960px;
 	height: 150px;
 	margin-top: 30px;
+	background-image: url("images/header.png");
 }
 
 header #logo{
@@ -84,7 +86,7 @@ header #logo img{
 header #registration{
 	float: right;
 	margin-right: 200px;
-	margin-top: 30px;
+	margin-top: 55px;
 }
 
 header #registration a{
@@ -115,8 +117,7 @@ body #description {
     background-repeat: no-repeat;
     float: left;
     height: 440px;
-    margin-left: 20px;
-    width: 350px;
+    width: 380px;
 }
 body #description h2 {
     font-size: 1.3em;
@@ -129,7 +130,7 @@ body #description .node {
     height: 200px;
     padding: 5px 10px 5px 7px;
     width: 340px;
-    margin-left: 5px;
+    margin: 0 auto;
 }
 body #description .node h3 {
     font-size: 1.2em;
@@ -151,23 +152,29 @@ body #description .node a{
  * BODY-PRAWA KOLUMNA
 */
 
-body #login_panel{
-	float: right;
-	margin: 80px 100px;
-	padding-bottom: 20px;
+body #login_panel {
+    background-image: url("images/login.png");
+    float: right;
+    height: 130px;
+    margin: 80px 100px;
+    padding-bottom: 20px;
+    width: 230px;
 }
 
-body #login_panel h2{
-	font-size: 1.3em;
-	padding-bottom: 30px;
+body #login_panel h2 {
+    font-size: 1.3em;
+    padding-bottom: 13px;
+    margin-top: 9px;
+    margin-left: 13px;
 }
 
-body #login_panel p{
-	font-size: 1.15em;
+body #login_panel p {
+    font-size: 1.15em;
+    margin-left: 12px;
 }
-
-body #login_panel input{
-	margin-bottom: 5px;
+body #login_panel input {
+    margin-bottom: 5px;
+    width: 150px;
 }
 
 body #login_panel #submit{
@@ -185,6 +192,7 @@ footer{
 	width: 960px;
 	height: 40px;
 	padding-top: 15px;
+	background-color: #3f006b;
 }
 
 footer .link_footer{
