@@ -1,6 +1,6 @@
 package com.example.gpsloc;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -8,13 +8,24 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.Menu;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
-public class MainActivity extends Activity {
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 
+public class MainActivity extends FragmentActivity {
+	
+	private GoogleMap map;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
+		map = ((SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 		
 		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
