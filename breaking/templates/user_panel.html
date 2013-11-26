@@ -1,1 +1,121 @@
-tak
+{% extends "base.html" %}
+{% load staticfiles %}
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+{% block stylesheets %}
+	{{ block.super }}
+{% endblock %}
+
+{% block javascripts %}
+    <style type="text/css">
+	    html { height: 100% }
+	    body { height: 100%; margin: 0; padding: 0 }
+	    #map-canvas { height: 95%; width: 100%}
+	</style>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPXQswYEiVGwvSEwWYl5UnXKaNLFYF2I0&sensor=true">
+	</script>
+	<script type="text/javascript">
+	    var marker;
+	    var map;
+	    var area;
+	    var initialLocation;
+	    var browserSupportFlag = new Boolean();
+	    var pos;
+	    var overlay = new google.maps.OverlayView();
+
+	    function initialize() {
+	        var myOptions = {
+	            zoom: 16,
+	            mapTypeId: google.maps.MapTypeId.ROADMAP
+	        };
+
+	        var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	        
+	        marker = new google.maps.Marker({
+	            map: map,
+	            draggable: true,
+	            animation: google.maps.Animation.DROP,
+	            position: initialLocation,
+	            icon: "{% static 'images/marker.png' %}"
+	        });
+	        
+	        // Try W3C Geolocation (Preferred)
+	        if (navigator.geolocation) {
+	            browserSupportFlag = true;
+	            navigator.geolocation.getCurrentPosition(function(position) {
+	                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	                map.setCenter(initialLocation);
+	                marker = new google.maps.Marker({
+	                    map: map,
+	                    //draggable: true,
+	                    //animation: google.maps.Animation.DROP,
+	                    position: initialLocation,
+	                    icon: "{% static 'images/marker.png' %}"
+	                });
+
+	                var areas = {
+	                    map: map,
+	                    center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+	                    radius: 100,
+	                    strokeColor: '#FF0000',
+	                    strokeOpacity: 0.8,
+	                    strokeWeight: 2,
+	                    fillColor: '#FF0000',
+	                    fillOpacity: 0.35
+	                };
+
+	                area = new google.maps.Circle(areas);
+
+	            }, function() {
+	                handleNoGeolocation(browserSupportFlag);
+	            });
+	        }
+	        else {
+	            browserSupportFlag = false;
+	        }
+	    }
+	    /*function toggleBounce() {
+	     
+	     if (marker.getAnimation() != null) {
+	     marker.setAnimation(null);
+	     } else {
+	     marker.setAnimation(google.maps.Animation.BOUNCE);
+	     }
+	     }*/
+
+	    function setPosition()
+	    {
+	        var X = document.getElementById('X').value;
+	        var Y = document.getElementById('Y').value;
+	        document.getElementById('show').innerHTML = "X: " + X + ",  Y: " + Y;
+	        initialLocation = new google.maps.LatLng(X, Y);
+	        //marker.setPosition(initialLocation);
+	        var mapOptions = {
+	            center: new google.maps.LatLng(X, Y),
+	            zoom: 18
+	        };
+	        var map = new google.maps.Map(document.getElementById("map-canvas"),
+	                mapOptions);
+
+	        marker = new google.maps.Marker({
+	            map: map,
+	            //draggable: true,
+	            //animation: google.maps.Animation.DROP,
+	            position: initialLocation,
+	            icon: "{% static 'images/marker.png' %}",
+	            title: 'Twoja pozycja'
+	        });
+	    }
+
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+{% endblock %}
+    
+{% block content %}
+    <div id="map-canvas"></div>
+
+    X: <input type="text" id="X">
+    Y: <input type="text" id="Y">
+    <input type="button" name="submit" value="Przejdz" onclick="setPosition();">
+    <div id="show"></div>
+{% endblock %}
