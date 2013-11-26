@@ -7,8 +7,8 @@ from userprofile.views import register_user
 
 urlpatterns = patterns('',
 	url(r'^$', home),
-        url(r'^auth/$', auth_view),
-        url(r'^user_panel/$', user_panel),
-        url(r'^invalid/$', invalid_login),
-        url(r'^register/$', register_user),
+        url(r'^auth/', auth_view),
+        url(r'^user_panel/', user_panel),
+        url(r'^invalid/', invalid_login),
+        url(r'^register/', register_user),
 )
