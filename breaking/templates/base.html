@@ -22,7 +22,9 @@
 	<body>   
         <header>
             {% block header %}
-
+                <div id="logo">
+                    <img src={% static "images/logo_breaking.png" %} alt="breaking_logo">
+                </div>
             {% endblock %}
         </header>
     		{% block content %}
