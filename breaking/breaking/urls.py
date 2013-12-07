@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 import userprofile.urls
+import webservices.urls
 from django.contrib import admin
 admin.autodiscover()
 
@@ -10,4 +11,5 @@ urlpatterns = patterns('',
 	url(r'^invalid/', 'userprofile.views.invalid_login'),
 	url(r'^register/', 'userprofile.views.register_user'),
 	url(r'^admin/', include(admin.site.urls)),
+        url(r'^webservices/', include(webservices.urls)),
 )
