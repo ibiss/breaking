@@ -11,6 +11,6 @@ urlpatterns = patterns('',
 	url(r'^invalid/', 'userprofile.views.invalid_login'),
 	url(r'^register/', 'userprofile.views.register_user'),
 	url(r'^admin/', include(admin.site.urls)),
-        url(r'^settings/', 'userprofile.views.settings'),
+        url(r'^account/', 'userprofile.views.account'),
         url(r'^webservices/', include(webservices.urls)),
 )

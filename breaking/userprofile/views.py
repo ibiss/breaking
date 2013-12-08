@@ -40,5 +40,5 @@ def register_user(request):
 	args['form'] = UserCreationForm()
 	return render_to_response('register.html', args)
 
-def settings(request):
-        return render_to_response('settings.html')
+def account(request):
+        return render_to_response('account.html')

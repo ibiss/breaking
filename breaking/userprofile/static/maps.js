@@ -12,7 +12,8 @@ function initialize() {
         navigator.geolocation.getCurrentPosition(function(position) {
             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  //Pobranie wspolrzednych
             map.setCenter(initialLocation); //Ustawienie centrum mapy
-
+            document.getElementById('X').value = position.coords.latitude;    //Ustawiam aktualne wartosci dla wspolrzednych
+            document.getElementById('Y').value = position.coords.longitude;
             marker = new google.maps.Marker({   //Nowy marker
                 map: map,
                 position: initialLocation,
@@ -58,7 +59,7 @@ function initialize() {
         var markOpt = {
             position: event.latLng,
             map: map,
-            icon: 'images/marker.png'
+            icon: "{% static 'images/marker.png' %}",
         };
         var areaOpt = { //opcje obszaru
             map: map,   //mapa

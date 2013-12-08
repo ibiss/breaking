@@ -12,18 +12,11 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPXQswYEiVGwvSEwWYl5UnXKaNLFYF2I0&sensor=true">
-	</script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPXQswYEiVGwvSEwWYl5UnXKaNLFYF2I0&sensor=true"></script>
 
 	<script type="text/javascript" src={% static 'maps.js' %}></script>
+
 	<script type="text/javascript">
-	    
-
-	    function generate()
-	    {
-	    	
-	    }
-
 	    function setPosition()
 	    {
 	        var X = document.getElementById('X').value;
@@ -32,7 +25,7 @@
 	        initialLocation = new google.maps.LatLng(X, Y);
 	        var mapOptions = {
 	            center: new google.maps.LatLng(X, Y),
-	            zoom: 18
+	            zoom: 16
 	        };
 	        var map = new google.maps.Map(document.getElementById("map-canvas"),
 	                mapOptions);
@@ -63,7 +56,7 @@
 {% block content %}
 	<section id="user_menu">
 		<ul>
-			<li><a href="/settings/">Ustawienia</a></li>
+			<li><a href="/account/">Ustawienia</a></li>
 		</ul>
 	</section>
     <div id="map-canvas"></div>
@@ -71,7 +64,5 @@
     X: <input type="text" id="X">
     Y: <input type="text" id="Y">
     <input type="button" name="submit" value="Przejdz" onclick="setPosition();">
-    <input type="button" name="addMarker" value="Ustaw marker" onclick="setMarker();">
-    <input type="button" name="generate" value="Generuj" onclick="generate();">
     <div id="show"></div>
 {% endblock %}
