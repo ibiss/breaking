@@ -13,26 +13,28 @@ function initialize()
         navigator.geolocation.getCurrentPosition(function(position) {
             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  //Pobranie wspolrzednych
             map.setCenter(initialLocation); //Ustawienie centrum mapy
-            document.getElementById('X').value = position.coords.latitude;    //Ustawiam aktualne wartosci dla wspolrzednych
-            document.getElementById('Y').value = position.coords.longitude;
+
+            document.getElementsByName('positionX')[0].value = position.coords.latitude;    //Ustawiam aktualne wartosci dla wspolrzednych
+            document.getElementsByName('positionY')[0].value = position.coords.longitude;
             marker = new google.maps.Marker({   //Nowy marker
                 map: map,
                 position: initialLocation,
-                icon: '../static/images/marker.png'
+                    icon: "../static/images/marker.png"
             });
 
-            var areaOpt = { //opcje obszaru
-                map: map,   //mapa
-                center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),    //pozycja
-                radius: 100,    //promien
-                strokeColor: '#FF0000', //kolor lini
-                strokeOpacity: 0.8, //przezroczystosc lini
-                strokeWeight: 2,    //grubosc lini
-                fillColor: '#FF0000',   //Kolor obszaru
-                fillOpacity: 0.35   //przezroczystosc obszaru
-            };
-
-            area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
+            google.maps.event.addListener(map, 'click', function(event) {   //Uzytkownk ustawia swoja pozycje na mapie
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                document.getElementsByName('positionX')[0].value = lat; //Wypisuje zaznaczone wspolrzedne
+                document.getElementsByName('positionY')[0].value = lng;
+                initialLocation = new google.maps.LatLng(lat, lng);
+                marker.setMap(null);
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: initialLocation,
+                    icon: "../static/images/marker.png"
+                });
+            });
 
         }, function() {
             handleNoGeolocation(browserSupportFlag);
