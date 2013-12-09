@@ -19,7 +19,7 @@ function initialize()
             marker = new google.maps.Marker({   //Nowy marker
                 map: map,
                 position: initialLocation,
-                    icon: "../static/images/marker.png"
+                icon: "../static/images/marker.png"
             });
 
             google.maps.event.addListener(map, 'click', function(event) {   //Uzytkownk ustawia swoja pozycje na mapie

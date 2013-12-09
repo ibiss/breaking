@@ -23,10 +23,10 @@ def auth_view(request):
 		return HttpResponseRedirect('/user_panel/')
 	else:
 		return HttpResponseRedirect('/invalid/')
-		
+		'''
 def user_panel(request):
     return render_to_response('user_panel.html')
-
+'''
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 	
@@ -40,14 +40,14 @@ def register_user(request):
 	args = {}
 	args.update(csrf(request))
 	args['form'] = UserCreationForm()
-	return render_to_response('register.html', args)
+	return render_to_response('register_user.html', args)
 
 def account(request):
         return render_to_response('account.html')
 
-def generate(request):
-	username = request.user.username
-	user = UserProfile.objects.get(user=username)
+def user_panel(request):
+	#username = request.user.username
+	user = UserProfile.objects.get(first_name='test')
 	latitude = user.latitude
 	longitude = user.longitude
 	radius = random.randint(300,2000)
@@ -55,6 +55,6 @@ def generate(request):
 	radians = math.radians(angle)
 	t_latitude = math.sin(radians)*radius
 	t_longitude = math.cos(radians)*radius
-	t_latitude = t_latitude + latitude
-	t_longitude = t_longitude + longitude
-	return render_to_response({'t_latitude':t_latitude,'t_longitude':t_longitude})
+	t_latitude = t_latitude + float(latitude)
+	t_longitude = t_longitude + float(longitude)
+	return render_to_response('user_panel.html',{'t_latitude':t_latitude,'t_longitude':t_longitude})
