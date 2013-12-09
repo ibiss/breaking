@@ -24,10 +24,17 @@ def auth_view(request):
 	else:
 		return HttpResponseRedirect('/invalid/')
 
-'''
+
 def user_panel(request):
-    return render_to_response('user_panel.html')
-'''
+	usr = User.objects.get(username=request.user.username)
+	u = UserProfile.objects.get(user=usr)
+	latitude = u.latitude
+	longitude = u.longitude
+	t = UserProfile.tasks.all()
+	t_latitude = t.latitude
+	t_longitude = t.longitude
+	return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
+
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 	
@@ -47,8 +54,8 @@ def account(request):
         return render_to_response('account.html')
 
 def generate(request):
-	#username = request.user.username
-	u = UserProfile.objects.get(first_name='test')
+	usr = User.objects.get(username=request.user.username)
+	u = UserProfile.objects.get(user=usr)
 	latitude = user.latitude
 	longitude = user.longitude
 	radius = random.uniform(0.00001,0.0300)
@@ -62,3 +69,4 @@ def generate(request):
 	m = missions[random.randint(1,len(missions))]
 	task = Task(user=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
 	task.save()
+	return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
