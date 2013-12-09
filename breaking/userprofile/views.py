@@ -23,7 +23,8 @@ def auth_view(request):
 		return HttpResponseRedirect('/user_panel/')
 	else:
 		return HttpResponseRedirect('/invalid/')
-		'''
+
+'''
 def user_panel(request):
     return render_to_response('user_panel.html')
 '''
@@ -50,7 +51,7 @@ def user_panel(request):
 	user = UserProfile.objects.get(first_name='test')
 	latitude = user.latitude
 	longitude = user.longitude
-	radius = random.randint(300,2000)
+	radius = random.uniform(0.00001,0.0300)
 	angle = random.randint(0,360)
 	radians = math.radians(angle)
 	t_latitude = math.sin(radians)*radius

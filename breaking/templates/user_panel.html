@@ -37,13 +37,6 @@ function initialize()
                 position: initialLocation,
                 icon: '{% static "images/marker.png" %}'
             });
-            alert("{{ t_latitude }}" + "{{ t_longitude }}");
-            //initialLocation = new google.maps.LatLng({{ t_latitude }}, {{ t_longitude }});
-            // marker = new google.maps.Marker({
-            //     map: map,
-            //     position: initialLocation,
-            //     icon: '{% static "images/marker.png" %}'
-            // });
 
             var areaOpt = { //opcje obszaru
                 map: map,   //mapa
@@ -58,6 +51,25 @@ function initialize()
 
             area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
 
+
+            //alert("{{ t_latitude }} " + " {{ t_longitude }}");
+            var lat = "{{ t_latitude }}";
+            var lng = "{{ t_longitude }}";
+            initialLocation = new google.maps.LatLng(lat,lng);
+
+            var areaOpt2 = { //opcje obszaru
+                map: map,   //mapa
+                center: initialLocation,    //pozycja
+                radius: 100,    //promien
+                strokeColor: '#FF0000', //kolor lini
+                strokeOpacity: 0.8, //przezroczystosc lini
+                strokeWeight: 2,    //grubosc lini
+                fillColor: '#FF0000',   //Kolor obszaru
+                fillOpacity: 0.35   //przezroczystosc obszaru
+            };
+
+            area = new google.maps.Circle(areaOpt2); //Rysowanie obszaru na podstawie opcji
+
         }, function() {
             handleNoGeolocation(browserSupportFlag);
         });
@@ -67,7 +79,7 @@ function initialize()
     }
 
     var myOptions = {   //Opcje wyswietlania mapy
-        zoom: 16,
+        zoom: 14,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
@@ -124,5 +136,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
     X: <input type="text" id="X">
     Y: <input type="text" id="Y">
     <input type="button" name="submit" value="Przejdz" onclick="setPosition();">
+    <input type="button" id="generate" value="Generuj">
     <div id="show"></div>
 {% endblock %}
