@@ -46,9 +46,9 @@ def register_user(request):
 def account(request):
         return render_to_response('account.html')
 
-def user_panel(request):
+def generate(request):
 	#username = request.user.username
-	user = UserProfile.objects.get(first_name='test')
+	u = UserProfile.objects.get(first_name='test')
 	latitude = user.latitude
 	longitude = user.longitude
 	radius = random.uniform(0.00001,0.0300)
@@ -58,4 +58,7 @@ def user_panel(request):
 	t_longitude = math.cos(radians)*radius
 	t_latitude = t_latitude + float(latitude)
 	t_longitude = t_longitude + float(longitude)
-	return render_to_response('user_panel.html',{'t_latitude':t_latitude,'t_longitude':t_longitude})
+	missions = Mission.objects.all()
+	m = missions[random.randint(1,len(missions))]
+	task = Task(user=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
+	task.save()
