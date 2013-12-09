@@ -5,6 +5,8 @@ from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
+from userprofile.models import Task, Mission, UserProfile, Item
+import random, math
 
 def home(request):
 	c = {}
@@ -42,3 +44,17 @@ def register_user(request):
 
 def account(request):
         return render_to_response('account.html')
+
+def generate(request):
+	username = request.user.username
+	user = UserProfile.objects.get(user=username)
+	latitude = user.latitude
+	longitude = user.longitude
+	radius = random.randint(300,2000)
+	angle = random.randint(0,360)
+	radians = math.radians(angle)
+	t_latitude = math.sin(radians)*radius
+	t_longitude = math.cos(radians)*radius
+	t_latitude = t_latitude + latitude
+	t_longitude = t_longitude + longitude
+	return render_to_response({'t_latitude':t_latitude,'t_longitude':t_longitude})
