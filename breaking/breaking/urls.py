@@ -12,5 +12,6 @@ urlpatterns = patterns('',
 	url(r'^register/', 'userprofile.views.register_user'),
 	url(r'^admin/', include(admin.site.urls)),
         url(r'^account/', 'userprofile.views.account'),
+	url(r'^generate/', 'userprofile.views.generate'),	
         url(r'^webservices/', include(webservices.urls)),
 )

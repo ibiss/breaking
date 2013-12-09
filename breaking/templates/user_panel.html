@@ -136,6 +136,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
     X: <input type="text" id="X">
     Y: <input type="text" id="Y">
     <input type="button" name="submit" value="Przejdz" onclick="setPosition();">
-    <input type="button" id="generate" value="Generuj">
+<form action="/generate/">	
+    <input type="submit" id="generate" value="Generuj">
+</form>
     <div id="show"></div>
 {% endblock %}

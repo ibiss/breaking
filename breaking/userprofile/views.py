@@ -6,7 +6,8 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
 from userprofile.models import Task, Mission, UserProfile, Item
-import random, math
+import random, math, datetime
+from django.contrib.auth.models import User
 
 def home(request):
 	c = {}
@@ -30,7 +31,7 @@ def user_panel(request):
 	u = UserProfile.objects.get(user=usr)
 	latitude = u.latitude
 	longitude = u.longitude
-	t = UserProfile.tasks.all()
+	t = Task.objects.get(user_id=u.user_id)
 	t_latitude = t.latitude
 	t_longitude = t.longitude
 	return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
@@ -56,8 +57,8 @@ def account(request):
 def generate(request):
 	usr = User.objects.get(username=request.user.username)
 	u = UserProfile.objects.get(user=usr)
-	latitude = user.latitude
-	longitude = user.longitude
+	latitude = u.latitude
+	longitude = u.longitude
 	radius = random.uniform(0.00001,0.0300)
 	angle = random.randint(0,360)
 	radians = math.radians(angle)
@@ -66,7 +67,7 @@ def generate(request):
 	t_latitude = t_latitude + float(latitude)
 	t_longitude = t_longitude + float(longitude)
 	missions = Mission.objects.all()
-	m = missions[random.randint(1,len(missions))]
+	m = missions[random.randint(1,len(missions)-1)]
 	task = Task(user=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
 	task.save()
 	return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
