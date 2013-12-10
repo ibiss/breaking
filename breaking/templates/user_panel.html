@@ -22,107 +22,72 @@ var initialLocation;
 var browserSupportFlag = new Boolean();
 var pos;
 
-function initialize() 
-{
-    //Ustawia bierzaca pozycje
-    if (navigator.geolocation) {
-        browserSupportFlag = true;
-        navigator.geolocation.getCurrentPosition(function(position) {
-            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  //Pobranie wspolrzednych
-            map.setCenter(initialLocation); //Ustawienie centrum mapy
-            document.getElementById('X').value = position.coords.latitude;    //Ustawiam aktualne wartosci dla wspolrzednych
-            document.getElementById('Y').value = position.coords.longitude;
-            marker = new google.maps.Marker({   //Nowy marker
-                map: map,
-                position: initialLocation,
-                icon: '{% static "images/marker.png" %}'
-            });
+function initialize() {
 
-            var areaOpt = { //opcje obszaru
-                map: map,   //mapa
-                center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),    //pozycja
-                radius: 100,    //promien
-                strokeColor: '#FF0000', //kolor lini
-                strokeOpacity: 0.8, //przezroczystosc lini
-                strokeWeight: 2,    //grubosc lini
-                fillColor: '#FF0000',   //Kolor obszaru
-                fillOpacity: 0.35   //przezroczystosc obszaru
-            };
+  var markers = [];
+  var map = new google.maps.Map(document.getElementById('map-canvas'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
 
-            area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
+  var defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-33.8902, 151.1759),
+      new google.maps.LatLng(-33.8474, 151.2631));
+  map.fitBounds(defaultBounds);
 
+  // Create the search box and link it to the UI element.
+  var input = /** @type {HTMLInputElement} */(
+      document.getElementById('pac-input'));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-            //alert("{{ t_latitude }} " + " {{ t_longitude }}");
-            var lat = "{{ t_latitude }}";
-            var lng = "{{ t_longitude }}";
-            initialLocation = new google.maps.LatLng(lat,lng);
+  var searchBox = new google.maps.places.SearchBox(
+    /** @type {HTMLInputElement} */(input));
 
-            var areaOpt2 = { //opcje obszaru
-                map: map,   //mapa
-                center: initialLocation,    //pozycja
-                radius: 100,    //promien
-                strokeColor: '#FF0000', //kolor lini
-                strokeOpacity: 0.8, //przezroczystosc lini
-                strokeWeight: 2,    //grubosc lini
-                fillColor: '#FF0000',   //Kolor obszaru
-                fillOpacity: 0.35   //przezroczystosc obszaru
-            };
+  // Listen for the event fired when the user selects an item from the
+  // pick list. Retrieve the matching places for that item.
+  google.maps.event.addListener(searchBox, 'places_changed', function() {
+    var places = searchBox.getPlaces();
 
-            area = new google.maps.Circle(areaOpt2); //Rysowanie obszaru na podstawie opcji
-
-        }, function() {
-            handleNoGeolocation(browserSupportFlag);
-        });
-    }
-    else {
-        browserSupportFlag = false;
+    for (var i = 0, marker; marker = markers[i]; i++) {
+      marker.setMap(null);
     }
 
-    var myOptions = {   //Opcje wyswietlania mapy
-        zoom: 14,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+    // For each place, get the icon, place name, and location.
+    markers = [];
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0, place; place = places[i]; i++) {
+      var image = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+      };
 
-    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);    //Tworzenie mapy
+      // Create a marker for each place.
+      var marker = new google.maps.Marker({
+        map: map,
+        icon: image,
+        title: place.name,
+        position: place.geometry.location
+      });
+
+      markers.push(marker);
+
+      bounds.extend(place.geometry.location);
+    }
+
+    map.fitBounds(bounds);
+  });
+
+  // Bias the SearchBox results towards places that are within the bounds of the
+  // current map's viewport.
+  google.maps.event.addListener(map, 'bounds_changed', function() {
+    var bounds = map.getBounds();
+    searchBox.setBounds(bounds);
+  });
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
-	<script type="text/javascript">
-	    function setPosition()
-	    {
-	        var X = document.getElementById('X').value;
-	        var Y = document.getElementById('Y').value;
-	        document.getElementById('show').innerHTML = "X: " + X + ",  Y: " + Y;
-	        initialLocation = new google.maps.LatLng(X, Y);
-	        var mapOptions = {
-	            center: new google.maps.LatLng(X, Y),
-	            zoom: 16
-	        };
-	        var map = new google.maps.Map(document.getElementById("map-canvas"),
-	                mapOptions);
-
-	        marker = new google.maps.Marker({
-	            map: map,
-	            position: initialLocation,
-	            icon: "{% static 'images/marker.png' %}",
-	        });
-	    	var areaOpt = {	//opcje obszaru
-                map: map,	//mapa
-                center: initialLocation,	//pozycja
-                radius: 100,	//promien
-                strokeColor: '#FF0000',	//kolor lini
-                strokeOpacity: 0.8,	//przezroczystosc lini
-                strokeWeight: 2,	//grubosc lini
-                fillColor: '#FF0000',	//Kolor obszaru
-                fillOpacity: 0.35	//przezroczystosc obszaru
-            };
-
-            area = new google.maps.Circle(areaOpt);	//Rysowanie obszaru na podstawie opcji
-	    }
-
 		google.maps.event.addDomListener(window, 'load', initialize);
+
 	</script>
 {% endblock %}
     

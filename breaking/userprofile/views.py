@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from django.contrib.auth.forms import UserCreationForm
+from userprofile.forms import UserCreateForm
 from userprofile.models import Task, Mission, UserProfile, Item
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -50,15 +50,15 @@ def invalid_login(request):
 	
 def register_user(request):
 	if request.method == 'POST':
-		form = UserCreationForm(request.POST)
+		form = UserCreateForm(request.POST)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect('/')
 			
 	args = {}
 	args.update(csrf(request))
-	args['form'] = UserCreationForm()
-	return render_to_response('register_user.html', args)
+	args['form'] = UserCreateForm()
+	return render_to_response('register.html', args)
 
 def account(request):
         return render_to_response('account.html')
