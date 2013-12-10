@@ -1,9 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>{% block title %}My Base Template{% endblock %}</title>
-</head>
-<body>
-	{% block content %}This is the content area{% endblock %}
-</body>
+	<head>
+		<title>
+			{% block title %}Breaking - the best game of the world!{% endblock %}
+		</title>
+
+		<meta charset="utf-8">
+		<meta name="keywords" content="breaking">
+
+		{% block stylesheets %}
+			{% load staticfiles %}
+			<link href={% static 'style.css' %} rel="stylesheet" type="text/css">
+		{% endblock %}
+
+		{% block javascripts %}
+
+		{% endblock %}
+	</head>
+
+
+	<body>   
+        <header>
+            {% block header %}
+                <div id="logo">
+                    <img src={% static "images/logo_breaking.png" %} alt="breaking_logo">
+                </div>
+            {% endblock %}
+        </header>
+
+        {% block content %}
+
+        {% endblock %}
+
+        <footer>
+            {% block footer %}
+                <div class="link_footer"><a href="#">Kontakt</a></div>
+                <div class="link_footer"><a href="#">O grze</a></div>
+                <div class="link_footer"><a href="#">Regulamin gry</a></div>
+                <div class="link_footer"><a href="#">FAQ</a></div>
+                <div id="rights">Copyright © 2013-2014 | Breaking team</div>
+            {% endblock %}
+        </footer>
+	</body>
+
 </html>

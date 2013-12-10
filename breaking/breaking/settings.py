@@ -124,8 +124,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'definition',
-    # Uncomment the next line to enable the admin:
+    'userprofile',
+    'webservices',
+    'rest_framework',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -160,4 +161,10 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+REST_FRAMEWORK = {
+      'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'PAGINATE_BY': 10
 }

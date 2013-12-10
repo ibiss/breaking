@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0 }
+        #map-canvas { height: 400px; width: 500px}
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPXQswYEiVGwvSEwWYl5UnXKaNLFYF2I0&sensor=true"></script>
+    <script type="text/javascript" src={% static 'account_maps.js' %}></script>
+        
+{% endblock %}
+
+{% block content %}
+    <section id="user_menu">
+        <ul>
+            <li><a href="/user_panel/">Panel użytkownika</a></li>
+        </ul>
+    </section>
+    <form id="user_data">
+        Imię: <input type="text" name="first_name" value="">
+        Nazwisko: <input type="text" name="last_name" value="">
+        Wiek: <input type="text" name="age" value="">
+        E-mail: <input type="email" name="email" value="">
+        <p>Lokalizacja X: <input type="text" name="positionX" value=""></p>
+        <p>Lokalizacja Y: <input type="text" name="positionY" value=""></p>
+        <input type="submit" name="submit" value="Zatwierdź">
+    </form>
+    <div id="map-canvas"></div>
+{% endblock %}
