@@ -64,8 +64,12 @@ def register_user(request):
     return render_to_response('register.html', args)
 
 def account(request):
-        return render_to_response('account.html')
-
+    user = User.objects.get(username=request.user.username)
+    u = UserProfile.objects.get(user=user)
+    latitude = u.latitude
+    longitude = u.longitude
+    return render_to_response('account.html',{'latitude':latitude,'longitude':longitude})
+       
 def generate(request):
     try:
         usr = User.objects.get(username=request.user.username)

@@ -22,7 +22,7 @@
         var browserSupportFlag = new Boolean();
         var pos;
 
-        function initialize() 
+        function initialize()
         {
             //Ustawia bierzaca pozycje
             if (navigator.geolocation) {
@@ -31,7 +31,7 @@
 
                     initialLocation = new google.maps.LatLng("{{ latitude }}", "{{ longitude }}");  //Pobranie wspolrzednych
                     map.setCenter(initialLocation); //Ustawienie centrum mapy
-                    
+
                     marker = new google.maps.Marker({   //Nowy marker
                         map: map,
                         position: initialLocation,
@@ -53,6 +53,12 @@
 
                     if("{{ t_latitude }}" && "{{ t_longitude }}")   //Rysowanie okręgu dla misji użytkownka
                     {
+                        marker = new google.maps.Marker({   //Nowy marker
+                            map: map,
+                            position: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),
+                            icon: "{% static 'images/marker.png' %}",
+                            title: 'Twoja misja'
+                        });
                         var areaOpt = { //opcje obszaru
                             map: map,   //mapa
                             center: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),    //pozycja
