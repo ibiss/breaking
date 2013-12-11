@@ -87,7 +87,7 @@ def generate(request):
         t_latitude = t_latitude + float(latitude)
         t_longitude = t_longitude + float(longitude)
         missions = Mission.objects.all()
-        m = missions[random.randint(1,len(missions)-1)]
+        m = missions[random.randint(1,len(missions))-1]
         task = Task(user=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
         task.save()
         return HttpResponseRedirect('/user_panel/')

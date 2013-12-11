@@ -20,7 +20,7 @@ function initialize()
                 position: initialLocation,
                 icon: '../static/images/marker.png'
             });
-
+            alert({{ longitude }});
             var areaOpt = { //opcje obszaru
                 map: map,   //mapa
                 center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),    //pozycja
