@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 	<head>
-		<title>
-			{% block title %}Breaking - the best game of the world!{% endblock %}
-		</title>
-
 		<meta charset="utf-8">
-		<meta name="keywords" content="breaking">
+		<meta name="keywords" content="breaking, game, online game">
+        <title>
+            {% block title %}Breaking - the best game of the world!{% endblock %}
+        </title>
 
 		{% block stylesheets %}
 			{% load staticfiles %}
-			<link href={% static 'style.css' %} rel="stylesheet" type="text/css">
+            <link rel="stylesheet" type="text/css" href={% static 'reset.css' %}>
+			<link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
 		{% endblock %}
 
 		{% block javascripts %}
@@ -18,28 +18,37 @@
 		{% endblock %}
 	</head>
 
-
 	<body>   
         <header>
-            {% block header %}
-                <div id="logo">
-                    <img src={% static "images/logo_breaking.png" %} alt="breaking_logo">
-                </div>
-            {% endblock %}
+            <div class="header">
+                {% block header %}
+                    <div id="logo">
+                        <h1>Breaking</h1>
+                        <img src={% static "images/logo_breaking.png" %} alt="breaking_logo">
+                    </div>
+                {% endblock %}
+            </div>
         </header>
 
-        {% block content %}
+        <div id="content">
+            {% block content %}
 
-        {% endblock %}
-
-        <footer>
-            {% block footer %}
-                <div class="link_footer"><a href="#">Kontakt</a></div>
-                <div class="link_footer"><a href="#">O grze</a></div>
-                <div class="link_footer"><a href="#">Regulamin gry</a></div>
-                <div class="link_footer"><a href="#">FAQ</a></div>
-                <div id="rights">Copyright © 2013-2014 | Breaking team</div>
             {% endblock %}
+        </div>
+        <footer>
+            <div class="footer">
+            {% block footer %}
+                <ul class="left">
+                    <li class="link_footer"><a href="#">Kontakt</a></li>
+                    <li class="link_footer"><a href="#">Regulamin gry</a></li>
+                    <li class="link_footer"><a href="#">O grze</a></li>
+                    <li class="link_footer"><a href="#">FAQ</a></li>
+                </ul>
+                <ul class="right">
+                    <li>Copyright © 2013-2014 | Breaking team</li>
+                </ul>
+            {% endblock %}
+            </div>
         </footer>
 	</body>
 

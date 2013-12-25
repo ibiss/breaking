@@ -1,187 +1,173 @@
 /*
- * RESET
+ * OGÓLNE
 */
+html{
+    width: 100%;
+    background-color: #363636;
+}
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+body{
+    width: 100%;
+    margin: 0 auto;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-a{
-	text-decoration: none;
-	color: #000000;
-}
-a:hover{
-	color: red;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+
+#content{
+    width: 960px;
+    margin: 0 auto;
+
 }
 
 /*
- * BODY
-*/
-html{
-	width: 960px;
-	margin: 0 auto;
-	background-color: #220139;
-}
+ * END OGÓLNE
+ */
+
 
 /*
  * HEADER
 */
 
 header{
-	width: 960px;
-	height: 150px;
-	margin-top: 30px;
-	background-image: url("images/header.png");
+	width: 100%;
+    overflow: hidden;
+	background-color: #050505;
 }
 
-header #logo{
+.header{
+    width: 960px;
+    margin: 0 auto;
+}
+
+.header #logo h1{
+    font-size: 0px;
+}
+
+.header #logo{
 	float: left;
-	margin-left: 50px;
-}
-header #logo img{
-
-	width: 130px;
-	height: 130px;
+    padding: 6px 24px;
+    overflow: hidden;
 }
 
-header #registration{
+.header #logo img{
+    width: 150px;
+    height: 150px;
+}
+
+.header .registration{
 	float: right;
-	margin-right: 200px;
-	margin-top: 55px;
+    padding: 60px;
+    line-height: 49px;
 }
 
-header #registration a{
-	font-size: 1.5em;
+.header .registration a{
+	font-size: 25px;
 	text-decoration: none;
+    color: #f42d2d;
+    text-transform: uppercase;
 }
 
-header #registration a:hover{
+.header .registration a:hover{
 	color: red;
 }
 
 /*
- * BODY
-*/
-
-/*
- * BODY-LEWA KOLUMNA
+ * INDEX
 */
 
 
-body{
-	width: 960px;
-	height: 600px;
-}
+/************** INDEX-LEWA KOLUMNA **************/
 
-body #description {
-    background-image: url("images/description.png");
-    background-repeat: no-repeat;
+
+.left_sidebar{
+    width: 50%;
+    display: inline-block;
     float: left;
-    height: 440px;
-    width: 380px;
+    overflow: hidden;
+    padding: 12px 0px;
 }
-body #description h2 {
-    font-size: 1.3em;
+
+.left_sidebar .title {
+    font-size: 25px;
     font-weight: bold;
-    padding: 3px 26px;
+    padding: 12px;
 }
-body #description .node {
-    background-image: url("images/node.png");
-    background-repeat: no-repeat;
-    height: 200px;
-    padding: 5px 10px 5px 7px;
+
+.left_sidebar .node {
+    padding: 12px 0px;
     width: 340px;
     margin: 0 auto;
-}
-body #description .node h3 {
-    font-size: 1.2em;
-    padding-bottom: 8px;
-    padding-left: 41px;
-    padding-top: 4px;
+    overflow: hidden;
+    float: left;
 }
 
-body #description .node p{
-	font-size: 1em;
+.left_sidebar .node .info_title {
+    font-size: 18px;
+    padding: 12px 24px;
 }
 
-body #description .node a{
+.left_sidebar .node .description{
+	font-size: 16px;
+    padding: 6px 0px;
+}
+
+.left_sidebar .node a{
 	float: right;
 	margin-right: 10px;
 }
 
-/*
- * BODY-PRAWA KOLUMNA
-*/
 
-body #login_panel {
-    background-image: url("images/login.png");
+/************** INDEX-LEWA KOLUMNA **************/
+
+.right_sidebar{
     float: right;
-    height: 130px;
-    margin: 80px 100px;
-    padding-bottom: 20px;
-    width: 230px;
+    overflow: hidden;
+    display: inline-block;
+    width: 50%;
 }
 
-body #login_panel h2 {
-    font-size: 1.3em;
-    padding-bottom: 13px;
-    margin-top: 9px;
-    margin-left: 13px;
+.right_sidebar .login_panel {
+    padding: 12px 0px;
+    float: right;
+    padding: 24px;
+    margin: 50px 0px;
 }
 
-body #login_panel p {
-    font-size: 1.15em;
-    margin-left: 12px;
+.right_sidebar .login_panel .title{
+    font-size: 25px;
+    font-weight: bold;
+    padding: 12px;
 }
-body #login_panel input {
-    margin-bottom: 5px;
+
+.right_sidebar .login_panel .login_form {
+    padding: 6px 0px;
+    display: inline-block;
+}
+
+.right_sidebar .login_panel .login_form p{
+    padding: 6px 0px;
+    clear: both;
+}
+
+.right_sidebar .login_panel .login_form span{
+    margin: 0px 6px;
+}
+    
+.right_sidebar .login_panel .login_form input {
+    float: right;
+    line-height: 12px;
+    padding: 3px;
     width: 150px;
 }
 
-body #login_panel #submit{
+.right_sidebar .login_panel .login_form #submit{
+    padding: 3px;
 	width: 70px;
-	height: 25px;
-	margin-left: 135px;
+    float: right;
+    margin: 6px 0px;
 }
+
+/*
+ * END INDEX
+ */
 
 /*
  * FOOTER
@@ -189,21 +175,51 @@ body #login_panel #submit{
 
 footer{
 	clear: both;
-	width: 960px;
-	height: 40px;
-	padding-top: 15px;
-	background-color: #3f006b;
+	width: 100%;
+	background-color: #050505;
+    padding: 12px;
+    overflow: hidden;
 }
 
-footer .link_footer{
+.footer{
+    width: 960px;
+    margin: 0 auto;
+    padding: 6px 0px;
+}
+
+.footer .left li{
+    list-style-type: none;
+    display: inline;
+    float: left;
+    padding: 6px;
+    border-left: 1px dotted #ffffff;
+}
+
+.footer .left li:first-child{
+    border-left: none;
+}
+
+.footer .left li a{
+    color: #ffffff;
+    padding: 6px;
+}
+
+.footer .link_footer{
 	float: left;
-	padding: 5px 10px 10px;
+	padding: 5px 10px;
 }
 
-footer #rights{
-	padding: 5px;
+.footer .right li{
+    padding: 6px;
 	text-align: center;
+    float: right;
+    display: inline;
+    color: #ffffff;
 }
+
+/*
+ * END FOOTER
+ */
 
 #user_menu{
     font-size: 25px;
