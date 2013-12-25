@@ -221,6 +221,47 @@ footer{
  * END FOOTER
  */
 
-#user_menu{
-    font-size: 25px;
+
+/*
+ * USER PANEL
+ */
+
+ .user_panel{
+    width: 100%;
+    overflow: hidden;
+ }
+
+.user_panel .user_menu{
+    width: 100%;
+    padding: 24px 0px;
 }
+
+.user_panel .user_menu ul{
+    list-style-type: none;
+}
+
+.user_panel .user_menu ul li{
+    float: left;
+    display: inline-block;
+    background-color: #000000;
+    text-align: center;
+    height: 50px;
+}
+
+.user_panel .user_menu ul li a{
+    color: #f42d2d;
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 50px;
+    padding: 15px;
+    transition: all 0.1s ease 0.1s;
+}
+
+.user_panel .user_menu ul li a:hover{
+    background-color: #101010;
+}
+
+
+/*
+ * END USER PANEL
+ */
