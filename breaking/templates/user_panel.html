@@ -5,101 +5,168 @@
 {% block stylesheets %}
 	{{ block.super }}
 	<style type="text/css">
-	    html { height: 100% }
-	    body { height: 100%; margin: 0; padding: 0 }
-	    #map-canvas { height: 95%; width: 100%}
+	    #map-canvas {
+            height: 500px;
+            width: 500px;
+            clear: both;
+        }
 	</style>
 {% endblock %}
 
 {% block javascripts %}
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPXQswYEiVGwvSEwWYl5UnXKaNLFYF2I0&sensor=true"></script>
 
-	<script type="text/javascript">
-        var marker;
+    <script type="text/javascript">
+ //        var marker;
+ //        var map;
+ //        var area;
+ //        var initialLocation;
+ //        var browserSupportFlag = new Boolean();
+
+ //        function initialize()
+ //        {
+ //            //Ustawia bierzaca pozycje
+ //            if (navigator.geolocation) {
+ //                browserSupportFlag = true;
+ //                navigator.geolocation.getCurrentPosition(function(position) {
+
+ //                    initialLocation = new google.maps.LatLng("{{ latitude }}", "{{ longitude }}");  //Pobranie wspolrzednych
+ //                    map.setCenter(initialLocation); //Ustawienie centrum mapy
+
+ //                    marker = new google.maps.Marker({   //Nowy marker
+ //                        map: map,
+ //                        position: initialLocation,
+ //                        icon: "{% static 'images/marker.png' %}",
+ //                        title: 'Twoja baza'
+ //                    });
+ //                    var areaOpt = { //opcje obszaru
+ //                        map: map,   //mapa
+ //                        center: new google.maps.LatLng("{{ latitude }}", "{{ longitude }}"),    //pozycja
+ //                        radius: 100,    //promien
+ //                        strokeColor: '#FF0000', //kolor lini
+ //                        strokeOpacity: 0.8, //przezroczystosc lini
+ //                        strokeWeight: 2,    //grubosc lini
+ //                        fillColor: '#FF0000',   //Kolor obszaru
+ //                        fillOpacity: 0.35   //przezroczystosc obszaru
+ //                    };
+
+ //                    area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
+
+ //                    if("{{ t_latitude }}" && "{{ t_longitude }}")   //Rysowanie okręgu dla misji użytkownka
+ //                    {
+ //                        marker = new google.maps.Marker({   //Nowy marker
+ //                            map: map,
+ //                            position: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),
+ //                            icon: "{% static 'images/marker.png' %}",
+ //                            title: 'Twoja misja'
+ //                        });
+ //                        var areaOpt = { //opcje obszaru
+ //                            map: map,   //mapa
+ //                            center: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),    //pozycja
+ //                            radius: 100,    //promien
+ //                            strokeColor: '#FF0000', //kolor lini
+ //                            strokeOpacity: 0.8, //przezroczystosc lini
+ //                            strokeWeight: 2,    //grubosc lini
+ //                            fillColor: '#FF0000',   //Kolor obszaru
+ //                            fillOpacity: 0.35   //przezroczystosc obszaru
+ //                        };
+
+ //                        area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
+ //                    }
+
+
+ //                }, function() {
+ //                    handleNoGeolocation(browserSupportFlag);
+ //                });
+ //            }
+ //            else {
+ //                browserSupportFlag = false;
+ //            }
+
+ //            var mapOptions = {   //Opcje wyswietlania mapy
+ //                zoom: 16,
+ //                mapTypeId: google.maps.MapTypeId.ROADMAP
+ //            };
+
+ //            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);    //Tworzenie mapy
+ //        }
+
+ //        google.maps.event.addDomListener(window, 'load', initialize);
+     </script>
+
+     <script type="text/javascript">
         var map;
+        var marker;
         var area;
         var initialLocation;
-        var browserSupportFlag = new Boolean();
-        var pos;
-
+        
         function initialize()
         {
-            //Ustawia bierzaca pozycje
-            if (navigator.geolocation) {
-                browserSupportFlag = true;
-                navigator.geolocation.getCurrentPosition(function(position) {
+            initialLocation = new google.maps.LatLng("{{ latitude }}", "{{ longitude }}");  //Pobranie wspolrzednych
 
-                    initialLocation = new google.maps.LatLng("{{ latitude }}", "{{ longitude }}");  //Pobranie wspolrzednych
-                    map.setCenter(initialLocation); //Ustawienie centrum mapy
-
-                    marker = new google.maps.Marker({   //Nowy marker
-                        map: map,
-                        position: initialLocation,
-                        icon: "{% static 'images/marker.png' %}",
-                        title: 'Twoja baza'
-                    });
-                    var areaOpt = { //opcje obszaru
-                        map: map,   //mapa
-                        center: new google.maps.LatLng("{{ latitude }}", "{{ longitude }}"),    //pozycja
-                        radius: 100,    //promien
-                        strokeColor: '#FF0000', //kolor lini
-                        strokeOpacity: 0.8, //przezroczystosc lini
-                        strokeWeight: 2,    //grubosc lini
-                        fillColor: '#FF0000',   //Kolor obszaru
-                        fillOpacity: 0.35   //przezroczystosc obszaru
-                    };
-
-                    area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
-
-                    if("{{ t_latitude }}" && "{{ t_longitude }}")   //Rysowanie okręgu dla misji użytkownka
-                    {
-                        marker = new google.maps.Marker({   //Nowy marker
-                            map: map,
-                            position: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),
-                            icon: "{% static 'images/marker.png' %}",
-                            title: 'Twoja misja'
-                        });
-                        var areaOpt = { //opcje obszaru
-                            map: map,   //mapa
-                            center: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),    //pozycja
-                            radius: 100,    //promien
-                            strokeColor: '#FF0000', //kolor lini
-                            strokeOpacity: 0.8, //przezroczystosc lini
-                            strokeWeight: 2,    //grubosc lini
-                            fillColor: '#FF0000',   //Kolor obszaru
-                            fillOpacity: 0.35   //przezroczystosc obszaru
-                        };
-
-                        area = new google.maps.Circle(areaOpt); //Rysowanie obszaru na podstawie opcji
-                    }
-
-
-                }, function() {
-                    handleNoGeolocation(browserSupportFlag);
-                });
-            }
-            else {
-                browserSupportFlag = false;
-            }
-
-            var mapOptions = {   //Opcje wyswietlania mapy
+            //Opcje mapy
+            map = new google.maps.Map(document.getElementById("map-canvas"), {
                 zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+                center: initialLocation,
+                mapTypeId: google.maps.MapTypeId.SATELLITE                
+            });
 
-            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);    //Tworzenie mapy
+            //Nowy marker
+            marker = new google.maps.Marker({
+                map: map,
+                position: initialLocation,
+                icon: "{% static 'images/marker.png' %}",
+                title: 'Twoja baza'
+            });
+
+            //Nowy obszar wokol markera
+            area = new google.maps.Circle({
+                map: map,   //mapa
+                center: new google.maps.LatLng("{{ latitude }}", "{{ longitude }}"),    //pozycja
+                radius: 100,    //promien
+                strokeColor: '#FF0000', //kolor lini
+                strokeOpacity: 0.8, //przezroczystosc lini
+                strokeWeight: 2,    //grubosc lini
+                fillColor: '#FF0000',   //Kolor obszaru
+                fillOpacity: 0.35   //przezroczystosc obszaru
+            });
+
+
+            if("{{ t_latitude }}" && "{{ t_longitude }}")   //Rysowanie okręgu dla misji użytkownka
+            {
+                marker = new google.maps.Marker({   //Nowy marker
+                    map: map,
+                    position: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),
+                    icon: "{% static 'images/marker.png' %}",
+                    title: 'Twoja misja'
+                });
+
+                area = new google.maps.Circle({ //opcje obszaru
+                    map: map,   //mapa
+                    center: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),    //pozycja
+                    radius: 100,    //promien
+                    strokeColor: '#FF0000', //kolor lini
+                    strokeOpacity: 0.8, //przezroczystosc lini
+                    strokeWeight: 2,    //grubosc lini
+                    fillColor: '#FF0000',   //Kolor obszaru
+                    fillOpacity: 0.35   //przezroczystosc obszaru
+                });
+
+            }
+
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
+
+     </script>
 {% endblock %}
     
 {% block content %}
-	<section id="user_menu">
+	<div id="user_menu">
 		<ul>
 			<li><a href="/account/">Ustawienia</a></li>
 		</ul>
-	</section>
+	</div>
 
     <div id="map-canvas"></div>
 
@@ -108,5 +175,4 @@
             <input type="submit" id="generate" value="Generuj">
         </form>
     {% endif %}
-    <div id="show"></div>
 {% endblock %}
