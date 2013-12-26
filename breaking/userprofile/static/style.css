@@ -258,34 +258,29 @@ footer{
  * USER PANEL
  */
 
- .user_panel{
-    width: 100%;
-    overflow: hidden;
- }
-
-.user_panel .user_menu{
+.user_menu{
     width: 100%;
     padding: 24px 0px;
     float: left;
 }
 
-.user_panel .user_menu ul{
+.user_menu ul{
     list-style-type: none;
 }
 
-.user_panel .user_menu ul li i{
+.user_menu ul li i{
     float: left;
     margin: -30px 6px 0px 0px;
 
 }
 
-.user_panel .user_menu ul li{
+.user_menu ul li{
     display: inline-block;
     background-color: #000000;
     text-align: center;
 }
 
-.user_panel .user_menu ul li a{
+.user_menu ul li a{
     float: left;
     color: #f42d2d;
     font-size: 18px;
@@ -294,7 +289,7 @@ footer{
     transition: all 0.1s ease 0.1s;
 }
 
-.user_panel .user_menu ul li a:hover{
+.user_menu ul li a:hover{
     background-color: #101010;
 }
 
