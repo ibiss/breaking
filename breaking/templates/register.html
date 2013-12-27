@@ -8,7 +8,7 @@
       
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 95%; width: 100%}
+      #map-canvas { height: 500px; width: 500px}
       .controls {
         margin-top: 16px;
         border: 1px solid transparent;
@@ -148,13 +148,12 @@ var map;
 </script>
 
 {% endblock %}
+
+{% block navigation %}
+
+{% endblock %}
     
 {% block content %}
-	<div id="user_menu">
-		<ul>
-			<li><a href="/account/">Ustawienia</a></li>
-		</ul>
-	</div>
 
 	<form action='/register/' method="post">{% csrf_token %}
   	{{form}}
