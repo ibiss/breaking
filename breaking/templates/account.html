@@ -65,13 +65,35 @@
 
 {% block content %}
     <form id="user_data">
-        Imię: <input type="text" name="first_name" value="">
-        Nazwisko: <input type="text" name="last_name" value="">
-        Wiek: <input type="text" name="age" value="">
-        E-mail: <input type="email" name="email" value="">
-        <p>Lokalizacja X: <input type="text" name="positionX" value=""></p>
-        <p>Lokalizacja Y: <input type="text" name="positionY" value=""></p>
-        <input type="submit" name="submit" value="Zatwierdź">
+        <table>
+            <tr>
+                <td>Imię:</td>
+                <td><input type="text" name="first_name" value=""></td>
+            </tr>
+            <tr>
+                <td>Nazwisko:</td>
+                <td><input type="text" name="last_name" value=""></td>
+            </tr>
+            <tr>
+                <td>Wiek:</td>
+                <td><input type="text" name="age" value=""></td>
+            </tr>
+            <tr>
+                <td>E-mail: </td>
+                <td><input type="email" name="email" value=""></td>
+            </tr>
+            <tr>
+                <td><p>Lokalizacja X:</td>
+                <td><input disabled type="text" name="positionX" value=""></p></td>
+            </tr>
+            <tr>
+                <td><p>Lokalizacja Y:</td>
+                <td><input disabled type="text" name="positionY" value=""></p></td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="submit" value="Zatwierdź"></td>
+            </tr>
+        </table>
     </form>
     <div id="map-canvas"></div>
 {% endblock %}
