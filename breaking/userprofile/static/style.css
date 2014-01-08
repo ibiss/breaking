@@ -1,4 +1,4 @@
-@font-face {
+	@font-face {
     font-family: 'entypo';
     src: url('fonts/entypo.eot');
     src: url('fonts/entypo.eot?#iefix') format('embedded-opentype'),
@@ -297,3 +297,20 @@ footer{
 /*
  * END USER PANEL
  */
+
+ .register_form{
+ 	padding: 24px 0px; 
+ }
+
+ .register_form table td{
+ 	padding: 6px;
+ }
+
+ .register_form table tr td .label{
+ 	font-size: 18px;
+ }
+
+ .register_form table tr td input{
+ 	padding: 3px;
+ 	width: 150px;
+ }
