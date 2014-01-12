@@ -6,6 +6,7 @@ from userprofile.views import invalid_login
 from userprofile.views import register_user
 from userprofile.views import account
 from userprofile.views import generate
+from userprofile.views import maps
 
 urlpatterns = patterns('',
 	url(r'^$', home),
@@ -15,4 +16,5 @@ urlpatterns = patterns('',
         url(r'^register/', register_user),
 	url(r'^generate/', generate),
         url(r'^account/', account),
+        url(r'^maps/', maps),
 )

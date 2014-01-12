@@ -27,6 +27,7 @@ def auth_view(request):
 
 
 def user_panel(request):
+    '''
     try:
         user = User.objects.get(username=request.user.username)
         u = UserProfile.objects.get(user=user)
@@ -41,7 +42,8 @@ def user_panel(request):
         except:
             return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude})
     except:
-        return HttpResponseRedirect('/')    
+        return HttpResponseRedirect('/')
+    '''
     '''if t:
         t_latitude = t.latitude
         t_longitude = t.longitude
@@ -49,6 +51,8 @@ def user_panel(request):
     else:
         return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude})'''
 
+    return render_to_response('user_panel.html')
+                              
 def invalid_login(request):
     return render_to_response('invalid_login.html')
     
@@ -97,3 +101,19 @@ def generate(request):
         task.save()
         return HttpResponseRedirect('/user_panel/')
         #return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
+
+def maps(request):
+    try:
+        user = User.objects.get(username=request.user.username)
+        u = UserProfile.objects.get(user=user)
+        latitude = u.latitude
+        longitude = u.longitude
+        try:
+            t = Task.objects.get(user_id=u.user_id)
+            t_latitude = t.latitude
+            t_longitude = t.longitude
+            return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
+        except:
+            return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude})
+    except:
+        return HttpResponseRedirect('/')
