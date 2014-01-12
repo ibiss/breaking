@@ -34,9 +34,10 @@ def user_panel(request):
         longitude = u.longitude
         try:
             t = Task.objects.get(user_id=u.user_id)
+            m = Mission.objects.get(id=t.mission_id)
             t_latitude = t.latitude
             t_longitude = t.longitude
-            return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude})
+            return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude,'t_latitude':t_latitude,'t_longitude':t_longitude,'m_title':m.name,'m_description':m.description})
         except:
             return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude})
     except:

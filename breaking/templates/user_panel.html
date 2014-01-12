@@ -57,7 +57,7 @@
                             map: map,
                             position: new google.maps.LatLng("{{ t_latitude }}", "{{ t_longitude }}"),
                             icon: "{% static 'images/marker.png' %}",
-                            title: 'Twoja misja'
+                            title: "{{ m_title }}" + "\n\n" + "{{ m_description }}"
                         });
                         var areaOpt = { //opcje obszaru
                             map: map,   //mapa
