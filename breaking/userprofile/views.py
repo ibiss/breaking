@@ -58,15 +58,17 @@ def invalid_login(request):
     
 def register_user(request):
     if request.method == 'POST':
-        form = UserCreateForm(request.POST)
+        form = UserCreateForm(request.POST, request.FILES)
+	print "form is valid or not", form.is_valid()
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/')
-            
+    else:
+        form = UserCreateForm()
     args = {}
     args.update(csrf(request))
-    args['form'] = UserCreateForm()
-    return render_to_response('register.html', args)
+    args['form'] = form
+    return render_to_response('register.html', args,context_instance=RequestContext(request))
 
 def account(request):
     user = User.objects.get(username=request.user.username)

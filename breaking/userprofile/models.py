@@ -53,10 +53,10 @@ class UserProfile(models.Model):
 	latitude = models.CharField(max_length=50)
 	longitude = models.CharField(max_length=50)
 	tasks = models.ManyToManyField(Mission, through='Task')
-	avatar = models.ImageField(upload_to = 'images/avatars/', default = 'base_marker.png')
+	avatar = models.ImageField(upload_to = 'images/avatars/', default = 'base_marker.png', blank=True)
 	base_level = models.IntegerField()
 	def __unicode__(self):
-		return self.user
+		return self.user.username
 
 class Equipment(models.Model):
 	user_profile = models.ForeignKey(UserProfile)
