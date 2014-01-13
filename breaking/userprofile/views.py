@@ -30,12 +30,11 @@ def auth_view(request):
 @login_required(login_url='/')
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
-    user_profile = UserProfile.objects.get(user=user)
-    #equipment = user.equipment.objects.all()
-    #base_object = user.base_objects.objects.all()
+    user_profile = UserProfile.objects.get(user=user)    #equipment = user_profile.equipment.objects.all()
+    #base_object = user_profile.base_objects.objects.all()
+    #return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object,'user_profile':user_profile})
     return render_to_response('user_panel.html',{'user_profile':user_profile})
 
-@login_required(login_url='/')                    
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 
