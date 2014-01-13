@@ -10,6 +10,7 @@ import random, math, datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import math
+from django.conf import settings
 
 def home(request):
     c = {}
@@ -30,10 +31,12 @@ def auth_view(request):
 @login_required(login_url='/')
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
-    user_profile = UserProfile.objects.get(user=user)    #equipment = user_profile.equipment.objects.all()
-    #base_object = user_profile.base_objects.objects.all()
-    #return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object,'user_profile':user_profile})
-    return render_to_response('user_panel.html',{'user_profile':user_profile})
+    user_profile = UserProfile.objects.get(user=user)
+    equipment = user_profile.equipment.all()
+    base_objects = user_profile.base_objects.all()
+    return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_objects,'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
+    #return render_to_response('user_panel.html',{'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
+
 
 def invalid_login(request):
     return render_to_response('invalid_login.html')
@@ -78,16 +81,16 @@ def generate(request):#, rfrom, rto):
         t_longitude = t_longitude + float(longitude)
         close = math.fabs(t_longitude - float(longitude)) + math.fabs(t_latitude - float(latitude))
         b_near = True
-        if(close > 0.0023):
+        if(close > 0.0028):
             for t in tasks:
                 near = math.fabs(t_longitude - float(t.longitude)) + math.fabs(t_latitude - float(t.latitude))
-                if(near < 0.0023):
+                if(near < 0.0028):
                     b_near = False
             if(b_near):
                 break
     missions = Mission.objects.all()
     m = missions[random.randint(1,len(missions)) - 1]
-    task = Task(user=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
+    task = Task(user_profile=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
     task.save()
     return HttpResponseRedirect('/maps/')
 
@@ -99,7 +102,7 @@ def maps(request):
         latitude = u.latitude
         longitude = u.longitude
      #   try:
-        tasks = Task.objects.filter(user_id=u.user_id)
+        tasks = Task.objects.filter(user_profile_id=u.user_id)
             #t_latitude = t.latitude
             #t_longitude = t.longitude
         return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude,'tasks':tasks})
