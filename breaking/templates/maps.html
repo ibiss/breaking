@@ -59,7 +59,7 @@
                     map: map,
                     position: new google.maps.LatLng("{{ t.latitude }}", "{{ t.longitude }}"),
                     icon: "{% static 'images/marker_mission.png' %}",
-                    title: "{{ t.mission.name }} {{ t.mission.description }}"
+                    title: "{{ t.mission.name }}\n{{ t.mission.description }}"
                 });
 
                 area = new google.maps.Circle({ //opcje obszaru
@@ -89,5 +89,16 @@
                 <label>DO jakiej odległości generować misję?</label><input type="text" id="to">
                 <input type="submit" id="generate" value="Generuj">
             </form>
+        </div>
+
+        <div class="missions">
+            <div class="mission">
+            {% for task in tasks %}
+                <ul>
+                    <li><label>Nazwa misji: </label><span>{{ task.mission.name }}</span></li>
+                    <li><label>Opis misji: </label><p>{{ task.mission.description }}</p></li>
+                </ul>
+            {% endfor %}
+            </div>
         </div>
 {% endblock %}
