@@ -77,4 +77,4 @@ class Task(models.Model):
 	longitude = models.CharField(max_length=50)
 	timestamp = models.DateTimeField()
 	def __unicode__(self):
-		return self.mission
+		return self.mission.name
