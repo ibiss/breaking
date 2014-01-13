@@ -2,27 +2,27 @@
 {% load staticfiles %}
 
 {% block content %}
-	<img src="" class="avatar"/>
+	<img src="{{ user_profile.avatar }}" class="avatar"/>
 	<div class="info">
 		<p>Współrzędne Twojej bazy:</p>
-		<ul>
-			<li>Szerokość: {{ user_profile.latitude|floatformat:-4 }}</li>
-			<li>Wysokość: {{ user_profile.longitude|floatformat:-4 }}</li>
-		</ul>
+		<table>
+			<tr><td>Szerokość</td><td>Wysokość:</td></tr>
+			<tr><td>{{ user_profile.latitude|floatformat:-4 }}</td><td>{{ user_profile.longitude|floatformat:-4 }}</td></tr>
+		</table>
 	</div>
 	<div class="materials">
 		<ul>
-			<li><img src=""><span class="points">Punkty: {{ user_profile.points }}</span></li>
-			<li><img src=""><span class="gold">Złoto: {{ user_profile.count_gold }}</span></li>
-			<li><img src=""><span class="rock">Kamienie: {{ user_profile.count_rock }}</span></li>
-			<li><img src=""><span class="wood">Drewno: {{ user_profile.count_wood }}</span></li>
+			<li><img src=""><p class="points">Punkty: <span>{{ user_profile.points }}</span></p></li>
+			<li><img src=""><p class="gold">Złoto: <span>{{ user_profile.count_gold }}</span></p></li>
+			<li><img src=""><p class="rock">Kamienie: <span>{{ user_profile.count_rock }}</span></p></li>
+			<li><img src=""><p class="wood">Drewno: <span>{{ user_profile.count_wood }}</span></p></li>
 		</ul>
 	</div>
 
 	<div class="right_menu">
 		<ul>
-			<li class="menu_button"><a href="#">Twoje obiekty</a></li>
 			<li class="menu_button"><a href="#">Rozbuduj</a></li>
+			<li class="menu_button"><a href="#">Twoje obiekty</a></li>
 		</ul>
 	</div>
 

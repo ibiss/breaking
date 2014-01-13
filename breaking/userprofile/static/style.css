@@ -20,6 +20,13 @@
     font-style: normal;
 }
 
+@font-face {
+	font-family: 'aleo';
+	src: url('fonts/Aleo-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .entypo{
     font-family: 'entypo';
     font-size: 50px;
@@ -36,6 +43,7 @@
 html{
     width: 100%;
     background-color: #363636;
+	font-family: 'aleo';
 }
 
 body{
@@ -355,6 +363,16 @@ footer{
 	margin: 0px 0px 0px 10px;
 }
 
+.info table td{
+	padding: 3px 10px;
+	text-align: center;
+    vertical-align:middle;
+}
+
+.info p{
+	font-family: 'aleo';
+}
+
 
 .matrials{
 	float: right;
@@ -364,6 +382,20 @@ footer{
 	display: inline-block;
 	float: right;
 	margin: 0px 5px;
+	font-family: 'aleo';
+}
+
+.materials ul li .gold span{
+	color: #fff600;
+}
+.materials ul li .wood span{
+	color: #6e5603;
+}
+.materials ul li .rock span{
+	color: #8a8a89;
+}
+.materials ul li .points span{
+	color: #4b47ff;
 }
 
 .right_menu{

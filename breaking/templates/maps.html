@@ -58,7 +58,7 @@
                 marker = new google.maps.Marker({   //Nowy marker
                     map: map,
                     position: new google.maps.LatLng("{{ t.latitude }}", "{{ t.longitude }}"),
-                    icon: "{% static 'images/marker.png' %}",
+                    icon: "{% static 'images/marker_mission.png' %}",
                     title: "{{ t.mission.name }} {{ t.mission.description }}"
                 });
 
@@ -66,10 +66,10 @@
                     map: map,   //mapa
                     center: new google.maps.LatLng("{{ t.latitude }}", "{{ t.longitude }}"),    //pozycja
                     radius: 100,    //promien
-                    strokeColor: '#FF0000', //kolor lini
+                    strokeColor: '#076b00', //kolor lini
                     strokeOpacity: 0.8, //przezroczystosc lini
                     strokeWeight: 2,    //grubosc lini
-                    fillColor: '#FF0000',   //Kolor obszaru
+                    fillColor: '#076b00',   //Kolor obszaru
                     fillOpacity: 0.35   //przezroczystosc obszaru
                 });
             {% endfor %}
