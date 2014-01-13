@@ -16,7 +16,6 @@ def home(request):
     c.update(csrf(request))
     return render_to_response('index.html', c)
 
-@login_required(login_url='/')
 def auth_view(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -32,15 +31,14 @@ def auth_view(request):
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
     user_profile = UserProfile.objects.get(user=user)
-    equipment = u.equipment.objects.all()
-    base_object = u.base_objects.objects.all()
-    return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object,'user_profile':user_profile})
+    #equipment = user_profile.equipment.objects.all()
+    #base_object = user_profile.base_objects.objects.all()
+    #return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object,'user_profile':user_profile})
+    return render_to_response('user_panel.html',{'user_profile':user_profile})
 
-@login_required(login_url='/')                    
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 
-@login_required(login_url='/')
 def register_user(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST, request.FILES)
