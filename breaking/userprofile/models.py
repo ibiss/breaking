@@ -5,14 +5,14 @@ class Bonus(models.Model):
 	name = models.CharField(max_length=50)
 	description = models.CharField(max_length=50)
 	value = models.FloatField()
+	
+	def __unicode__(self):
+		return self.name
 
 class Item(models.Model):
 	name = models.CharField(max_length=100)
 	description = models.TextField()
 	icon = models.ImageField(upload_to = 'images/items/', default = 'item_icon.png')
-
-	#class Meta:
-	#	abstract = True
 
 	def __unicode__(self):
 		return self.name
@@ -22,13 +22,15 @@ class TaskItem(Item):
 		return self.name
 
 class BaseObject(Item):
-	#user_profile = models.ForeignKey(UserProfile)
-	level = models.IntegerField()
+	level_max = models.IntegerField()
 	bonus = models.ForeignKey(Bonus)
 	price_points = models.IntegerField()
 	price_rock = models.IntegerField()
 	price_gold = models.IntegerField()
 	price_wood = models.IntegerField()
+
+	def __unicode__(self):
+		return self.name
 	
 class Mission(models.Model):
 	name = models.CharField(max_length=100)
@@ -53,17 +55,23 @@ class UserProfile(models.Model):
 	latitude = models.CharField(max_length=50)
 	longitude = models.CharField(max_length=50)
 	tasks = models.ManyToManyField(Mission, through='Task')
+	base_objects = models.ManyToManyField(BaseObject, through='UserBaseObject')
+	equipment = models.ManyToManyField(Item, through='Equipment', related_name='equipment')
 	avatar = models.ImageField(upload_to = 'images/avatars/', default = 'base_marker.png', blank=True)
 	base_level = models.IntegerField()
 	def __unicode__(self):
 		return self.user.username
 
-class Equipment(models.Model):
+class UserBaseObject(models.Model):
 	user_profile = models.ForeignKey(UserProfile)
-	items = models.ForeignKey(Item)
+	base_object = models.ForeignKey(BaseObject)
+	object_level = models.IntegerField()
+
+class Equipment(models.Model):
+	user_profile = models.ForeignKey(UserProfile, related_name='user_profile')
+	items = models.ForeignKey(Item, related_name='items')
 
 class Artifact(Item):
-	#icon = models.ImageField(upload_to = '/images/items/artifacts', default = 'artifact.png')
 	number_of_part = models.IntegerField()
 	bonus = models.ForeignKey(Bonus)
 
@@ -71,7 +79,7 @@ class PartOfArtifact(Item):
 	artifact = models.ForeignKey(Artifact)
 
 class Task(models.Model):
-	user = models.ForeignKey(UserProfile)
+	user_profile = models.ForeignKey(UserProfile)
 	mission = models.ForeignKey(Mission)
 	latitude = models.CharField(max_length=50)
 	longitude = models.CharField(max_length=50)
