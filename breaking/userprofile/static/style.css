@@ -356,6 +356,12 @@ footer{
 	height: 150px;
 	background-color: #000000;
 	float: left;
+	overflow: hidden;
+}
+
+.avatar img{
+	width: 100%;
+	height: auto;
 }
 
 .info{

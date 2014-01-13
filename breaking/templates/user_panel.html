@@ -2,7 +2,9 @@
 {% load staticfiles %}
 
 {% block content %}
-	<img src="{{ MEDIA_URL }}{{ user_profile.avatar.url }}" class="avatar"/>
+	<div class="avatar">
+		<img src="{{ MEDIA_URL }} {{ user_profile.avatar.url }}">
+	</div>
 	<div class="info">
 		<p>Współrzędne Twojej bazy:</p>
 		<table>
