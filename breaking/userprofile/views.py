@@ -8,12 +8,15 @@ from userprofile.forms import UserCreateForm
 from userprofile.models import Task, Mission, UserProfile, Item
 import random, math, datetime
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+import math
 
 def home(request):
     c = {}
     c.update(csrf(request))
     return render_to_response('index.html', c)
 
+@login_required(login_url='/')
 def auth_view(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -25,7 +28,7 @@ def auth_view(request):
     else:
         return HttpResponseRedirect('/invalid/')
 
-
+@login_required(login_url='/')
 def user_panel(request):
     '''
     try:
@@ -52,10 +55,12 @@ def user_panel(request):
         return render_to_response('user_panel.html',{'latitude':latitude,'longitude':longitude})'''
 
     return render_to_response('user_panel.html')
-                              
+
+@login_required(login_url='/')                    
 def invalid_login(request):
     return render_to_response('invalid_login.html')
-    
+
+@login_required(login_url='/')
 def register_user(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST, request.FILES)
@@ -69,6 +74,7 @@ def register_user(request):
     args['form'] = form
     return render_to_response('register.html', args,context_instance=RequestContext(request))
 
+@login_required(login_url='/')
 def account(request):
     user = User.objects.get(username=request.user.username)
     u = UserProfile.objects.get(user=user)
@@ -76,6 +82,7 @@ def account(request):
     longitude = u.longitude
     return render_to_response('account.html',{'latitude':latitude,'longitude':longitude})
        
+@login_required(login_url='/')
 def generate(request):#, rfrom, rto):
     usr = User.objects.get(username=request.user.username)
     u = UserProfile.objects.get(user=usr)
@@ -83,24 +90,31 @@ def generate(request):#, rfrom, rto):
     longitude = u.longitude
     rfrom = 100
     rto = 1000
-    radius = random.uniform(rfrom*0.00001, rfrom*0.00001+rto*0.00001)
-    angle = random.randint(0,360)
-    radians = math.radians(angle)
-    t_latitude = math.sin(radians)*radius
-    t_longitude = math.cos(radians)*radius
-    if(t_latitude < 0):
-        t_latitude += -0.0009
-    if(t_longitude < 0):
-        t_longitude += -0.0009
-    print t_latitude, " ", t_longitude
-    t_latitude = t_latitude + float(latitude) 
-    t_longitude = t_longitude + float(longitude)
+    tasks = Task.objects.all()
+    while(1):
+        radius = random.uniform(rfrom*0.00001, rfrom*0.00001+rto*0.00001)
+        angle = random.randint(0,360)
+        radians = math.radians(angle)
+        t_latitude = math.sin(radians)*radius
+        t_longitude = math.cos(radians)*radius
+        t_latitude = t_latitude + float(latitude) 
+        t_longitude = t_longitude + float(longitude)
+        close = math.fabs(t_longitude - float(longitude)) + math.fabs(t_latitude - float(latitude))
+        b_near = True
+        if(close > 0.0023):
+            for t in tasks:
+                near = math.fabs(t_longitude - float(t.longitude)) + math.fabs(t_latitude - float(t.latitude))
+                if(near < 0.0023):
+                    b_near = False
+            if(b_near):
+                break
     missions = Mission.objects.all()
     m = missions[random.randint(1,len(missions)) - 1]
     task = Task(user=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
     task.save()
     return HttpResponseRedirect('/maps/')
 
+@login_required(login_url='/')
 def maps(request):
     #try:
         user = User.objects.get(username=request.user.username)
