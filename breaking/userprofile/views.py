@@ -31,10 +31,10 @@ def auth_view(request):
 @login_required(login_url='/')
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
-    u = UserProfile.objects.get(user=user)
+    user_profile = UserProfile.objects.get(user=user)
     equipment = u.equipment.objects.all()
     base_object = u.base_objects.objects.all()
-    return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object})
+    return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object,'user_profile':user_profile})
 
 @login_required(login_url='/')                    
 def invalid_login(request):
