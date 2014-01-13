@@ -106,6 +106,50 @@ header{
 */
 
 
+/*
+ * NAVIGATION
+ */
+
+.user_menu{
+    width: 100%;
+    padding: 24px 0px;
+    float: left;
+}
+
+.user_menu ul{
+    list-style-type: none;
+}
+
+.user_menu ul li i{
+    float: left;
+    margin: -30px 6px 0px 0px;
+
+}
+
+.user_menu ul li{
+    display: inline-block;
+    background-color: #000000;
+    text-align: center;
+}
+
+.user_menu ul li a{
+    float: left;
+    color: #f42d2d;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 12px;
+    transition: all 0.1s ease 0.1s;
+}
+
+.user_menu ul li a:hover{
+    background-color: #101010;
+}
+
+
+/*
+ * END NAVIGATION
+ */
+
 /************** INDEX-LEWA KOLUMNA **************/
 
 
@@ -254,86 +298,87 @@ footer{
  */
 
 
-/*
- * USER PANEL
- */
 
-.user_menu{
-    width: 100%;
-    padding: 24px 0px;
-    float: left;
+.register_form{
+	padding: 24px 0px; 
 }
 
-.user_menu ul{
-    list-style-type: none;
+.register_form table td{
+	padding: 6px;
 }
 
-.user_menu ul li i{
-    float: left;
-    margin: -30px 6px 0px 0px;
-
+.register_form table tr td .label{
+	font-size: 18px;
 }
 
-.user_menu ul li{
-    display: inline-block;
-    background-color: #000000;
-    text-align: center;
-}
-
-.user_menu ul li a{
-    float: left;
-    color: #f42d2d;
-    font-size: 18px;
-    text-transform: uppercase;
-    padding: 12px;
-    transition: all 0.1s ease 0.1s;
-}
-
-.user_menu ul li a:hover{
-    background-color: #101010;
+.register_form table tr td input{
+	padding: 3px;
+	width: 150px;
 }
 
 
-/*
- * END USER PANEL
- */
+/**
+* MAPS
+**/
 
- .register_form{
- 	padding: 24px 0px; 
- }
+.buttons #generate label{
 
- .register_form table td{
- 	padding: 6px;
- }
+}
 
- .register_form table tr td .label{
- 	font-size: 18px;
- }
+.buttons #generate #from{
 
- .register_form table tr td input{
- 	padding: 3px;
- 	width: 150px;
- }
+}
+
+.buttons #generate #to{
+
+}
+
+/**
+* END MAPS
+**/
 
 
- /**
-  * MAPS
-  **/
 
- .buttons #generate label{
+/**
+* USER_PROFILE
+**/
 
- }
+.avatar{
+	width: 150px;
+	height: 150px;
+	background-color: #000000;
+	float: left;
+}
 
- .buttons #generate #from{
+.info{
+	float: left;
+	margin: 0px 0px 0px 10px;
+}
 
- }
 
- .buttons #generate #to{
- 	
- }
+.matrials{
+	float: right;
+}
 
- /**
-  * END MAPS
-  **/
+.materials ul li{
+	display: inline-block;
+	float: right;
+	margin: 0px 5px;
+}
 
+.right_menu{
+	float: left;
+	clear: both;
+	margin: 12px 0px;
+}
+
+.right_menu ul .menu_button{
+	padding: 6px;
+	text-transform: uppercase;
+}
+
+
+/**
+* END USER_PROFILE
+**/
 
