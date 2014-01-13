@@ -34,7 +34,7 @@ def user_panel(request):
     #equipment = user_profile.equipment.objects.all()
     #base_object = user_profile.base_objects.objects.all()
     #return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_object,'user_profile':user_profile})
-    return render_to_response('user_panel.html',{'user_profile':user_profile})
+    return render_to_response('user_panel.html',{'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
 
 def invalid_login(request):
     return render_to_response('invalid_login.html')
