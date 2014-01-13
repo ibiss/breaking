@@ -35,7 +35,6 @@ def user_panel(request):
     equipment = user_profile.equipment.all()
     base_objects = user_profile.base_objects.all()
     return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_objects,'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
-    #return render_to_response('user_panel.html',{'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
 
 
 def invalid_login(request):
