@@ -1,5 +1,7 @@
 package Webservice;
 
+import org.codehaus.jackson.map.ser.std.ToStringSerializer;
+
 public class Mission {
     private String latitude;
     private String longitude;
@@ -20,5 +22,11 @@ public class Mission {
     
     public String getMission() {
         return mission;
+    }
+    
+    @Override
+    public String toString()
+    {
+    	return "mission: "+mission;
     }
 }

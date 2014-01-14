@@ -56,6 +56,20 @@
         android:layout_marginTop="5dp"
         android:background="#defabb" >
 
+        <ListView
+            android:id="@+id/missions"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right" >
+
+        </ListView>
+
+        <Button
+            android:id="@+id/zaloguj"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pobierz misje" />
+
     </FrameLayout>
 
 </LinearLayout>

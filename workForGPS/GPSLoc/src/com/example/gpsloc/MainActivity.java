@@ -1,18 +1,33 @@
 package com.example.gpsloc;
 
 
+import java.util.ArrayList;
+
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+
+import Webservice.Main;
+import Webservice.Mission;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.internal.ff;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -30,6 +45,9 @@ public class MainActivity extends FragmentActivity {
 	private Marker userMarker;
 	public static final String MY_PREFERENCES = "myPreferences";
 	private SharedPreferences preferences;
+	private Main main;
+	private int userId;
+	private ArrayList<Mission> missions;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +66,9 @@ public class MainActivity extends FragmentActivity {
 		map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 		mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		
-		if(userMarker!=null) userMarker.remove();
+		if(userMarker!=null) {
+			userMarker.remove();
+		}
 		
 		userMarker = map.addMarker(new MarkerOptions()
 	    .position(new LatLng(lat, lng))
@@ -61,6 +81,30 @@ public class MainActivity extends FragmentActivity {
 		LocationListener mlocListener = new MyLocationListener();
 
 		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+		
+		main=new Main();
+		missions=new ArrayList<Mission>();
+		
+		Button button = (Button) findViewById(R.id.zaloguj);
+		
+		button.setOnClickListener(new View.OnClickListener() {
+		    public void onClick(View v) {
+		        try {
+		        	
+					userId=main.login("kuba", "1234");
+					System.out.println(userId);
+					if(userId!=-1){
+						System.out.println("jestem");
+						missions=main.getMission(userId, "kuba", "1234");
+						System.out.println(missions);
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		        
+		    }
+		});
 		
 	}
 	
@@ -125,5 +169,48 @@ public class MainActivity extends FragmentActivity {
 		}
 
 	}/* End of Class MyLocationListener */
-
+	
+	/*public AlertDialog loginDialog(Context c, String message) {
+		System.out.println("jestem");
+		final SharedPreferences.Editor preferencesEditor = preferences.edit();
+		
+	    LayoutInflater factory = LayoutInflater.from(c);           
+	    final View textEntryView = factory.inflate(R.layout.login, null);
+	    final AlertDialog.Builder failAlert = new AlertDialog.Builder(c);
+	    failAlert.setTitle("Login/ Register Failed");
+	    
+	    failAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            // Cancelled
+	        }
+	    });
+	    
+	    AlertDialog.Builder alert = new AlertDialog.Builder(c);
+	    alert.setTitle("Login/ Register");
+	    alert.setMessage(message);
+	    alert.setView(textEntryView);
+	    
+	    alert.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            try {
+	                final EditText usernameInput = (EditText) textEntryView.findViewById(R.id.userNameEditText);
+	                final EditText passwordInput = (EditText) textEntryView.findViewById(R.id.passwordEditText);
+	                preferencesEditor.putString("UserName", usernameInput.getText().toString());
+	    			preferencesEditor.putString("Password", passwordInput.getText().toString());
+	            }
+	            catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    });
+	    
+	    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            // Canceled.
+	        }
+	    });
+	    
+	    return alert.create();
+	}*/
+	
 }

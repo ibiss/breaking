@@ -1,25 +1,50 @@
 package Webservice;
 
 
+import android.os.AsyncTask;
+
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 public class Main {
 	
-	public static int login(String name, String password) throws JsonParseException, JsonMappingException, Exception {
-
-        String webPage = "http://projectbreaking.herokuapp.com/webservices/login/" + name + "/?format=json";
-        URL url = new URL(webPage);
-        URLConnection urlConnection = url.openConnection();
+	private static int returnInt;
+	
+	public static int login(final String name, final String password) throws JsonParseException, JsonMappingException, Exception {
+		
+		returnInt=0;
+		
+		
+		new Thread(new Runnable() {
+	        public void run() {
+	         
+		String webPage = "http://projectbreaking.herokuapp.com/webservices/login/" + name + "/?format=json";
+        URL url = null;
+		try {
+			url = new URL(webPage);
+		} catch (MalformedURLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+        URLConnection urlConnection = null;
+		try {
+			urlConnection = url.openConnection();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         String val = (new StringBuffer(name).append(":").append(password)).toString();
         byte[] base = val.getBytes();
         String authorizationString = "Basic " + new String(new Base64().encode(base));
@@ -36,27 +61,65 @@ public class Main {
 
             }
         } catch (Exception e) {
-            System.out.println("nieporpawne dane");
-            return -1;
+            System.out.println("niepoprawne dane");
+            System.out.println(e.toString());
+            returnInt = -1;
         }
 
         String newjson = json.substring(1, json.length());
         Main converter = new Main();
         
-        UserId userId = (UserId) converter.fromJsonU(newjson);
+        UserId userId = null;
+		try {
+			userId = (UserId) converter.fromJsonU(newjson);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        return Integer.valueOf(userId.getId());
+        returnInt = Integer.valueOf(userId.getId());
         
+        
+	        }
+	   }).start();
+		
+		while(returnInt==0)
+		{
+		}
+		
+        return returnInt;
     }
 	
-    public static ArrayList<Mission> getMission(int id, String name, String password) throws JsonParseException, JsonMappingException, Exception 
+    public static ArrayList<Mission> getMission(final int id, final String name, final String password) throws JsonParseException, JsonMappingException, Exception 
     {
-        ArrayList<Mission> missions = new ArrayList<Mission>();
+        final ArrayList<Mission> missions = new ArrayList<Mission>();
+        returnInt=0;
+        
+        new Thread(new Runnable() {
+	        public void run() {
         
         //String webPage = "http://projectbreaking.herokuapp.com/webservices/login/" + name + "/?format=json";
         String webPage = "http://projectbreaking.herokuapp.com/webservices/mission/"+id+"/?format=json";
-        URL url = new URL(webPage);
-        URLConnection urlConnection = url.openConnection();
+        URL url = null;
+		try {
+			url = new URL(webPage);
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        URLConnection urlConnection = null;
+		try {
+			urlConnection = url.openConnection();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         String val = (new StringBuffer(name).append(":").append(password)).toString();
         byte[] base = val.getBytes();
         String authorizationString = "Basic " + new String(new Base64().encode(base));
@@ -73,6 +136,7 @@ public class Main {
 
             }
         } catch (Exception e) {
+        	returnInt=1;
             System.out.println("nieporpawne dane");
         }
 
@@ -82,12 +146,33 @@ public class Main {
         
         while(newjson.indexOf("}")+2<=newjson.length())
         {
-        	miss = (Mission) converter.fromJsonM(newjson);
+        	try {
+				miss = (Mission) converter.fromJsonM(newjson);
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	missions.add(miss);
         	newjson = newjson.substring(newjson.indexOf("}")+2, newjson.length());
         }
+
+        returnInt=1;
         
+	        }
+        }).start();
+        
+        while(returnInt==0)
+		{
+		}
+		
         return missions;
+        
     }
     
     public Object fromJsonU(String json) throws JsonParseException, JsonMappingException, IOException {
@@ -101,8 +186,6 @@ public class Main {
 
         return garima;
     }
-
-    
 }
 
 
