@@ -84,9 +84,10 @@
         <div id="map-canvas"></div>
         
         <div class="buttons">
-            <form id="generate" action="/generate/">
-                <label>OD jakiej odległości generować misję?</label><input type="text" id="from">
-                <label>DO jakiej odległości generować misję?</label><input type="text" id="to">
+            <form id="generate" action="/generate/" method="POST">{% csrf_token %}
+		{{form}}
+                <!--<label>OD jakiej odległości generować misję?</label><input type="text" id="from">
+                <label>DO jakiej odległości generować misję?</label><input type="text" id="to">-->
                 <input type="submit" id="generate" value="Generuj">
             </form>
         </div>

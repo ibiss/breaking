@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm
+from userprofile.forms import UserCreateForm, FromTo
 from userprofile.models import Task, Mission, UserProfile, Item
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -62,16 +62,24 @@ def account(request):
     return render_to_response('account.html',{'latitude':latitude,'longitude':longitude})
        
 @login_required(login_url='/')
-def generate(request):#, rfrom, rto):
+def generate(request):
+    if request.method == "POST":
+        form = FromTo(request.POST)
+        if form.is_valid():
+            rfrom = form.cleaned_data['rfrom']
+            rto = form.cleaned_data['rto']
+        else:
+            return HttpResponseRedirect('/maps/')
+    else:
+        return HttpResponseRedirect('/maps/')
     usr = User.objects.get(username=request.user.username)
     u = UserProfile.objects.get(user=usr)
     latitude = u.latitude
     longitude = u.longitude
-    rfrom = 100
-    rto = 1000
     tasks = Task.objects.all()
+    size = len(tasks)
     while(1):
-        radius = random.uniform(rfrom*0.00001, rfrom*0.00001+rto*0.00001)
+        radius = random.uniform(rfrom*0.001, rto*0.001)
         angle = random.randint(0,360)
         radians = math.radians(angle)
         t_latitude = math.sin(radians)*radius
@@ -85,6 +93,9 @@ def generate(request):#, rfrom, rto):
                 near = math.fabs(t_longitude - float(t.longitude)) + math.fabs(t_latitude - float(t.latitude))
                 if(near < 0.0028):
                     b_near = False
+                if(not size):
+                    return HttpResponseRedirect('/maps/')
+		size = size - 1
             if(b_near):
                 break
     missions = Mission.objects.all()
@@ -95,17 +106,16 @@ def generate(request):#, rfrom, rto):
 
 @login_required(login_url='/')
 def maps(request):
-    #try:
-        user = User.objects.get(username=request.user.username)
-        u = UserProfile.objects.get(user=user)
-        latitude = u.latitude
-        longitude = u.longitude
-     #   try:
-        tasks = Task.objects.filter(user_profile_id=u.user_id)
-            #t_latitude = t.latitude
-            #t_longitude = t.longitude
-        return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude,'tasks':tasks})
-      #  except:
-       #     return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude})
-   # except:
-    #    return HttpResponseRedirect('/')
+    args = {}
+    args.update(csrf(request))
+    user = User.objects.get(username=request.user.username)
+    u = UserProfile.objects.get(user=user)
+    latitude = u.latitude
+    longitude = u.longitude
+    tasks = Task.objects.filter(user_profile_id=u.user_id)
+    args['latitude'] = u.latitude
+    args['longitude'] = u.longitude
+    args['tasks'] = tasks
+    args['form'] = FromTo()
+    #return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude,'tasks':tasks})
+    return render_to_response('maps.html', args, context_instance=RequestContext(request))

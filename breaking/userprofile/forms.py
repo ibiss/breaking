@@ -29,3 +29,7 @@ class UserCreateForm(UserCreationForm):
 		base_level = 1)
         user_profile.save()
         return user, user_profile
+
+class FromTo(forms.Form):
+    rfrom = forms.IntegerField()
+    rto = forms.IntegerField()
