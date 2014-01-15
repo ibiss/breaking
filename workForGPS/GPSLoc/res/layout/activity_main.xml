@@ -59,8 +59,9 @@
         <ListView
             android:id="@+id/missions"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right" >
+            android:layout_height="80dp"
+            android:layout_gravity="right"
+            android:background="#CCFFCC" >
 
         </ListView>
 

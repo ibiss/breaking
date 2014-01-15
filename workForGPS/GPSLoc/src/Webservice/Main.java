@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -22,7 +23,7 @@ public class Main {
 	
 	private static int returnInt;
 	
-	public static int login(final String name, final String password) throws JsonParseException, JsonMappingException, Exception {
+	public int login(final String name, final String password) throws JsonParseException, JsonMappingException, Exception {
 		
 		returnInt=0;
 		
@@ -96,9 +97,9 @@ public class Main {
         return returnInt;
     }
 	
-    public static ArrayList<Mission> getMission(final int id, final String name, final String password) throws JsonParseException, JsonMappingException, Exception 
+    public List<Mission> getMission(final int id, final String name, final String password) throws JsonParseException, JsonMappingException, Exception 
     {
-        final ArrayList<Mission> missions = new ArrayList<Mission>();
+        final List<Mission> missions = new ArrayList<Mission>();
         returnInt=0;
         
         new Thread(new Runnable() {

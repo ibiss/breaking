@@ -2,6 +2,7 @@ package com.example.gpsloc;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -16,11 +17,15 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -42,12 +47,14 @@ public class MainActivity extends FragmentActivity {
 	private int userIcon, destinationIcon;
 	private LocationManager mlocManager;
 	private double lat,lng;
-	private Marker userMarker;
+	private Marker userMarker,destinationMarker;
 	public static final String MY_PREFERENCES = "myPreferences";
 	private SharedPreferences preferences;
 	private Main main;
 	private int userId;
-	private ArrayList<Mission> missions;
+	private List<Mission> missions;
+	private ArrayAdapter<Mission> missionAdapter;
+	private ListView missionList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +91,14 @@ public class MainActivity extends FragmentActivity {
 		
 		main=new Main();
 		missions=new ArrayList<Mission>();
+		missionList = (ListView) findViewById(R.id.missions);
+		missionAdapter = new ArrayAdapter<Mission>(this, R.layout.text, missions);
 		
 		Button button = (Button) findViewById(R.id.zaloguj);
 		
 		button.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
+		    	missions=new ArrayList<Mission>();
 		        try {
 		        	
 					userId=main.login("kuba", "1234");
@@ -97,6 +107,8 @@ public class MainActivity extends FragmentActivity {
 						System.out.println("jestem");
 						missions=main.getMission(userId, "kuba", "1234");
 						System.out.println(missions);
+						missionAdapter.addAll(missions);
+						missionList.setAdapter(missionAdapter);
 					}
 					
 				} catch (Exception e) {
@@ -105,6 +117,38 @@ public class MainActivity extends FragmentActivity {
 		        
 		    }
 		});
+		
+		//System.out.println("gdzie sa misje??");
+		//System.out.println(missions);
+		
+		//missionAdapter = new ArrayAdapter<Mission>(this, R.layout.text, missions);
+		//missionList.setAdapter(missionAdapter);
+		
+		missionList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				Mission clicked=(Mission) missionList.getItemAtPosition(position);
+				
+				if(destinationMarker!=null) {
+					destinationMarker.remove();
+				}
+				
+				destinationMarker = map.addMarker(new MarkerOptions()
+			    .position(new LatLng(Double.valueOf(clicked.getLatitude()), Double.valueOf(clicked.getLongitude())))
+			    .title(clicked.toString())
+			    .icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+			    .snippet(""));
+				//System.out.println(userMarker.getPosition()+" "+destinationMarker.getPosition());
+				
+				
+				
+				missionAdapter.clear();
+				missionList.setAdapter(missionAdapter);
+			}
+			
+		});
+		//////////////////////////////////////////////////////////////////////////////////
 		
 	}
 	
@@ -115,13 +159,20 @@ public class MainActivity extends FragmentActivity {
 		//lng = lastLoc.getLongitude();
 		LatLng lastLatLng = new LatLng(lat,lng);
 		
-		if(userMarker!=null) userMarker.remove();
+		if(userMarker!=null){
+			userMarker.remove();
+		}
 		
 		userMarker = map.addMarker(new MarkerOptions()
 	    .position(lastLatLng)
 	    .title("Your last position")
 	    .icon(BitmapDescriptorFactory.fromResource(userIcon))
 	    .snippet(""));
+		
+		if( (Math.abs(userMarker.getPosition().latitude-destinationMarker.getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarker.getPosition().longitude))<0.005 )
+		{
+			Toast.makeText( getApplicationContext(),"Zdobyles!!!",	Toast.LENGTH_SHORT ).show();
+		}
 		
 		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 1000, null);
 	}
