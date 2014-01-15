@@ -10,38 +10,44 @@
 
 {% block header %}
 	{{ block.super }}
-	<div id="registration">
+	<div class="registration">
 		<a href="/register/">Rejestracja</a>
 	</div>
 {% endblock %}
 
+{% block navigation %}
+
+{% endblock %}
+
 {% block content %}
-	<section id="description">
-		<h2>Witaj w świecie breaking!</h2>
+	<div class="left_sidebar">
+		<h2 class="title">Witaj w świecie breaking!</h2>
 
 		<div class="node">
-			<h3>Czym jest breaking</h3>
-			<p>
+			<h3 class="info_title">Czym jest breaking</h3>
+			<p class="description">
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</p>
 			<a href="#"><h4>Read more...</h4></a>
 		</div>
 
 		<div class="node">
-			<h3>Jak grać</h3>
-			<p>
+			<h3 class="info_title">Jak grać</h3>
+			<p class="description">
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</p>
-			<a href="#"><h4>Read more...</h4></a>
+			<a href="#">Read more...</a>
 		</div>
-	</section>
+	</div>
 
-	<section id="login_panel">
-		<h2>Zaloguj się!</h2>
-		<form id="login_form" action="/auth/" method="POST">{% csrf_token %}
-			<p>Login: <input type="text" name="username" value="">
-			<p>Hasło: <input type="password" name="password" value=""><br>
-			<input type="submit" id="submit" value="Zaloguj"/>
-		</form>
-	</section>
+	<div class="right_sidebar">
+		<div class="login_panel">
+			<h2 class="title">Zaloguj się!</h2>
+			<form class="login_form" action="/auth/" method="POST">{% csrf_token %}
+				<p>Login:<span><input type="text" name="username"></span></p>
+				<p>Hasło:<span><input type="password" name="password"></span></p>
+				<input type="submit" id="submit" value="Zaloguj"/>
+			</form>
+		</div>
+	</div>
 {% endblock %}

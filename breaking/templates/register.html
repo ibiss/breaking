@@ -8,7 +8,7 @@
       
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 95%; width: 100%}
+      #map-canvas { height: 500px; width: 500px}
       .controls {
         margin-top: 16px;
         border: 1px solid transparent;
@@ -148,16 +148,40 @@ var map;
 </script>
 
 {% endblock %}
+
+{% block navigation %}
+
+{% endblock %}
     
 {% block content %}
-	<div id="user_menu">
-		<ul>
-			<li><a href="/account/">Ustawienia</a></li>
-		</ul>
-	</div>
 
-	<form action='/register/' method="post">{% csrf_token %}
-  	{{form}}
+	<form class="register_form" enctype="multipart/form-data" action='/register/' method="post">{% csrf_token %}
+    <table>
+      <tr>
+    	  <td><label class="label">Nick:</label></td><td>{{ form.username }}</td> 
+      </tr>
+      <tr>
+        <td><label class="label">Imię:</label></td><td>{{ form.first_name }}</td>
+      </tr>
+      <tr>
+        <td><label class="label">Nazwisko:</label></td><td>{{ form.last_name }}</td>
+      </tr>
+      <tr>
+        <td><label class="label">Hasło:</label></td><td>{{ form.password1 }}</td>
+      </tr>
+      <tr>
+        <td><label class="label">Powtórz hasło:</label></td><td>{{ form.password2 }}</td>
+      </tr>
+      <tr>
+        <td><label class="label">Latitude:</label></td><td>{{ form.latitude }}</td>
+      </tr>
+      <tr>
+        <td><label class="label">Longitude:</label></td><td>{{ form.longitude }}</td>
+      </tr>
+      <tr>
+        <td><label class="label">Avatar:</label></td><td>{{ form.avatar }}</td>
+      </tr>
+    </table>
   	<input type="submit" value="Register" />
 	</form>
 

@@ -12,7 +12,7 @@ class TaskViewList(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = self.kwargs['id']
-        queryset = Task.objects.filter(id=user_id)
+        queryset = Task.objects.filter(user_profile_id=user_id)
         return queryset.order_by('id')
     
 class LoginUser(generics.ListAPIView):
