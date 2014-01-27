@@ -115,9 +115,13 @@ def maps(request):
     latitude = u.latitude
     longitude = u.longitude
     tasks = Task.objects.filter(user_profile_id=u.user_id)
+    if len(tasks) > 6:#limit zadan
+        six = True#osiagnieto
+    else:
+        six = False#mozna wyswietlac generuj
     args['latitude'] = u.latitude
     args['longitude'] = u.longitude
     args['tasks'] = tasks
     args['form'] = FromTo()
-    #return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude,'tasks':tasks})
+    args['six'] = six
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
