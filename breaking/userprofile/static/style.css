@@ -355,6 +355,21 @@ footer{
 .generate_mission #form_mission #generate {
     float: right;
     margin-top: 5px;
+    width: 100%;
+    padding: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+    color: #f42d2d;
+    background-color: #000000;
+    border: none;
+    cursor:pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.generate_mission #form_mission #generate:hover {
+    background-color: #f42d2d;
+    color: #000000;
 }
 
 .missions {
@@ -475,8 +490,37 @@ footer{
   * ACCOUNT
   */
 
-#user_data{
+#user_data {
     float: left;
+}
+
+#user_data table tr .title {
+    padding-right: 15px;
+}
+
+#user_data table tr td input {
+    margin: 2px 0;
+    padding: 3px;
+}
+
+#user_data #submit{
+    float: right;
+    margin-top: 5px;
+    width: 140px;
+    padding: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+    color: #f42d2d;
+    background-color: #000000;
+    border: none;
+    cursor:pointer;
+    transition: all 0.3s ease 0s;
+}
+
+#user_data #submit:hover{
+    background-color: #f42d2d;
+    color: #000000;
 }
 
 /**
