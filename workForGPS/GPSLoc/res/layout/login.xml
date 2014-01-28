@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:paddingTop="100dp"
     android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
@@ -33,4 +34,11 @@
         android:id="@+id/loginRegisterErrorTextView"
         android:textStyle="bold"
         android:gravity="center" />
+
+    <Button
+        android:id="@+id/logIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zaloguj" />
+
 </LinearLayout>

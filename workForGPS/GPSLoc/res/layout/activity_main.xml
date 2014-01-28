@@ -1,75 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ababab"
     android:orientation="vertical" >
-    
-    
-    
-    <FrameLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="#012345" >
-        
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:clickable="true"
-            android:enabled="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/centre"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="#343434" >
-
-        <TextView
-            android:id="@+id/wspolrzedne"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff" />
-
-    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="#defabb" >
 
+        <Button
+            android:id="@+id/getMission"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Pobierz misje"
+            android:layout_marginTop="50dp" />
+
         <ListView
             android:id="@+id/missions"
-            android:layout_width="200dp"
-            android:layout_height="80dp"
-            android:layout_gravity="right"
-            android:background="#CCFFCC" >
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="100dp"
+            android:background="#CCFFCC"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp" >
 
         </ListView>
 
         <Button
-            android:id="@+id/zaloguj"
-            android:layout_width="100dp"
+            android:id="@+id/loggin"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pobierz misje" />
+            android:layout_gravity="bottom"
+            android:text="Zaloguj" />
+
+        <TextView
+            android:id="@+id/whoIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
 
     </FrameLayout>
 
