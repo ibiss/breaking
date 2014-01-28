@@ -360,14 +360,21 @@ footer{
 .missions {
     clear: both;
     overflow: hidden;
+    padding: 10px;
+    margin: 20px 0px;
 }
 
 .missions .mission {
-    margin: 20px 0;
+    border-top: 1px dotted #000066;
+    padding: 20px 0;
 }
 
 .missions .mission ul li {
     list-style: none;
+}
+
+.missions .mission:last-child{
+    border-bottom: 1px dotted #000066;
 }
 
 .missions .mission ul li label {
@@ -376,7 +383,7 @@ footer{
     font-weight: bold;
 }
 
-.missions .mission ul li span {
+.missions .mission ul li a {
     color: #CA1B20;
 }
 
