@@ -11,7 +11,7 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
     mission =  MissionSerializer()
     class Meta:
         model = Task
-        fields = ('latitude', 'longitude','timestamp','mission' )
+        fields = ('id','latitude', 'longitude','timestamp','mission' )
         permission_classes = (permissions.IsAuthenticated,)
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

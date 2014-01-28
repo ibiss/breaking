@@ -31,8 +31,8 @@
             });
 
 
-            document.getElementsByName('positionX')[0].value = "{{ latitude }}";    //Ustawiam aktualne wartosci dla wspolrzednych
-            document.getElementsByName('positionY')[0].value = "{{ longitude }}";
+            document.getElementsByName('latitude')[0].value = "{{ latitude }}";    //Ustawiam aktualne wartosci dla wspolrzednych
+            document.getElementsByName('longitude')[0].value = "{{ longitude }}";
 
             //Nowy marker
             marker = new google.maps.Marker({
@@ -46,8 +46,8 @@
             google.maps.event.addListener(map, 'click', function(event) {   //Uzytkownk ustawia swoja pozycje na mapie
                 var lat = event.latLng.lat();
                 var lng = event.latLng.lng();
-                document.getElementsByName('positionX')[0].value = lat; //Wypisuje zaznaczone wspolrzedne
-                document.getElementsByName('positionY')[0].value = lng;
+                document.getElementsByName('latitude')[0].value = lat; //Wypisuje zaznaczone wspolrzedne
+                document.getElementsByName('longitude')[0].value = lng;
                 initialLocation = new google.maps.LatLng(lat, lng);
                 marker.setMap(null);
                 marker = new google.maps.Marker({
@@ -64,36 +64,9 @@
 {% endblock %}
 
 {% block content %}
-    <form id="user_data">
-        <table>
-            <tr>
-                <td>Imię:</td>
-                <td><input type="text" name="first_name" value=""></td>
-            </tr>
-            <tr>
-                <td>Nazwisko:</td>
-                <td><input type="text" name="last_name" value=""></td>
-            </tr>
-            <tr>
-                <td>Wiek:</td>
-                <td><input type="text" name="age" value=""></td>
-            </tr>
-            <tr>
-                <td>E-mail: </td>
-                <td><input type="email" name="email" value=""></td>
-            </tr>
-            <tr>
-                <td>Lokalizacja X:</td>
-                <td><input disabled type="text" name="positionX" value=""></td>
-            </tr>
-            <tr>
-                <td>Lokalizacja Y:</td>
-                <td><input disabled type="text" name="positionY" value=""></td>
-            </tr>
-            <tr>
-                <td><input type="submit" name="submit" value="Zatwierdź"></td>
-            </tr>
-        </table>
+    <form id="user_data" action="/account/" method="post">{% csrf_token %}
+	{{form}}
+	<input type="submit" value="Zatwierdz"/>
     </form>
     <div id="map-canvas"></div>
 {% endblock %}
