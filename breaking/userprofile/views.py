@@ -67,6 +67,7 @@ def account(request):
             u.longitude = form.cleaned_data['longitude']
             user.save()
             u.save()
+            Task.objects.filter(user_profile=u).delete()
             return HttpResponseRedirect('/account')
         else:
             return HttpResponseRedirect('/account')
