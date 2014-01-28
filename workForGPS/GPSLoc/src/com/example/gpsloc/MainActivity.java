@@ -50,10 +50,6 @@ public class MainActivity extends FragmentActivity {
 			startActivity(i);
 		}
 		
-		
-		
-		
-		
 		main=new Main();
 		missions=new ArrayList<Mission>();
 		missionList = (ListView) findViewById(R.id.missions);
@@ -120,9 +116,46 @@ public class MainActivity extends FragmentActivity {
 		});
 		//////////////////////////////////////////////////////////////////////////////////
 		
+		Button loguj = (Button) findViewById(R.id.loggin);
+		
+		loguj.setOnClickListener(new View.OnClickListener() {
+		    public void onClick(View v) {
+		    	
+		    	Intent i = new Intent(MainActivity.this, LoginActivity.class);
+				startActivity(i);
+				
+				userId=preferences.getInt("userID", -1);
+				userLogin=preferences.getString("userLogin", "");
+				userPassword=preferences.getString("userPassword", "");
+				
+				//whoLogin = (TextView) findViewById(R.id.whoIn);
+				///whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
+		        
+		    }
+		});
+		
+		//whoLogin = (TextView) findViewById(R.id.whoIn);
+		//whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
+		
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		
 		whoLogin = (TextView) findViewById(R.id.whoIn);
 		whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
 		
+	}
+	
+	@Override
+	protected void onStop() {
+	    super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
 	}
 	
 }
