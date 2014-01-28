@@ -10,6 +10,7 @@
             height: 500px;
             width: 500px;
             float: left;
+            margin: 0 20px 20px 0;
         }
     </style>
 {% endblock %}
@@ -83,23 +84,25 @@
 
         <div id="map-canvas"></div>
         
-        <div class="buttons">
-            <form id="generate" action="/generate/" method="POST">{% csrf_token %}
-		{{form}}
-                <!--<label>OD jakiej odległości generować misję?</label><input type="text" id="from">
-                <label>DO jakiej odległości generować misję?</label><input type="text" id="to">-->
+        <div class="generate_mission">
+            <form id="form_mission" action="/generate/" method="POST">{% csrf_token %}
+                <table>
+                    {% for field in form %}
+                        <tr><td><span>{{ field.label }}</span></td><td>{{ field }}</td></tr>
+                    {% endfor %}
+                </table>
                 <input type="submit" id="generate" value="Generuj">
             </form>
         </div>
 
         <div class="missions">
-            <div class="mission">
             {% for task in tasks %}
+            <div class="mission">
                 <ul>
-                    <li><label>Nazwa misji: </label><span>{{ task.mission.name }}</span></li>
-                    <li><label>Opis misji: </label><p>{{ task.mission.description }}</p></li>
+                    <li class="title"><label>Nazwa misji: </label><span>{{ task.mission.name }}</span></li>
+                    <li class="description"><p>{{ task.mission.description }}</p></li>
                 </ul>
-            {% endfor %}
             </div>
+            {% endfor %}
         </div>
 {% endblock %}

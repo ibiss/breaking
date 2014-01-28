@@ -329,16 +329,60 @@ footer{
 * MAPS
 **/
 
-.buttons #generate label{
-
+.generate_mission {
+    float: left;
+    overflow: hidden;
 }
 
-.buttons #generate #from{
-
+.generate_mission #form_mission {
+    margin: 0px 0px 20px 20px;
 }
 
-.buttons #generate #to{
+.generate_mission #form_mission table tr td {
+    padding: 3px;
+}
 
+.generate_mission #form_mission table tr td span {
+    text-transform: uppercase;
+    margin-right: 6px;
+}
+
+.generate_mission #form_mission table tr td input {
+    padding: 3px;
+    width: 100px;
+}
+
+.generate_mission #form_mission #generate {
+    float: right;
+    margin-top: 5px;
+}
+
+.missions {
+    clear: both;
+    overflow: hidden;
+}
+
+.missions .mission {
+    margin: 20px 0;
+}
+
+.missions .mission ul li {
+    list-style: none;
+}
+
+.missions .mission ul li label {
+    font-family: 'Arial';
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.missions .mission ul li span {
+    color: #CA1B20;
+}
+
+.missions .mission ul li p {
+    font-size: 15px;
+    padding: 4px 0 0 15px;
 }
 
 /**
@@ -419,4 +463,16 @@ footer{
 /**
 * END USER_PROFILE
 **/
+
+/**
+  * ACCOUNT
+  */
+
+#user_data{
+    float: left;
+}
+
+/**
+  * ACCOUNT
+  */
 
