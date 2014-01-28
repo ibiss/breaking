@@ -14,6 +14,15 @@ class TaskViewList(generics.ListAPIView):
         user_id = self.kwargs['id']
         queryset = Task.objects.filter(user_profile_id=user_id)
         return queryset.order_by('id')
+class TaskDelete(generics.ListAPIView):
+    serializer_class = TaskSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        queryset = Task.objects.filter(id=user_id)
+        Task.objects.filter(id=user_id).delete()
+        return queryset
     
 class LoginUser(generics.ListAPIView):
     serializer_class = UserSerializer
