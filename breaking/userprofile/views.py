@@ -57,6 +57,19 @@ def register_user(request):
 def account(request):
     user = User.objects.get(username=request.user.username)
     u = UserProfile.objects.get(user=user)
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST)
+        if form.is_valid():
+            print "wdawd"
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            u.latitude = form.cleaned_data['latitude']
+            u.longitude = form.cleaned_data['longitude']
+            user.save()
+            u.save()
+            return HttpResponseRedirect('/account')
+        else:
+            return HttpResponseRedirect('/account')
     latitude = u.latitude
     longitude = u.longitude
     args = {}
@@ -64,7 +77,7 @@ def account(request):
     args['form'] = UserUpdateForm(initial={'latitude':latitude, 'longitude':longitude, 'first_name':user.first_name, 'last_name':user.last_name})
     args['latitude'] = latitude
     args['longitude'] = longitude
-    return render_to_response('account.html', args, context_instance=RequestContext(request))
+    return render_to_response('account.html', args)
        
 @login_required(login_url='/')
 def generate(request):
