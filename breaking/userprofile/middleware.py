@@ -13,4 +13,4 @@ class AutoLogout:
                 return
         except KeyError:
             pass
-        request.session['last_touch'] = datetime.now()
+        request.session['last_touch'] = str(datetime.now())
