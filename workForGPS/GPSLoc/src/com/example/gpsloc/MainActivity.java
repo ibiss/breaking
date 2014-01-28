@@ -4,35 +4,25 @@ package com.example.gpsloc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-
 import Webservice.Main;
 import Webservice.Mission;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.internal.ff;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -52,6 +42,7 @@ public class MainActivity extends FragmentActivity {
 	private SharedPreferences preferences;
 	private Main main;
 	private int userId;
+	private String userLogin, userPassword;
 	private List<Mission> missions;
 	private ArrayAdapter<Mission> missionAdapter;
 	private ListView missionList;
@@ -59,9 +50,23 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);		
+		setContentView(R.layout.activity_main);
 		
 		preferences = getSharedPreferences(MY_PREFERENCES, MainActivity.MODE_PRIVATE);
+		
+		userId=preferences.getInt("userID", -1);
+		userLogin=preferences.getString("userLogin", "");
+		userPassword=preferences.getString("userPassword", "");
+		
+		Intent i;
+		
+		if(userId==-1)
+		{
+			i = new Intent(this, LoginActivity.class);
+			startActivity(i);
+		}
+		
+		
 		
 		lat=Double.valueOf(preferences.getString("lastLatitude", "52.259"));
 		lng=Double.valueOf(preferences.getString("lastLongitude", "21.020"));
@@ -94,18 +99,23 @@ public class MainActivity extends FragmentActivity {
 		missionList = (ListView) findViewById(R.id.missions);
 		missionAdapter = new ArrayAdapter<Mission>(this, R.layout.text, missions);
 		
-		Button button = (Button) findViewById(R.id.zaloguj);
+		Button button = (Button) findViewById(R.id.getMission);
 		
 		button.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	missions=new ArrayList<Mission>();
 		        try {
 		        	
-					userId=main.login("kuba", "1234");
-					System.out.println(userId);
+					//userId=main.login("kuba", "1234");
+		        	userId=preferences.getInt("userID", -1);
+		    		userLogin=preferences.getString("userLogin", "");
+		    		userPassword=preferences.getString("userPassword", "");
+		        	//System.out.println(preferences.getInt("userID", -1));
+					//System.out.println(preferences.getString("userLogin", ""));
+					//System.out.println(preferences.getString("userPassword", ""));
 					if(userId!=-1){
 						System.out.println("jestem");
-						missions=main.getMission(userId, "kuba", "1234");
+						missions=main.getMission(userId, userLogin, userPassword);
 						System.out.println(missions);
 						missionAdapter.addAll(missions);
 						missionList.setAdapter(missionAdapter);
@@ -169,7 +179,7 @@ public class MainActivity extends FragmentActivity {
 	    .icon(BitmapDescriptorFactory.fromResource(userIcon))
 	    .snippet(""));
 		
-		if( (Math.abs(userMarker.getPosition().latitude-destinationMarker.getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarker.getPosition().longitude))<0.005 )
+		if( destinationMarker!=null && (Math.abs(userMarker.getPosition().latitude-destinationMarker.getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarker.getPosition().longitude))<0.005 )
 		{
 			Toast.makeText( getApplicationContext(),"Zdobyles!!!",	Toast.LENGTH_SHORT ).show();
 		}
@@ -221,47 +231,41 @@ public class MainActivity extends FragmentActivity {
 
 	}/* End of Class MyLocationListener */
 	
-	/*public AlertDialog loginDialog(Context c, String message) {
-		System.out.println("jestem");
-		final SharedPreferences.Editor preferencesEditor = preferences.edit();
-		
-	    LayoutInflater factory = LayoutInflater.from(c);           
-	    final View textEntryView = factory.inflate(R.layout.login, null);
-	    final AlertDialog.Builder failAlert = new AlertDialog.Builder(c);
-	    failAlert.setTitle("Login/ Register Failed");
-	    
-	    failAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	            // Cancelled
-	        }
-	    });
-	    
-	    AlertDialog.Builder alert = new AlertDialog.Builder(c);
-	    alert.setTitle("Login/ Register");
-	    alert.setMessage(message);
-	    alert.setView(textEntryView);
-	    
-	    alert.setPositiveButton("Login", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	            try {
-	                final EditText usernameInput = (EditText) textEntryView.findViewById(R.id.userNameEditText);
-	                final EditText passwordInput = (EditText) textEntryView.findViewById(R.id.passwordEditText);
-	                preferencesEditor.putString("UserName", usernameInput.getText().toString());
-	    			preferencesEditor.putString("Password", passwordInput.getText().toString());
-	            }
-	            catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    });
-	    
-	    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	            // Canceled.
-	        }
-	    });
-	    
-	    return alert.create();
-	}*/
+	/*
+	 * public AlertDialog loginDialog(Context c, String message) {
+	 * System.out.println("jestem"); final SharedPreferences.Editor
+	 * preferencesEditor = preferences.edit();
+	 * 
+	 * LayoutInflater factory = LayoutInflater.from(c); final View textEntryView
+	 * = factory.inflate(R.layout.login, null); final AlertDialog.Builder
+	 * failAlert = new AlertDialog.Builder(c);
+	 * failAlert.setTitle("Login/ Register Failed");
+	 * 
+	 * failAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+	 * public void onClick(DialogInterface dialog, int whichButton) { //
+	 * Cancelled } });
+	 * 
+	 * AlertDialog.Builder alert = new AlertDialog.Builder(c);
+	 * alert.setTitle("Login/ Register"); alert.setMessage(message);
+	 * alert.setView(textEntryView);
+	 * 
+	 * alert.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+	 * public void onClick(DialogInterface dialog, int whichButton) { try {
+	 * final EditText usernameInput = (EditText)
+	 * textEntryView.findViewById(R.id.userNameEditText); final EditText
+	 * passwordInput = (EditText)
+	 * textEntryView.findViewById(R.id.passwordEditText);
+	 * preferencesEditor.putString("UserName",
+	 * usernameInput.getText().toString());
+	 * preferencesEditor.putString("Password",
+	 * passwordInput.getText().toString()); } catch (Exception e) {
+	 * e.printStackTrace(); } } });
+	 * 
+	 * alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	 * public void onClick(DialogInterface dialog, int whichButton) { //
+	 * Canceled. } });
+	 * 
+	 * return alert.create(); }
+	 */
 	
 }
