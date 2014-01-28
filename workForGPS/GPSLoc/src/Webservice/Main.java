@@ -67,6 +67,7 @@ public class Main {
 					System.out.println("niepoprawne dane");
 					System.out.println(e.toString());
 					returnInt = -1;
+					
 				}
 
 				String newjson = json.substring(1, json.length());
@@ -105,7 +106,9 @@ public class Main {
 
 		new Thread(new Runnable() {
 			public void run() {
-
+				
+				System.out.println(id + name + password);
+				
 				// String webPage =
 				// "http://projectbreaking.herokuapp.com/webservices/login/" +
 				// name + "/?format=json";
@@ -147,6 +150,9 @@ public class Main {
 					returnInt = 1;
 					System.out.println("nieporpawne dane");
 				}
+				
+				System.out.println(json.length());
+				System.out.println(json);
 
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
