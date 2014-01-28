@@ -1,4 +1,4 @@
-from datetime import datetime, timdedelta
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib import auth
 
