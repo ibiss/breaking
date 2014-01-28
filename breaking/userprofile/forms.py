@@ -31,5 +31,5 @@ class UserCreateForm(UserCreationForm):
         return user, user_profile
 
 class FromTo(forms.Form):
-    rfrom = forms.IntegerField()
-    rto = forms.IntegerField()
+    rfrom = forms.IntegerField(initial=1,min_value=1,max_value=100)
+    rto = forms.IntegerField(initial=2,min_value=2,max_value=101)

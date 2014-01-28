@@ -68,6 +68,8 @@ def generate(request):
         if form.is_valid():
             rfrom = form.cleaned_data['rfrom']
             rto = form.cleaned_data['rto']
+            if rfrom < 1 or rto <= rfrom:
+                return HttpResponseRedirect('/maps/')
         else:
             return HttpResponseRedirect('/maps/')
     else:
@@ -88,10 +90,10 @@ def generate(request):
         t_longitude = t_longitude + float(longitude)
         close = math.fabs(t_longitude - float(longitude)) + math.fabs(t_latitude - float(latitude))
         b_near = True
-        if(close > 0.0028):
+        if(close > 0.0030):
             for t in tasks:
                 near = math.fabs(t_longitude - float(t.longitude)) + math.fabs(t_latitude - float(t.latitude))
-                if(near < 0.0028):
+                if(near < 0.0030):
                     b_near = False
                 if(not size):
                     return HttpResponseRedirect('/maps/')
@@ -113,9 +115,13 @@ def maps(request):
     latitude = u.latitude
     longitude = u.longitude
     tasks = Task.objects.filter(user_profile_id=u.user_id)
+    if len(tasks) > 6:#limit zadan
+        six = True#osiagnieto
+    else:
+        six = False#mozna wyswietlac generuj
     args['latitude'] = u.latitude
     args['longitude'] = u.longitude
     args['tasks'] = tasks
     args['form'] = FromTo()
-    #return render_to_response('maps.html',{'latitude':latitude,'longitude':longitude,'tasks':tasks})
+    args['six'] = six
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
