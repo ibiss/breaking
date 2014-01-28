@@ -33,3 +33,9 @@ class UserCreateForm(UserCreationForm):
 class FromTo(forms.Form):
     rfrom = forms.IntegerField(initial=1,min_value=1,max_value=100)
     rto = forms.IntegerField(initial=2,min_value=2,max_value=101)
+
+class UserUpdateForm(forms.Form):
+    latitude = forms.CharField(max_length=50, label='latitude')
+    longitude = forms.CharField(max_length=50, label='longitude')
+    first_name = forms.CharField(max_length=50, label='Imie')
+    last_name = forms.CharField(max_length=50, label='Nazwisko')

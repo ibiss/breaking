@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, FromTo
+from userprofile.forms import UserCreateForm, FromTo, UserUpdateForm
 from userprofile.models import Task, Mission, UserProfile, Item
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -59,7 +59,12 @@ def account(request):
     u = UserProfile.objects.get(user=user)
     latitude = u.latitude
     longitude = u.longitude
-    return render_to_response('account.html',{'latitude':latitude,'longitude':longitude})
+    args = {}
+    args.update(csrf(request))
+    args['form'] = UserUpdateForm()
+    args['latitude'] = u.latitude
+    args['longitude'] = u.longitude
+    return render_to_response('account.html', args)
        
 @login_required(login_url='/')
 def generate(request):
