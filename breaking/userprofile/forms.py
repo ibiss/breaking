@@ -39,3 +39,4 @@ class UserUpdateForm(forms.Form):
     longitude = forms.CharField(max_length=50, label='longitude')
     first_name = forms.CharField(max_length=50, label='Imie')
     last_name = forms.CharField(max_length=50, label='Nazwisko')
+    email = forms.CharField(max_length=50, label='Email')

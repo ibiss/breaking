@@ -63,6 +63,7 @@ def account(request):
             print "wdawd"
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
             u.latitude = form.cleaned_data['latitude']
             u.longitude = form.cleaned_data['longitude']
             user.save()
@@ -74,7 +75,11 @@ def account(request):
     longitude = u.longitude
     args = {}
     args.update(csrf(request))
-    args['form'] = UserUpdateForm(initial={'latitude':latitude, 'longitude':longitude, 'first_name':user.first_name, 'last_name':user.last_name})
+    args['form'] = UserUpdateForm(initial={'latitude':latitude,
+                      'longitude':longitude,
+                      'first_name':user.first_name,
+                      'last_name':user.last_name,
+                      'email':user.email})
     args['latitude'] = latitude
     args['longitude'] = longitude
     return render_to_response('account.html', args)
