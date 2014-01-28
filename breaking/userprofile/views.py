@@ -61,10 +61,10 @@ def account(request):
     longitude = u.longitude
     args = {}
     args.update(csrf(request))
-    args['form'] = UserUpdateForm()
-    args['latitude'] = u.latitude
-    args['longitude'] = u.longitude
-    return render_to_response('account.html', args)
+    args['form'] = UserUpdateForm(initial={'latitude':latitude, 'longitude':longitude, 'first_name':user.first_name, 'last_name':user.last_name})
+    args['latitude'] = latitude
+    args['longitude'] = longitude
+    return render_to_response('account.html', args, context_instance=RequestContext(request))
        
 @login_required(login_url='/')
 def generate(request):
