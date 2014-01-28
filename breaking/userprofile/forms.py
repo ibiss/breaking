@@ -40,3 +40,7 @@ class UserUpdateForm(forms.Form):
     first_name = forms.CharField(max_length=50, label='Imie')
     last_name = forms.CharField(max_length=50, label='Nazwisko')
     email = forms.CharField(max_length=50, label='Email')
+    
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields.keyOrder = ['first_name', 'last_name', 'email', 'latitude', 'longitude']
