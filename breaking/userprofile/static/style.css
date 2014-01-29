@@ -496,6 +496,7 @@ footer{
 
 #user_data table tr .title {
     padding-right: 15px;
+    text-transform: uppercase;
 }
 
 #user_data table tr td input {

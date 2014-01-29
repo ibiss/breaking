@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, FromTo
+from userprofile.forms import UserCreateForm, FromTo, UserUpdateForm
 from userprofile.models import Task, Mission, UserProfile, Item
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -57,9 +57,32 @@ def register_user(request):
 def account(request):
     user = User.objects.get(username=request.user.username)
     u = UserProfile.objects.get(user=user)
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+            u.latitude = form.cleaned_data['latitude']
+            u.longitude = form.cleaned_data['longitude']
+            user.save()
+            u.save()
+            Task.objects.filter(user_profile=u).delete()
+            return HttpResponseRedirect('/account')
+        else:
+            return HttpResponseRedirect('/account')
     latitude = u.latitude
     longitude = u.longitude
-    return render_to_response('account.html',{'latitude':latitude,'longitude':longitude})
+    args = {}
+    args.update(csrf(request))
+    args['form'] = UserUpdateForm(initial={'latitude':latitude,
+                      'longitude':longitude,
+                      'first_name':user.first_name,
+                      'last_name':user.last_name,
+                      'email':user.email})
+    args['latitude'] = latitude
+    args['longitude'] = longitude
+    return render_to_response('account.html', args)
        
 @login_required(login_url='/')
 def generate(request):
