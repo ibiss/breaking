@@ -3,42 +3,79 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:paddingTop="100dp"
     android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/userNameTextView"
-        android:text="User Name"
-        android:textStyle="bold" />
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/userNameEditText"
-        android:inputType="text" />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/passwordTextView"
-        android:text="Password"
-        android:textStyle="bold" />
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/passwordEditText"
-        android:inputType="textPassword" />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/loginRegisterErrorTextView"
-        android:textStyle="bold"
-        android:gravity="center" />
 
-    <Button
-        android:id="@+id/logIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Zaloguj" />
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/userNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:layout_marginTop="195dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/userNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginTop="215dp"
+            android:inputType="text" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/passwordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:layout_marginTop="260dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginTop="280dp"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/loginRegisterErrorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="305dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/logIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="340dp"
+            android:text="Zaloguj" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="top|center"
+            android:src="@drawable/logo_breaking" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:layout_gravity="top|center"
+            android:textSize="20sp"
+            android:text="BREAKING" />
+
+    </FrameLayout>
 
 </LinearLayout>

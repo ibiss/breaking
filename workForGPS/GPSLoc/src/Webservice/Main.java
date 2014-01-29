@@ -29,21 +29,23 @@ public class Main {
 		
 		new Thread(new Runnable() {
 			public void run() {
-
+				while(true){
+					
+				
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
 				URL url = null;
 				try {
 					url = new URL(webPage);
 				} catch (MalformedURLException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
+					break;
 				}
 				URLConnection urlConnection = null;
 				try {
 					urlConnection = url.openConnection();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					break;
 				}
 				String val = (new StringBuffer(name).append(":")
 						.append(password)).toString();
@@ -67,6 +69,7 @@ public class Main {
 					System.out.println("niepoprawne dane");
 					System.out.println(e.toString());
 					returnInt = -1;
+					break;
 					
 				}
 
@@ -77,17 +80,19 @@ public class Main {
 				try {
 					userId = (UserId) converter.fromJsonU(newjson);
 				} catch (JsonParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					break;
 				} catch (JsonMappingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					break;
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					break;
 				}
 
 				returnInt = Integer.valueOf(userId.getId());
+				break;
+				}
 
 			}
 		}).start();
@@ -106,7 +111,8 @@ public class Main {
 
 		new Thread(new Runnable() {
 			public void run() {
-				
+				while(true)
+				{
 				System.out.println(id + name + password);
 				
 				// String webPage =
@@ -120,6 +126,7 @@ public class Main {
 				} catch (MalformedURLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					break;
 				}
 				URLConnection urlConnection = null;
 				try {
@@ -127,6 +134,7 @@ public class Main {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					break;
 				}
 				String val = (new StringBuffer(name).append(":")
 						.append(password)).toString();
@@ -149,6 +157,7 @@ public class Main {
 				} catch (Exception e) {
 					returnInt = 1;
 					System.out.println("nieporpawne dane");
+					break;
 				}
 				
 				System.out.println(json.length());
@@ -164,12 +173,15 @@ public class Main {
 					} catch (JsonParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						break;
 					} catch (JsonMappingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						break;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						break;
 					}
 					missions.add(miss);
 					newjson = newjson.substring(newjson.indexOf("}") + 2,
@@ -177,7 +189,8 @@ public class Main {
 				}
 
 				returnInt = 1;
-
+				break;
+				}
 			}
 		}).start();
 
