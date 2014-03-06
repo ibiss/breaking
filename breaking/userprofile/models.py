@@ -49,16 +49,16 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True, unique=True)
 	points = models.IntegerField()
 	rank_points = models.IntegerField()
-	count_rock = models.IntegerField()
-	count_gold = models.IntegerField()
-	count_wood = models.IntegerField()
+	#count_rock = models.IntegerField()
+	#count_gold = models.IntegerField()
+	#count_wood = models.IntegerField()
 	latitude = models.CharField(max_length=50)
 	longitude = models.CharField(max_length=50)
 	tasks = models.ManyToManyField(Mission, through='Task')
 	base_objects = models.ManyToManyField(BaseObject, through='UserBaseObject')
 	equipment = models.ManyToManyField(Item, through='Equipment', related_name='equipment')
 	avatar = models.ImageField(upload_to = 'images/avatars/', default = 'base_marker.png', blank=True)
-	base_level = models.IntegerField()
+	#base_level = models.IntegerField()
 	def __unicode__(self):
 		return self.user.username
 
@@ -86,3 +86,6 @@ class Task(models.Model):
 	timestamp = models.DateTimeField()
 	def __unicode__(self):
 		return self.mission.name
+
+class ContestType(models.Model):#Typy rywalizacji
+    #Zaprojektowanie mechaniki rozgrywki
