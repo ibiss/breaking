@@ -148,3 +148,16 @@ def maps(request):
     args['form'] = FromTo()
     args['six'] = six
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
+
+def join_1v1(request):
+	if Join_1v1.objects.all() == null: #create new player, who has to wait for another player
+		joinObject = Join_1v1(player=request.user)
+		joinObject.save()
+		#return czekam na zawodnika
+	else: #get player for queue and create game with new player
+		 play1 = Join_1v1.objects.all()
+		 play2 = request.user
+		 game = Game_1v1(player1=play1, player=play2, available=False)
+		 game.save()
+		 Join_1v1.objects.all().delete()
+		#return zawodnik znaleziony, wybierz date i godzine

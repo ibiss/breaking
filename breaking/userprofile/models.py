@@ -89,3 +89,14 @@ class Task(models.Model):
 
 class ContestType(models.Model):#Typy rywalizacji
     #Zaprojektowanie mechaniki rozgrywki
+
+class Join_1v1(models.Model): #queueing player for create game
+	player = models.ForeignKey(UserProfile)
+
+class Game_1v1(models.Model): #model of game
+	player1 = models.ForeignKey(UserProfile)
+	player2 = models.ForeignKey(UserProfile)
+	dateTime1 = models.DateTimeField()
+	dateTime2 = models.DateTimeField()
+	available = models.BooleanField()
+	mode = models.IntegerField()
