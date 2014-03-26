@@ -95,7 +95,7 @@ class Category(models.Model):
 		return self.name
 
 class TaskPvp(models.Model):
-	task_name = models.CharField(max_length=200,unique=True)9
+	task_name = models.CharField(max_length=200,unique=True)
 	description = models.CharField(max_length=4000)
 	category = models.ForeignKey(Category)
 	points_to_achive = models.IntegerField(validators = MinValueValidator(1))
