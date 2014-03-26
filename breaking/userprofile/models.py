@@ -87,5 +87,5 @@ class Task(models.Model):
 	def __unicode__(self):
 		return self.mission.name
 
-class ContestType(models.Model):#Typy rywalizacji
+# class ContestType(models.Model):#Typy rywalizacji
     #Zaprojektowanie mechaniki rozgrywki
