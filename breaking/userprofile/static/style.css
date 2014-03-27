@@ -58,6 +58,7 @@ header {
 .header_top {
     width: 960px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .header_top #logo h1 {
@@ -75,20 +76,20 @@ header {
     height: 150px;
 }
 
-.header_top .registration {
+.registration_link {
 	float: right;
     padding: 60px;
     line-height: 49px;
 }
 
-.header_top .registration a {
+.registration_link a {
 	font-size: 25px;
 	text-decoration: none;
     color: #f42d2d;
     text-transform: uppercase;
 }
 
-.header_top .registration a:hover {
+.registration_link a:hover {
 	color: red;
 }
 
@@ -100,10 +101,14 @@ header {
 /*
  * NAVIGATION
  */
+.header_bottom {
+    margin: 0 auto;
+    width: 960px;
+    overflow: hidden;
+}
 
 .header_bottom .user_navigation {
     width: 100%;
-    padding: 24px 0px;
     float: left;
 }
 

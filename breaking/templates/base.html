@@ -1,23 +1,45 @@
 <!DOCTYPE html>
-<html>
-	<head>
-        {% include "head.html" %}
-	</head>
+ <html>
+  <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
 
-	<body>   
-        <header>
-            {% include "header.html" %}
-        </header>
+    <title>
+      {% block title %}Breaking{% endblock %}
+    </title>
 
-        <div id="content">
-            {% block content %}
+    {% block stylesheets %}
+      <link rel="stylesheet" type="text/css" href={% static 'reset.css' %}>
+      <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
+    {% endblock %}
 
-            {% endblock %}
-        </div>
+    {% block javascripts %}
 
-        <footer>
-            {% include "footer.html" %}
-        </footer>
-	</body>
+    {% endblock %}
+  </head>
+
+  <body>   
+    <header>
+      {% block header %}
+        {% include "base/header.html" %}
+      {% endblock %}
+
+      {% block navigation %}
+        {% include "base/navigation.html" %}
+      {% endblock %}
+    </header>
+
+    <div id="content">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+
+    <footer>
+      {% block footer %}
+        {% include "base/footer.html" %}
+      {% endblock %}
+    </footer>
+  </body>
 
 </html>
