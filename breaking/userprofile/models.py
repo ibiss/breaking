@@ -86,6 +86,11 @@ class Task(models.Model):
 	timestamp = models.DateTimeField()
 	def __unicode__(self):
 		return self.mission.name
+	
+class Communicator(models.Model):
+	user_profile = models.ForeignKey(UserProfile, related_name ='user_profile_c')
+	user_addressee = models.ForeignKey(UserProfile, related_name ='user_addressee_c')
+	description = models.TextField()
 
 class ContestType(models.Model):#Typy rywalizacji
     #Zaprojektowanie mechaniki rozgrywki

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+	{% for com in coms %}
+<h2><a href="./{{ com.id }}">{{ com.username }}</a></h2>
+
+
+{% endfor %}
+
+<p>PISZESZ Z {{ username }}</p>
+<p>WYSLANE    :    </p>
+	{% for ms in msg %}
+<h2><a href="./{{ ms.user_profile }}">{{ ms.description }}</a></h2>
+
+
+{% endfor %}
+<p>ODEBRANE    :    </p>
+	{% for ms2 in msg2 %}
+<h2><a href="./{{ ms2.user_profile }}">{{ ms2.description }}</a></h2>
+
+
+{% endfor %}
+<form action="" method="post">
+{% csrf_token %} {#cross site request forgery protection#}
+<table>
+{{ form }}
+</table>
+<input type="submit" value="Submit">
+</form>
+
+{% endblock %}

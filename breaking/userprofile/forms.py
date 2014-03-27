@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 from django.contrib.auth.forms import UserCreationForm
 from userprofile.models import UserProfile
 import datetime
@@ -44,3 +44,6 @@ class UserUpdateForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['first_name', 'last_name', 'email', 'latitude', 'longitude']
+class CommunicatorForm(forms.Form):
+	description = forms.CharField(required=True, widget=forms.Textarea, label='wiadomosc',
+		error_messages={'required': 'Wpisz jakas wartosc!!'})
