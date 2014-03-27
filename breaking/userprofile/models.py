@@ -90,13 +90,19 @@ class Task(models.Model):
 class ContestType(models.Model):#Typy rywalizacji
     #Zaprojektowanie mechaniki rozgrywki
 
-class Join_1v1(models.Model): #queueing player for create game
+class JoinPVP(models.Model): #queueing player for create game
 	player = models.ForeignKey(UserProfile)
+	mode = models.IntegerField()
 
-class Game_1v1(models.Model): #model of game
+class GamePVP(models.Model): #model of game
 	player1 = models.ForeignKey(UserProfile)
 	player2 = models.ForeignKey(UserProfile)
 	dateTime1 = models.DateTimeField()
 	dateTime2 = models.DateTimeField()
 	available = models.BooleanField()
 	mode = models.IntegerField()
+	lat1 = models.CharField(max_length=50)
+	long1 = models.CharField(max_length=50)
+	lat2 = models.CharField(max_length=50)
+	long2 = models.CharField(max_length=50)
+	winner = models.IntegerField(default=0)
