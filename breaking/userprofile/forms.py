@@ -22,11 +22,12 @@ class UserCreateForm(UserCreationForm):
 		longitude = self.cleaned_data['longitude'],
 		points = 0,
 		rank_points = 0,
-		count_rock = 0,
-		count_gold = 0,
-		count_wood = 0,
+		# count_rock = 0,
+		# count_gold = 0,
+		# count_wood = 0,
 		avatar = self.cleaned_data['avatar'],
-		base_level = 1)
+		# base_level = 1
+        )
         user_profile.save()
         return user, user_profile
 

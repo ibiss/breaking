@@ -51,7 +51,7 @@ def register_user(request):
     args = {}
     args.update(csrf(request))
     args['form'] = form
-    return render_to_response('register.html', args,context_instance=RequestContext(request))
+    return render_to_response('register.html', args)
 
 @login_required(login_url='/')
 def account(request):

@@ -1,44 +1,22 @@
 <!DOCTYPE html>
 <html lang="pl">
 	<head>
-		<meta charset="utf-8">
-		<meta name="keywords" content="breaking, game, online game">
-        
-        <title>
-            {% block title %}Breaking - the best game of the world!{% endblock %}
-        </title>
-
-		{% block stylesheets %}
-			{% load staticfiles %}
-            <link rel="stylesheet" type="text/css" href={% static 'reset.css' %}>
-			<link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
-		{% endblock %}
-
-		{% block javascripts %}
-
-		{% endblock %}
+        {% include "head.html" %}
 	</head>
 
 	<body>   
         <header>
-            <div class="header">
-                {% block header %}
-                    <div id="logo">
-                        <h1>Breaking</h1>
-                        <img src={% static "images/logo_breaking.png" %} alt="breaking">
-                    </div>
-                {% endblock %}
-            </div>
+            {% include "header.html" %}
         </header>
 
         <div id="content">
             {% block navigation %}
-                <nav class="user_menu">
+                <nav class="user_navigation">
                     <ul>
-                        <li><a href="/user_panel/"><i class="entypo home"></i>Panel</a></li>
-                        <li><a href="/account/"><i class="entypo cog"></i>Ustawienia</a></li>
-                        <li><a href="/equipment/"><i class="entypo suitcase"></i>Ekwipunek</a></li>
-                        <li><a href="/maps/"><i class="entypo compass"></i>Mapa</a></li>
+                        <li><a href="/user_panel/"><i class="awesome">&#xf015;</i>Panel</a></li>
+                        <li><a href="/account/"><i class="awesome">&#xf013;</i>Ustawienia</a></li>
+                        <li><a href="/equipment/"><i class="awesome">&#xf0c0;</i>Ruchaj</a></li>
+                        <li><a href="/maps/"><i class="awesome">&#xf041;</i>Mapa</a></li>
                     </ul>
                 </nav>
             {% endblock %}
@@ -49,19 +27,7 @@
         </div>
 
         <footer>
-            {% block footer %}
-                <div class="footer">
-                    <ul class="left">
-                        <li class="link_footer"><a href="#">Kontakt</a></li>
-                        <li class="link_footer"><a href="#">Regulamin gry</a></li>
-                        <li class="link_footer"><a href="#">O grze</a></li>
-                        <li class="link_footer"><a href="#">FAQ</a></li>
-                    </ul>
-                    <ul class="right">
-                        <li>Copyright © 2013-2014 | Breaking team</li>
-                    </ul>
-                </div>
-            {% endblock %}
+            {% include "footer.html" %}
         </footer>
 	</body>
 
