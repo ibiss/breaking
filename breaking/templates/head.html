@@ -1,12 +1,11 @@
+{% load staticfiles %}
 <meta charset="utf-8">
-<meta name="keywords" content="breaking, game, online game">
     
 <title>
     {% block title %}Breaking - the best game of the world!{% endblock %}
 </title>
 
 {% block stylesheets %}
-    {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href={% static 'reset.css' %}>
     <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
 {% endblock %}

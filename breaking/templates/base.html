@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html>
 	<head>
         {% include "head.html" %}
 	</head>
@@ -10,17 +10,6 @@
         </header>
 
         <div id="content">
-            {% block navigation %}
-                <nav class="user_navigation">
-                    <ul>
-                        <li><a href="/user_panel/"><i class="awesome">&#xf015;</i>Panel</a></li>
-                        <li><a href="/account/"><i class="awesome">&#xf013;</i>Ustawienia</a></li>
-                        <li><a href="/equipment/"><i class="awesome">&#xf0c0;</i>Ruchaj</a></li>
-                        <li><a href="/maps/"><i class="awesome">&#xf041;</i>Mapa</a></li>
-                    </ul>
-                </nav>
-            {% endblock %}
-
             {% block content %}
 
             {% endblock %}

@@ -23,18 +23,18 @@
 /*
  * OGÓLNE
 */
-html{
+html {
     width: 100%;
     background-color: #363636;
 	font-family: 'aleo';
 }
 
-body{
+body {
     width: 100%;
     margin: 0 auto;
 }
 
-#content{
+#content {
     width: 960px;
     margin: 0 auto;
 
@@ -49,46 +49,46 @@ body{
  * HEADER
 */
 
-header{
+header {
 	width: 100%;
     overflow: hidden;
 	background-color: #050505;
 }
 
-.header{
+.header_top {
     width: 960px;
     margin: 0 auto;
 }
 
-.header #logo h1{
+.header_top #logo h1 {
     font-size: 0px;
 }
 
-.header #logo{
+.header_top #logo {
 	float: left;
     padding: 6px 24px;
     overflow: hidden;
 }
 
-.header #logo img{
+.header_top #logo img {
     width: 150px;
     height: 150px;
 }
 
-.header .registration{
+.header_top .registration {
 	float: right;
     padding: 60px;
     line-height: 49px;
 }
 
-.header .registration a{
+.header_top .registration a {
 	font-size: 25px;
 	text-decoration: none;
     color: #f42d2d;
     text-transform: uppercase;
 }
 
-.header .registration a:hover{
+.header_top .registration a:hover {
 	color: red;
 }
 
@@ -101,27 +101,27 @@ header{
  * NAVIGATION
  */
 
-.user_navigation{
+.header_bottom .user_navigation {
     width: 100%;
     padding: 24px 0px;
     float: left;
 }
 
-.user_navigation ul{
+.header_bottom .user_navigation ul {
     list-style-type: none;
 }
 
-.user_navigation ul li i{
+.header_bottom .user_navigation li i {
     float: left;
 }
 
-.user_navigation ul li{
+.header_bottom .user_navigation li {
     display: inline-block;
     background-color: #000000;
     text-align: center;
 }
 
-.user_navigation ul li a{
+.header_bottom .user_navigation li a {
     float: left;
     color: #f42d2d;
     font-size: 18px;
@@ -130,7 +130,7 @@ header{
     transition: all 0.1s ease 0.1s;
 }
 
-.user_navigation ul li a:hover{
+.header_bottom .user_navigation li a:hover {
     background-color: #101010;
 }
 
@@ -142,7 +142,7 @@ header{
 /************** INDEX-LEWA KOLUMNA **************/
 
 
-.left_sidebar{
+.left_sidebar {
     width: 50%;
     display: inline-block;
     float: left;
@@ -169,12 +169,12 @@ header{
     padding: 12px 24px;
 }
 
-.left_sidebar .node .description{
+.left_sidebar .node .description {
 	font-size: 16px;
     padding: 6px 0px;
 }
 
-.left_sidebar .node a{
+.left_sidebar .node a {
 	float: right;
 	margin-right: 10px;
 }
@@ -182,7 +182,7 @@ header{
 
 /************** INDEX-LEWA KOLUMNA **************/
 
-.right_sidebar{
+.right_sidebar {
     float: right;
     overflow: hidden;
     display: inline-block;
@@ -196,7 +196,7 @@ header{
     margin: 50px 0px;
 }
 
-.right_sidebar .login_panel .title{
+.right_sidebar .login_panel .title {
     font-size: 25px;
     font-weight: bold;
     padding: 12px;
@@ -207,12 +207,12 @@ header{
     display: inline-block;
 }
 
-.right_sidebar .login_panel .login_form p{
+.right_sidebar .login_panel .login_form p {
     padding: 6px 0px;
     clear: both;
 }
 
-.right_sidebar .login_panel .login_form span{
+.right_sidebar .login_panel .login_form span {
     margin: 0px 6px;
 }
     
@@ -223,7 +223,7 @@ header{
     width: 150px;
 }
 
-.right_sidebar .login_panel .login_form #submit{
+.right_sidebar .login_panel .login_form #submit {
     padding: 3px;
 	width: 70px;
     float: right;
@@ -238,7 +238,7 @@ header{
  * FOOTER
 */
 
-footer{
+footer {
 	clear: both;
 	width: 100%;
 	background-color: #050505;
@@ -246,13 +246,13 @@ footer{
     overflow: hidden;
 }
 
-.footer{
+.footer {
     width: 960px;
     margin: 0 auto;
     padding: 6px 0px;
 }
 
-.footer .left li{
+.footer .left li {
     list-style-type: none;
     display: inline;
     float: left;
@@ -260,21 +260,21 @@ footer{
     border-left: 1px dotted #ffffff;
 }
 
-.footer .left li:first-child{
+.footer .left li:first-child {
     border-left: none;
 }
 
-.footer .left li a{
+.footer .left li a {
     color: #ffffff;
     padding: 6px;
 }
 
-.footer .link_footer{
+.footer .link_footer {
 	float: left;
 	padding: 5px 10px;
 }
 
-.footer .right li{
+.footer .right li {
     padding: 6px;
 	text-align: center;
     float: right;
@@ -288,19 +288,19 @@ footer{
 
 
 
-.register_form{
+.register_form {
 	padding: 24px 0px; 
 }
 
-.register_form table td{
+.register_form table td {
 	padding: 6px;
 }
 
-.register_form table tr td .label{
+.register_form table tr td .label {
 	font-size: 18px;
 }
 
-.register_form table tr td input{
+.register_form table tr td input {
 	padding: 3px;
 	width: 150px;
 }
@@ -369,7 +369,7 @@ footer{
     list-style: none;
 }
 
-.missions .mission:last-child{
+.missions .mission:last-child {
     border-bottom: 1px dotted #000066;
 }
 
@@ -398,7 +398,7 @@ footer{
 * USER_PROFILE
 **/
 
-.avatar{
+.avatar {
 	width: 150px;
 	height: 150px;
 	background-color: #000000;
@@ -406,58 +406,58 @@ footer{
 	overflow: hidden;
 }
 
-.avatar img{
+.avatar img {
 	width: 100%;
 	height: auto;
 }
 
-.info{
+.info {
 	float: left;
 	margin: 0px 0px 0px 10px;
 }
 
-.info table td{
+.info table td {
 	padding: 3px 10px;
 	text-align: center;
     vertical-align:middle;
 }
 
-.info p{
+.info p {
 	font-family: 'aleo';
 }
 
 
-.matrials{
+.matrials {
 	float: right;
 }
 
-.materials ul li{
+.materials ul li {
 	display: inline-block;
 	float: right;
 	margin: 0px 5px;
 	font-family: 'aleo';
 }
 
-.materials ul li .gold span{
+.materials ul li .gold span {
 	color: #fff600;
 }
-.materials ul li .wood span{
+.materials ul li .wood span {
 	color: #6e5603;
 }
-.materials ul li .rock span{
+.materials ul li .rock span {
 	color: #8a8a89;
 }
-.materials ul li .points span{
+.materials ul li .points span {
 	color: #4b47ff;
 }
 
-.right_menu{
+.right_menu {
 	float: left;
 	clear: both;
 	margin: 12px 0px;
 }
 
-.right_menu ul .menu_button{
+.right_menu ul .menu_button {
 	padding: 6px;
 	text-transform: uppercase;
 }
@@ -485,7 +485,7 @@ footer{
     padding: 3px;
 }
 
-#user_data #submit{
+#user_data #submit {
     float: right;
     margin-top: 5px;
     width: 140px;
@@ -500,7 +500,7 @@ footer{
     transition: all 0.3s ease 0s;
 }
 
-#user_data #submit:hover{
+#user_data #submit:hover {
     background-color: #f42d2d;
     color: #000000;
 }
