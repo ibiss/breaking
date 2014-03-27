@@ -77,8 +77,8 @@ header {
 }
 
 .registration_link {
-	float: right;
-    padding: 60px;
+    margin: 0 auto;
+    width: 960px;
     line-height: 49px;
 }
 
@@ -87,6 +87,7 @@ header {
 	text-decoration: none;
     color: #f42d2d;
     text-transform: uppercase;
+    float: right;
 }
 
 .registration_link a:hover {
