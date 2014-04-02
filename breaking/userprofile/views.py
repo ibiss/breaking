@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, FromTo, UserUpdateForm
+from userprofile.forms import UserCreateForm, UserUpdateForm
 from userprofile.models import UserProfile
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -32,9 +32,7 @@ def auth_view(request):
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
     user_profile = UserProfile.objects.get(user=user)
-    equipment = user_profile.equipment.all()
-    base_objects = user_profile.base_objects.all()
-    return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_objects,'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
+    return render_to_response('user_panel.html',{'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
 
 
 def invalid_login(request):
@@ -51,7 +49,7 @@ def register_user(request):
     args = {}
     args.update(csrf(request))
     args['form'] = form
-    return render_to_response('register.html', args,context_instance=RequestContext(request))
+    return render_to_response('register.html',args)
 
 @login_required(login_url='/')
 def account(request):
