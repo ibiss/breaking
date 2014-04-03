@@ -17,12 +17,12 @@ class UserCreateForm(UserCreationForm):
             raise NotImplementedError("Can't create User and UserProfile without database save")
         user = super(UserCreateForm, self).save(commit=True)
         user_profile = UserProfile(
-		user = user,
-		latitude = self.cleaned_data['latitude'],
-		longitude = self.cleaned_data['longitude'],
-		points = 0,
-		rank_points = 0,
-		avatar = self.cleaned_data['avatar'])
+            user = user,
+            latitude = self.cleaned_data['latitude'],
+            longitude = self.cleaned_data['longitude'],
+            points = 0,
+            rank_points = 0,
+            avatar = self.cleaned_data['avatar'])
         user_profile.save()
         return user, user_profile
 
