@@ -92,7 +92,7 @@ class ContestType(models.Model):#Typy rywalizacji
 
 class JoinPVP(models.Model): #queueing player for create game
 	player = models.ForeignKey(UserProfile)
-	mode = models.IntegerField()
+	mode = models.ForeignKey(TaskPvp)
 
 class GamePVP(models.Model): #model of game
 	player1 = models.ForeignKey(UserProfile)
@@ -100,7 +100,7 @@ class GamePVP(models.Model): #model of game
 	dateTime1 = models.DateTimeField()
 	dateTime2 = models.DateTimeField()
 	available = models.BooleanField()
-	mode = models.IntegerField()
+	mode = models.ForeignKey(TaskPvp)
 	lat1 = models.CharField(max_length=50)
 	long1 = models.CharField(max_length=50)
 	lat2 = models.CharField(max_length=50)
