@@ -18,6 +18,7 @@ urlpatterns = patterns('',
         url(r'^account/', 'userprofile.views.account'),
 	url(r'^generate/', 'userprofile.views.generate'),
 	url(r'^maps/', 'userprofile.views.maps'),
+	url(r'^challenge/', 'userprofile.views.join_1v1'),
         url(r'^webservices/', include(webservices.urls)),
 ) +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

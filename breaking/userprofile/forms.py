@@ -44,3 +44,6 @@ class UserUpdateForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['first_name', 'last_name', 'email', 'latitude', 'longitude']
+
+class JoinPVPForm(forms.Form):
+	gameMode = forms.ModelChoiceField(queryset=TaskPvp.objects.all())
