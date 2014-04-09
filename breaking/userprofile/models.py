@@ -49,4 +49,3 @@ class GamePVP(models.Model): #model of game
 	available = models.BooleanField()
 	mode = models.ForeignKey(TaskPvp)
 	winner = models.IntegerField(default=0)
-	return self.takspvp.task_name
