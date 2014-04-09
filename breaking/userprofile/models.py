@@ -12,9 +12,9 @@ class UserProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-class Communicator(models.Model):
+class MessageBox(models.Model):
 	user_profile = models.ForeignKey(UserProfile, related_name ='user_profile_c')
-	user_addressee = models.ForeignKey(UserProfile, related_name ='user_addressee_c')
+	user_address = models.ForeignKey(UserProfile, related_name ='user_address_c')
 	description = models.TextField()
 
 class Category(models.Model):
@@ -23,7 +23,7 @@ class Category(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class TaskPvp(models.Model):
+class Subcategory(models.Model):
 	task_name = models.CharField(max_length=200,unique=True)
 	description = models.CharField(max_length=4000)
 	category = models.ForeignKey(Category)
@@ -32,20 +32,20 @@ class TaskPvp(models.Model):
 	def __unicode__(self):
 		return self.task_name
 
-class Checkpoint(models.Model):
-	takspvp = models.ForeignKey(GamePVP)
-	latitude = models.CharField(max_length=50)
-	longitude = models.CharField(max_length=50)
-
-class JoinPVP(models.Model): #queueing player for create game
+class Queue(models.Model): #queueing player for create game
 	player = models.ForeignKey(UserProfile)
-	mode = models.ForeignKey(TaskPvp)
+	mode = models.ForeignKey(Subcategory)
 
-class GamePVP(models.Model): #model of game
+class GameInstance(models.Model): #model of game
 	player1 = models.ForeignKey('UserProfile', related_name='player1')
 	player2 = models.ForeignKey('UserProfile', related_name='player2')
 	dateTime1 = models.DateTimeField()
 	dateTime2 = models.DateTimeField()
 	available = models.BooleanField()
-	mode = models.ForeignKey(TaskPvp)
+	mode = models.ForeignKey(Subcategory)
 	winner = models.IntegerField(default=0)
+
+class Checkpoint(models.Model):
+	game = models.ForeignKey(GameInstance)
+	latitude = models.CharField(max_length=50)
+	longitude = models.CharField(max_length=50)

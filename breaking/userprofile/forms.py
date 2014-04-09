@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User 
 from django.contrib.auth.forms import UserCreationForm
-from userprofile.models import UserProfile
+from userprofile.models import UserProfile, Subcategory
 import datetime
 
 class UserCreateForm(UserCreationForm):
@@ -37,9 +37,9 @@ class UserUpdateForm(forms.Form):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['first_name', 'last_name', 'email', 'latitude', 'longitude']
 
-class JoinPVPForm(forms.Form):
-	gameMode = forms.ModelChoiceField(queryset=TaskPvp.objects.all())
+class QueueForm(forms.Form):
+	gameMode = forms.ModelChoiceField(queryset=Subcategory.objects.all())
 
-class CommunicatorForm(forms.Form):
+class MessageForm(forms.Form):
 	description = forms.CharField(required=True, widget=forms.Textarea, label='wiadomosc',
 		error_messages={'required': 'Wpisz jakas wartosc!!'})

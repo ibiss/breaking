@@ -7,7 +7,7 @@ from userprofile.views import register_user
 from userprofile.views import account
 from userprofile.views import generate
 from userprofile.views import maps
-from userprofile.views import join_1v1
+from userprofile.views import joinQueue
 
 urlpatterns = patterns('',
         url(r'^$', home),
@@ -18,5 +18,5 @@ urlpatterns = patterns('',
         url(r'^generate/', generate),
         url(r'^account/', account),
         url(r'^maps/', maps),
-        url(r'^challenge/', join_1v1),
+        url(r'^challenge/', joinQueue),
 )

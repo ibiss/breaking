@@ -4,8 +4,8 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, UserUpdateForm, CommunicatorForm
-from userprofile.models import UserProfile, Communicator
+from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm
+from userprofile.models import UserProfile, MessageBox, Queue
 import random, math, datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -97,15 +97,14 @@ def maps(request):
     args['latitude'] = u.latitude
     args['longitude'] = u.longitude
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
-<<<<<<< HEAD
 
-def join_1v1(request):
+def joinQueue(request):
 	if request.method == 'POST':
-		form = JoinPVPForm(request.POST)
+		form = QueueForm(request.POST)
 		if form.is_valid():
 			usr=User.objects.get(username=request.user.username)
-			joinPVP = JoinPVP(player=UserProfile.objects.get(user=usr), mode=form.cleaned_data['gameMode'])
-			joinPVP.save()
+			queuePVP = Queue(player=UserProfile.objects.get(user=usr), mode=form.cleaned_data['gameMode'])
+			queuePVP.save()
 			# wybor zawodnika ###########################################
 #				if Join_1v1.objects.all() == null: #create new player, who has to wait for another player
 #					joinObject = Join_1v1(player=request.user)
@@ -121,59 +120,58 @@ def join_1v1(request):
 			##########################################################
 			return HttpResponseRedirect('/challenge/')
 	else:
-		form = JoinPVPForm()
+		form = QueueForm()
 	args = {}
 	args.update(csrf(request))
 	args['form'] = form
 	return render_to_response('challenge.html',args)
-=======
+
 @login_required(login_url='/')
-def communicator_view(request):
+def messagebox_view(request):
     coms = User.objects.all
-    t = loader.get_template("communicator.html")
+    t = loader.get_template("messagebox.html")
     c = Context({'coms':coms})
     return HttpResponse(t.render(c))
+
 @login_required(login_url='/')
-def communicator_view_id(request,userid):
+def message_view(request,userid):
         if request.method == 'POST':
             print 'if'
-            form = CommunicatorForm(request.POST)
+            form = MessageForm(request.POST)
 	    if form.is_valid():
 		cd = form.cleaned_data
-		coms = Communicator(description=cd['description'],
+		coms = MessageBox(description=cd['description'],
                                     user_profile=UserProfile.objects.get(user=User.objects.get(username=request.user.username))
-                                    ,user_addressee=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
+                                    ,user_address=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
 		coms.save()
 		coms = User.objects.all
-		form = CommunicatorForm(request.POST)
+		form = MessageForm(request.POST)
 		try:
-                    msg = Communicator.objects.filter(user_profile=User.objects.get(username=request.user.username),user_addressee=userid)
-                except Communicator.DoesNotExist:
+                    msg = MessageBox.objects.filter(user_profile=User.objects.get(username=request.user.username),user_address=userid)
+                except MessageBox.DoesNotExist:
                     print'safsa';
                 try:
-                    msg2 = Communicator.objects.filter(user_profile=userid,user_addressee=User.objects.get(username=request.user.username))
-                except Communicator.DoesNotExist:
+                    msg2 = MessageBox.objects.filter(user_profile=userid,user_address=User.objects.get(username=request.user.username))
+                except MessageBox.DoesNotExist:
                     print'safsa';
 		c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form}) 
-                return render_to_response('communicator.html', c,
+                return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
         else:
             print 'else'
             coms = User.objects.all
             try:
-                msg = Communicator.objects.filter(user_profile=User.objects.get(username=request.user.username),user_addressee=userid)
-            except Communicator.DoesNotExist:
+                msg = MessageBox.objects.filter(user_profile=User.objects.get(username=request.user.username),user_address=userid)
+            except MessageBox.DoesNotExist:
                 print'safsa';
             try:
-                msg2 = Communicator.objects.filter(user_profile=userid,user_addressee=User.objects.get(username=request.user.username))
-            except Communicator.DoesNotExist:
+                msg2 = MessageBox.objects.filter(user_profile=userid,user_address=User.objects.get(username=request.user.username))
+            except MessageBox.DoesNotExist:
                 print'safsa';
-            form = CommunicatorForm(request.POST)
+            form = MessageForm(request.POST)
             d = {}
             d.update(csrf(request))
-            t = loader.get_template("communicator.html")
+            t = loader.get_template("messagebox.html")
             c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form})  
-	    return render_to_response('communicator.html', c,
+	    return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
-
->>>>>>> master
