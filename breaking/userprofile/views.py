@@ -4,13 +4,14 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, FromTo, UserUpdateForm
-from userprofile.models import Task, Mission, UserProfile, Item
+from userprofile.forms import UserCreateForm, UserUpdateForm, CommunicatorForm
+from userprofile.models import UserProfile, Communicator
 import random, math, datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import math
 from django.conf import settings
+from django.template import loader, Context
 
 def home(request):
     c = {}
@@ -32,9 +33,7 @@ def auth_view(request):
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
     user_profile = UserProfile.objects.get(user=user)
-    equipment = user_profile.equipment.all()
-    base_objects = user_profile.base_objects.all()
-    return render_to_response('user_panel.html',{'equimpent':equipment, 'base_object':base_objects,'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
+    return render_to_response('user_panel.html',{'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
 
 
 def invalid_login(request):
@@ -51,7 +50,7 @@ def register_user(request):
     args = {}
     args.update(csrf(request))
     args['form'] = form
-    return render_to_response('register.html', args)
+    return render_to_response('register.html',args)
 
 @login_required(login_url='/')
 def account(request):
@@ -67,7 +66,6 @@ def account(request):
             u.longitude = form.cleaned_data['longitude']
             user.save()
             u.save()
-            Task.objects.filter(user_profile=u).delete()
             return HttpResponseRedirect('/account')
         else:
             return HttpResponseRedirect('/account')
@@ -86,47 +84,6 @@ def account(request):
        
 @login_required(login_url='/')
 def generate(request):
-    if request.method == "POST":
-        form = FromTo(request.POST)
-        if form.is_valid():
-            rfrom = form.cleaned_data['rfrom']
-            rto = form.cleaned_data['rto']
-            if rfrom < 1 or rto <= rfrom:
-                return HttpResponseRedirect('/maps/')
-        else:
-            return HttpResponseRedirect('/maps/')
-    else:
-        return HttpResponseRedirect('/maps/')
-    usr = User.objects.get(username=request.user.username)
-    u = UserProfile.objects.get(user=usr)
-    latitude = u.latitude
-    longitude = u.longitude
-    tasks = Task.objects.all()
-    size = len(tasks)
-    while(1):
-        radius = random.uniform(rfrom*0.001, rto*0.001)
-        angle = random.randint(0,360)
-        radians = math.radians(angle)
-        t_latitude = math.sin(radians)*radius
-        t_longitude = math.cos(radians)*radius
-        t_latitude = t_latitude + float(latitude) 
-        t_longitude = t_longitude + float(longitude)
-        close = math.fabs(t_longitude - float(longitude)) + math.fabs(t_latitude - float(latitude))
-        b_near = True
-        if(close > 0.0030):
-            for t in tasks:
-                near = math.fabs(t_longitude - float(t.longitude)) + math.fabs(t_latitude - float(t.latitude))
-                if(near < 0.0030):
-                    b_near = False
-                if(not size):
-                    return HttpResponseRedirect('/maps/')
-		size = size - 1
-            if(b_near):
-                break
-    missions = Mission.objects.all()
-    m = missions[random.randint(1,len(missions)) - 1]
-    task = Task(user_profile=u, mission=m, latitude=t_latitude,longitude=t_longitude,timestamp=datetime.datetime.now())
-    task.save()
     return HttpResponseRedirect('/maps/')
 
 @login_required(login_url='/')
@@ -137,14 +94,86 @@ def maps(request):
     u = UserProfile.objects.get(user=user)
     latitude = u.latitude
     longitude = u.longitude
-    tasks = Task.objects.filter(user_profile_id=u.user_id)
-    if len(tasks) > 6:#limit zadan
-        six = True#osiagnieto
-    else:
-        six = False#mozna wyswietlac generuj
     args['latitude'] = u.latitude
     args['longitude'] = u.longitude
-    args['tasks'] = tasks
-    args['form'] = FromTo()
-    args['six'] = six
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
+<<<<<<< HEAD
+
+def join_1v1(request):
+	if request.method == 'POST':
+		form = JoinPVPForm(request.POST)
+		if form.is_valid():
+			usr=User.objects.get(username=request.user.username)
+			joinPVP = JoinPVP(player=UserProfile.objects.get(user=usr), mode=form.cleaned_data['gameMode'])
+			joinPVP.save()
+			# wybor zawodnika ###########################################
+#				if Join_1v1.objects.all() == null: #create new player, who has to wait for another player
+#					joinObject = Join_1v1(player=request.user)
+#					joinObject.save()
+#					#return czekam na zawodnika
+#				else: #get player for queue and create game with new player
+#					play1 = Join_1v1.objects.all()
+#					play2 = request.user
+#					game = Game_1v1(player1=play1, player=play2, available=False)
+#					game.save()
+#					Join_1v1.objects.all().delete()
+				#return zawodnik znaleziony, wybierz date i godzine
+			##########################################################
+			return HttpResponseRedirect('/challenge/')
+	else:
+		form = JoinPVPForm()
+	args = {}
+	args.update(csrf(request))
+	args['form'] = form
+	return render_to_response('challenge.html',args)
+=======
+@login_required(login_url='/')
+def communicator_view(request):
+    coms = User.objects.all
+    t = loader.get_template("communicator.html")
+    c = Context({'coms':coms})
+    return HttpResponse(t.render(c))
+@login_required(login_url='/')
+def communicator_view_id(request,userid):
+        if request.method == 'POST':
+            print 'if'
+            form = CommunicatorForm(request.POST)
+	    if form.is_valid():
+		cd = form.cleaned_data
+		coms = Communicator(description=cd['description'],
+                                    user_profile=UserProfile.objects.get(user=User.objects.get(username=request.user.username))
+                                    ,user_addressee=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
+		coms.save()
+		coms = User.objects.all
+		form = CommunicatorForm(request.POST)
+		try:
+                    msg = Communicator.objects.filter(user_profile=User.objects.get(username=request.user.username),user_addressee=userid)
+                except Communicator.DoesNotExist:
+                    print'safsa';
+                try:
+                    msg2 = Communicator.objects.filter(user_profile=userid,user_addressee=User.objects.get(username=request.user.username))
+                except Communicator.DoesNotExist:
+                    print'safsa';
+		c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form}) 
+                return render_to_response('communicator.html', c,
+			context_instance=RequestContext(request))
+        else:
+            print 'else'
+            coms = User.objects.all
+            try:
+                msg = Communicator.objects.filter(user_profile=User.objects.get(username=request.user.username),user_addressee=userid)
+            except Communicator.DoesNotExist:
+                print'safsa';
+            try:
+                msg2 = Communicator.objects.filter(user_profile=userid,user_addressee=User.objects.get(username=request.user.username))
+            except Communicator.DoesNotExist:
+                print'safsa';
+            form = CommunicatorForm(request.POST)
+            d = {}
+            d.update(csrf(request))
+            t = loader.get_template("communicator.html")
+            c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form})  
+	    return render_to_response('communicator.html', c,
+			context_instance=RequestContext(request))
+
+>>>>>>> master
