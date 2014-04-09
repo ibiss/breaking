@@ -20,5 +20,7 @@ urlpatterns = patterns('',
 	url(r'^maps/', 'userprofile.views.maps'),
 	url(r'^challenge/', 'userprofile.views.join_1v1'),
         url(r'^webservices/', include(webservices.urls)),
+        url(r'^communicator/(?P<userid>\d+)$', 'userprofile.views.communicator_view_id'),
+        url(r'^communicator/', 'userprofile.views.communicator_view'),
 ) +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
