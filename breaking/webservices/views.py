@@ -10,3 +10,11 @@ class LoginUser(generics.ListAPIView):
         user_name = self.kwargs['username']
         queryset = User.objects.filter(username=user_name)
         return queryset
+
+class GameInstanceViev(generics.ListAPIView):
+    serializer_class = GameInstanceSer
+    permission_classes = (permissions.IsAuthenticated,)
+    def get_queryset(self):
+        user_name = self.kwargs['player1']
+        queryset = GameInstance.objects.filter(player1=user_name)
+        return queryset
