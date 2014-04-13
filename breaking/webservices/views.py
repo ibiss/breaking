@@ -16,5 +16,5 @@ class GameInstanceViev(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         user_name = self.kwargs['player1']
-        queryset = GameInstance.objects.filter(player1=user_name)
+        queryset = GameInstance.objects.filter(player1=user_name)|GameInstance.objects.filter(player2=user_name)
         return queryset
