@@ -5,13 +5,15 @@ from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
 from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm
-from userprofile.models import UserProfile, MessageBox, Queue
+from userprofile.models import UserProfile, MessageBox, Queue, GameInstance, Subcategory
 import random, math, datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import math
 from django.conf import settings
 from django.template import loader, Context
+from django.db.models import Q
+import datetime
 
 def home(request):
     c = {}
@@ -99,32 +101,36 @@ def maps(request):
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
 def joinQueue(request):
-	if request.method == 'POST':
-		form = QueueForm(request.POST)
-		if form.is_valid():
-			usr=User.objects.get(username=request.user.username)
-			queuePVP = Queue(player=UserProfile.objects.get(user=usr), mode=form.cleaned_data['gameMode'])
-			queuePVP.save()
-			# wybor zawodnika ###########################################
-#				if Join_1v1.objects.all() == null: #create new player, who has to wait for another player
-#					joinObject = Join_1v1(player=request.user)
-#					joinObject.save()
-#					#return czekam na zawodnika
-#				else: #get player for queue and create game with new player
-#					play1 = Join_1v1.objects.all()
-#					play2 = request.user
-#					game = Game_1v1(player1=play1, player=play2, available=False)
-#					game.save()
-#					Join_1v1.objects.all().delete()
-				#return zawodnik znaleziony, wybierz date i godzine
-			##########################################################
-			return HttpResponseRedirect('/challenge/')
-	else:
-		form = QueueForm()
-	args = {}
-	args.update(csrf(request))
-	args['form'] = form
-	return render_to_response('challenge.html',args)
+    usr=User.objects.get(username=request.user.username)
+    usrProfile=UserProfile.objects.get(user=usr)
+    if request.method == 'POST':
+        form = QueueForm(request.POST)
+        if form.is_valid():
+            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])[0]
+            print result
+            if result:
+                gInstance = GameInstance(
+                    player1=result.player,
+                    player2=usrProfile,
+                    dateTime1=datetime.datetime.now(),
+                    dateTime2=datetime.datetime.now(),
+                    available=True,
+                    mode=result.mode)
+                gInstance.save()
+            else:
+			    queuePVP = Queue(player=usrProfile, mode=form.cleaned_data['gameMode'])
+			    queuePVP.save()
+            return HttpResponseRedirect('/challenge/')
+    else:
+        form = QueueForm()
+    waitingGame = Queue.objects.filter(player=usrProfile)
+    gameInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    args = {}
+    args.update(csrf(request))
+    args['form'] = form
+    args['waitingGame'] = waitingGame
+    args['gameInProgress'] = gameInProgress
+    return render_to_response('challenge.html',args)
 
 @login_required(login_url='/')
 def messagebox_view(request):

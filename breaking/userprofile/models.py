@@ -37,8 +37,8 @@ class Queue(models.Model): #queueing player for create game
 	mode = models.ForeignKey(Subcategory)
 
 class GameInstance(models.Model): #model of game
-	player1 = models.ForeignKey('UserProfile', related_name='player1')
-	player2 = models.ForeignKey('UserProfile', related_name='player2')
+	player1 = models.ForeignKey(UserProfile, related_name='player1')
+	player2 = models.ForeignKey(UserProfile, related_name='player2')
 	dateTime1 = models.DateTimeField()
 	dateTime2 = models.DateTimeField()
 	available = models.BooleanField()
