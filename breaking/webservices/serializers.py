@@ -8,13 +8,11 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ('id',)
         permission_classes = (permissions.IsAuthenticated,)
+        
 
-class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = UserProfile
-        user = UserSerializer()
-        fields = ('user',)
-        permission_classes = (permissions.IsAuthenticated,)
+class UserProfileSerializer(serializers.RelatedField):
+    def to_native(self, value):
+        return value.user.id
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -33,6 +31,10 @@ class GameInstanceSer(serializers.HyperlinkedModelSerializer):
 	,'mode','winner')
         permission_classes = (permissions.IsAuthenticated,)  
 
-
+class CheckpointsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Checkpoint
+        fields = ('id','latitude','longitude')
+        permission_classes = (permissions.IsAuthenticated,) 
 
 
