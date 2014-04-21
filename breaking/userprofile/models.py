@@ -47,5 +47,7 @@ class GameInstance(models.Model): #model of game
 
 class Checkpoint(models.Model):
 	game = models.ForeignKey(GameInstance)
-	latitude = models.CharField(max_length=50)
-	longitude = models.CharField(max_length=50)
+	latitudeP1 = models.CharField(max_length=50)
+	longitudeP1 = models.CharField(max_length=50)
+	latitudeP2 = models.CharField(max_length=50)
+	longitudeP2 = models.CharField(max_length=50)

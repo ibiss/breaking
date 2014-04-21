@@ -5,15 +5,16 @@ from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
 from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm
-from userprofile.models import UserProfile, MessageBox, Queue, GameInstance, Subcategory
+from userprofile.models import UserProfile, MessageBox, Queue, GameInstance, Subcategory, Checkpoint
 import random, math, datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-import math
+#import math
 from django.conf import settings
 from django.template import loader, Context
 from django.db.models import Q
 import datetime
+from funcCoord import generateCheckpoint
 
 def home(request):
     c = {}
@@ -83,7 +84,7 @@ def account(request):
     args['latitude'] = latitude
     args['longitude'] = longitude
     return render_to_response('account.html', args)
-       
+
 @login_required(login_url='/')
 def generate(request):
     return HttpResponseRedirect('/maps/')
@@ -106,8 +107,8 @@ def joinQueue(request):
     if request.method == 'POST':
         form = QueueForm(request.POST)
         if form.is_valid():
-            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])[0]
-            print result
+            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
+            result = result[0]
             if result:
                 gInstance = GameInstance(
                     player1=result.player,
@@ -117,6 +118,9 @@ def joinQueue(request):
                     available=True,
                     mode=result.mode)
                 gInstance.save()
+                checkpoint = generateCheckpoint(result.player, usrProfile, gInstance)
+                checkpoint.save()
+                result.delete()
             else:
 			    queuePVP = Queue(player=usrProfile, mode=form.cleaned_data['gameMode'])
 			    queuePVP.save()
@@ -181,3 +185,4 @@ def message_view(request,userid):
             c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form})  
 	    return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
+
