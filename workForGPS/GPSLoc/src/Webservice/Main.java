@@ -1,20 +1,12 @@
 package Webservice;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class Main {
 
@@ -32,7 +24,7 @@ public class Main {
 				while(true){
 					
 				
-				String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
+				/*String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
 				URL url = null;
 				try {
 					url = new URL(webPage);
@@ -71,8 +63,9 @@ public class Main {
 					returnInt = -1;
 					break;
 					
-				}
-
+				}*/
+					
+				String json =  "{\"count\": 1, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1}]}";
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
 
@@ -102,23 +95,23 @@ public class Main {
 
 		return returnInt;
 	}
-
-	public List<Mission> getMission(final int id, final String name,
+	
+	public List<GameInstance> getGames(final int id, final String name,
 			final String password) throws JsonParseException,
 			JsonMappingException, Exception {
-		final List<Mission> missions = new ArrayList<Mission>();
+		final List<GameInstance> gamesInstance = new ArrayList<GameInstance>();
 		returnInt = 0;
 
 		new Thread(new Runnable() {
 			public void run() {
 				while(true)
 				{
-				System.out.println(id + name + password);
+				/*System.out.println(id + name + password);
 				
 				// String webPage =
 				// "http://projectbreaking.herokuapp.com/webservices/login/" +
 				// name + "/?format=json";
-				String webPage = "http://projectbreaking.herokuapp.com/webservices/mission/"
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/gameinstance/"
 						+ id + "/?format=json";
 				URL url = null;
 				try {
@@ -161,15 +154,18 @@ public class Main {
 				}
 				
 				System.out.println(json.length());
-				System.out.println(json);
-
+				System.out.println(json);*/
+				String json = "{\"count\": 2, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1, \"player1\": \"kuba\", \"player2\": \"suchar\",  \"available\": true}, {\"id\": 2, \"player1\": \"kuba\", \"player2\": \"suchar\", \"available\": false}]}";
+				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
-				Mission miss = new Mission();
+				GameInstance game = new GameInstance();
+				
+				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
 
 				while (newjson.indexOf("}") + 2 <= newjson.length()) {
 					try {
-						miss = (Mission) converter.fromJsonM(newjson);
+						game = (GameInstance) converter.fromJsonG(newjson);
 					} catch (JsonParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -183,7 +179,7 @@ public class Main {
 						e.printStackTrace();
 						break;
 					}
-					missions.add(miss);
+					gamesInstance.add(game);
 					newjson = newjson.substring(newjson.indexOf("}") + 2,
 							newjson.length());
 				}
@@ -197,7 +193,108 @@ public class Main {
 		while (returnInt == 0) {
 		}
 
-		return missions;
+		return gamesInstance;
+
+	}
+	
+	public ArrayList<CheckPoint> getCheckPoints(final int id, final String name,
+			final String password) throws JsonParseException,
+			JsonMappingException, Exception {
+		final ArrayList<CheckPoint> chekcPoints = new ArrayList<CheckPoint>();
+		returnInt = 0;
+
+		new Thread(new Runnable() {
+			public void run() {
+				while(true)
+				{
+				/*System.out.println(id + name + password);
+				
+				// String webPage =
+				// "http://projectbreaking.herokuapp.com/webservices/login/" +
+				// name + "/?format=json";
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/checkpoints/"
+						+ id + "/?format=json";
+				URL url = null;
+				try {
+					url = new URL(webPage);
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					break;
+				}
+				URLConnection urlConnection = null;
+				try {
+					urlConnection = url.openConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					break;
+				}
+				String val = (new StringBuffer(name).append(":")
+						.append(password)).toString();
+				byte[] base = val.getBytes();
+				String authorizationString = "Basic "
+						+ new String(new Base64().encode(base));
+				urlConnection.setRequestProperty("Authorization",
+						authorizationString);
+				String json = "";
+				try {
+					InputStream is = urlConnection.getInputStream();
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader reader = new BufferedReader(isr);
+					String str;
+					while ((str = reader.readLine()) != null) {
+						json += str;
+						System.out.println(str);
+
+					}
+				} catch (Exception e) {
+					returnInt = 1;
+					System.out.println("nieporpawne dane");
+					break;
+				}*/
+				
+				//System.out.println(json.length());
+				//System.out.println(json);
+				String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitude\": \"51.032004176177544\", \"longitude\": \"19.91194725036621\"}, {\"id\": 2, \"latitude\": \"52.032004176177544\", \"longitude\": \"19.912161827087402\"}, {\"id\": 1, \"latitude\": \"53.031838773389026\", \"longitude\": \"19.911915063858032\"}]}";
+				
+				String newjson = json.substring(1, json.length());
+				Main converter = new Main();
+				CheckPoint check = new CheckPoint();
+				
+				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
+
+				while (newjson.indexOf("}") + 2 <= newjson.length()) {
+					try {
+						check = (CheckPoint) converter.fromJsonC(newjson);
+					} catch (JsonParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					} catch (JsonMappingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					}
+					chekcPoints.add(check);
+					newjson = newjson.substring(newjson.indexOf("}") + 2,
+							newjson.length());
+				}
+
+				returnInt = 1;
+				break;
+				}
+			}
+		}).start();
+
+		while (returnInt == 0) {
+		}
+
+		return chekcPoints;
 
 	}
 
@@ -208,10 +305,25 @@ public class Main {
 		return garima;
 	}
 
-	public Object fromJsonM(String json) throws JsonParseException,
+	/*public Object fromJsonM(String json) throws JsonParseException,
 			JsonMappingException, IOException {
 		Mission garima = new ObjectMapper().readValue(json, Mission.class);
 
 		return garima;
+	}*/
+	
+	public Object fromJsonG(String json) throws JsonParseException,
+			JsonMappingException, IOException {
+		GameInstance garima = new ObjectMapper().readValue(json, GameInstance.class);
+
+		return garima;
 	}
+	
+	public Object fromJsonC(String json) throws JsonParseException,
+	JsonMappingException, IOException {
+		CheckPoint garima = new ObjectMapper().readValue(json, CheckPoint.class);
+
+		return garima;
+	}
+	
 }
