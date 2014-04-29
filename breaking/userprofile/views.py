@@ -151,17 +151,17 @@ def message_view(request,userid):
 	    if form.is_valid():
 		cd = form.cleaned_data
 		coms = MessageBox(description=cd['description'],
-                                    user_profile=UserProfile.objects.get(user=User.objects.get(username=request.user.username))
-                                    ,user_address=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
+                                    fromUser=UserProfile.objects.get(user=User.objects.get(username=request.user.username))
+                                    ,toUser=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
 		coms.save()
 		coms = User.objects.all
 		form = MessageForm(request.POST)
 		try:
-                    msg = MessageBox.objects.filter(user_profile=User.objects.get(username=request.user.username),user_address=userid)
+                    msg = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
                 except MessageBox.DoesNotExist:
                     print'safsa';
                 try:
-                    msg2 = MessageBox.objects.filter(user_profile=userid,user_address=User.objects.get(username=request.user.username))
+                    msg2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
                 except MessageBox.DoesNotExist:
                     print'safsa';
 		c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form}) 
@@ -171,11 +171,11 @@ def message_view(request,userid):
             print 'else'
             coms = User.objects.all
             try:
-                msg = MessageBox.objects.filter(user_profile=User.objects.get(username=request.user.username),user_address=userid)
+                msg = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
             except MessageBox.DoesNotExist:
                 print'safsa';
             try:
-                msg2 = MessageBox.objects.filter(user_profile=userid,user_address=User.objects.get(username=request.user.username))
+                msg2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
             except MessageBox.DoesNotExist:
                 print'safsa';
             form = MessageForm(request.POST)

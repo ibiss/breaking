@@ -15,8 +15,9 @@ class UserProfile(models.Model):
 
 class MessageBox(models.Model):
 	id = models.AutoField(primary_key=True)
-	user_profile = models.ForeignKey(UserProfile, related_name ='user_profile_c')
-	user_address = models.ForeignKey(UserProfile, related_name ='user_address_c')
+	fromUser = models.ForeignKey(UserProfile, related_name ='fromUser')
+	toUser = models.ForeignKey(UserProfile, related_name ='toUser')
+	title = models.CharField(max_length=500)
 	description = models.TextField()
 
 class Category(models.Model):
