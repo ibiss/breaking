@@ -36,7 +36,7 @@ body {
 
 #content {
     width: 960px;
-    margin: 0 auto;
+    margin: 10px auto;
 
 }
 
@@ -119,6 +119,7 @@ header {
 
 .header_bottom .user_navigation li i {
     float: left;
+    margin-right: 6px;
 }
 
 .header_bottom .user_navigation li {
@@ -256,6 +257,7 @@ footer {
     width: 960px;
     margin: 0 auto;
     padding: 6px 0px;
+    overflow: hidden;
 }
 
 .footer .left li {
@@ -512,6 +514,11 @@ footer {
 }
 
 /**
-  * ACCOUNT
+  * MESSAGEBOX
   */
 
+
+
+/**
+  * END MESSAGEBOX
+  */

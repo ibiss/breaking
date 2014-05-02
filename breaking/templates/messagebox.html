@@ -3,10 +3,8 @@
 
 {% block content %}
 
-	{% for com in coms %}
-<h2><a href="./{{ com.id }}">{{ com.username }}</a></h2>
-
-
+{% for com in coms %}
+	<h2><a href="./{{ com.id }}">{{ com.username }}</a></h2>
 {% endfor %}
 
 <p>PISZESZ Z {{ username }}</p>
