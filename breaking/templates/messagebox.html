@@ -3,29 +3,37 @@
 
 {% block content %}
 
-{% for com in coms %}
-	<h2><a href="./{{ com.id }}">{{ com.username }}</a></h2>
-{% endfor %}
+	<div class="messagebox">
 
-<p>PISZESZ Z {{ username }}</p>
-<p>WYSLANE    :    </p>
-	{% for ms in msg %}
-<h2><a href="./{{ ms.user_profile }}">{{ ms.description }}</a></h2>
+		<div class="contact_list">
+			<p>Lista kontaktów:</p>
+			<ul>
+				{% for contact in contacts %}
+					<li><a href="./{{ contact.id }}">{{ contact.username }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		
+		<p>PISZESZ Z {{ username }}</p>
 
+		<p>WYSLANE:</p>
+		{% for ms in msg %}
+			<h2><a href="./{{ ms.user_profile }}">{{ ms.description }}</a></h2>
+		{% endfor %}
 
-{% endfor %}
-<p>ODEBRANE    :    </p>
-	{% for ms2 in msg2 %}
-<h2><a href="./{{ ms2.user_profile }}">{{ ms2.description }}</a></h2>
+		<p>ODEBRANE:</p>
+		{% for ms2 in msg2 %}
+			<h2><a href="./{{ ms2.user_profile }}">{{ ms2.description }}</a></h2>
+		{% endfor %}
 
+		<form action="" method="post">
+		{% csrf_token %} {#cross site request forgery protection#}
+		<table>
+		{{ form }}
+		</table>
+		<input type="submit" value="Submit">
+		</form>
 
-{% endfor %}
-<form action="" method="post">
-{% csrf_token %} {#cross site request forgery protection#}
-<table>
-{{ form }}
-</table>
-<input type="submit" value="Submit">
-</form>
+	</div>
 
 {% endblock %}

@@ -138,9 +138,9 @@ def joinQueue(request):
 
 @login_required(login_url='/')
 def messagebox_view(request):
-    coms = User.objects.all
+    contacts = User.objects.all
     t = loader.get_template("messagebox.html")
-    c = Context({'coms':coms})
+    c = Context({'contacts':contacts})
     return HttpResponse(t.render(c))
 
 @login_required(login_url='/')
@@ -150,11 +150,11 @@ def message_view(request,userid):
             form = MessageForm(request.POST)
 	    if form.is_valid():
 		cd = form.cleaned_data
-		coms = MessageBox(description=cd['description'],
+		contacts = MessageBox(description=cd['description'],
                                     fromUser=UserProfile.objects.get(user=User.objects.get(username=request.user.username))
                                     ,toUser=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
-		coms.save()
-		coms = User.objects.all
+		contacts.save()
+		contacts = User.objects.all
 		form = MessageForm(request.POST)
 		try:
                     msg = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
@@ -164,12 +164,12 @@ def message_view(request,userid):
                     msg2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
                 except MessageBox.DoesNotExist:
                     print'safsa';
-		c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form}) 
+		c = Context({'contacts':contacts,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form}) 
                 return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
         else:
             print 'else'
-            coms = User.objects.all
+            contacts = User.objects.all
             try:
                 msg = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
             except MessageBox.DoesNotExist:
@@ -182,7 +182,7 @@ def message_view(request,userid):
             d = {}
             d.update(csrf(request))
             t = loader.get_template("messagebox.html")
-            c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form})  
+            c = Context({'contacts':contacts,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form})  
 	    return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
 
