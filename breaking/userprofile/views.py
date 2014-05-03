@@ -101,6 +101,7 @@ def maps(request):
     args['longitude'] = u.longitude
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
+@login_required(login_url='/')
 def joinQueue(request):
     usr=User.objects.get(username=request.user.username)
     usrProfile=UserProfile.objects.get(user=usr)
