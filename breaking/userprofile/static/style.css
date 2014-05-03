@@ -36,7 +36,7 @@ body {
 
 #content {
     width: 960px;
-    margin: 10px auto;
+    margin: 20px auto;
 
 }
 
@@ -514,11 +514,44 @@ footer {
 }
 
 /**
-  * MESSAGEBOX
+  * CHALLENGE
   */
 
+.challenge_content {
+}
+.challenge_content .joinPvpForm {
+    margin: 0 0 10px 0;
+}
+.challenge_content .joinPvpForm label {
+    padding-right: 15px;
+}
+.challenge_content .joinPvpForm #id_gameMode {
+    width: 150px;
+    padding: 4px;
+}
+.challenge_content .joinPvpForm input[type="submit"] {
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+}
+
+.challenge_content .wait_for,
+.challenge_content .your_challenge {
+    overflow: hidden;
+    margin: 20px 0;
+    }
+
+.challenge_content .wait_for p,
+.challenge_content .your_challenge p {
+    font-size: 20px;
+}
+
+.challenge_content .wait_for li,
+.challenge_content .your_challenge li {
+    font-size: 16px;
+}
 
 
 /**
-  * END MESSAGEBOX
+  * END CHALLENGE
   */

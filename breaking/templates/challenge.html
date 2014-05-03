@@ -7,8 +7,8 @@
 
   	<form class="joinPvpForm" action='/challenge/' method="post">
     {% csrf_token %}
-      {{ form.gameMode.label }}{{ form.gameMode }}
-    	<input type="submit" value="Join" />
+      <label for="id_gameMode">{{ form.gameMode.label }}</label>{{ form.gameMode }}
+    	<input type="submit" value="Dołącz do rozgrywki" />
   	</form>
     
     <div class="wait_for">
