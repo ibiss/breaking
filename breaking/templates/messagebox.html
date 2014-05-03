@@ -17,12 +17,12 @@
 		<p>PISZESZ Z {{ username }}</p>
 
 		<p>WYSLANE:</p>
-		{% for ms in msg %}
+		{% for message in messages %}
 			<h2><a href="./{{ ms.user_profile }}">{{ ms.description }}</a></h2>
 		{% endfor %}
 
 		<p>ODEBRANE:</p>
-		{% for ms2 in msg2 %}
+		{% for message in messages2 %}
 			<h2><a href="./{{ ms2.user_profile }}">{{ ms2.description }}</a></h2>
 		{% endfor %}
 

@@ -517,18 +517,20 @@ footer {
   * CHALLENGE
   */
 
-.challenge_content {
-}
 .challenge_content .joinPvpForm {
     margin: 0 0 10px 0;
 }
+
 .challenge_content .joinPvpForm label {
     padding-right: 15px;
 }
+
 .challenge_content .joinPvpForm #id_gameMode {
     width: 150px;
     padding: 4px;
+    text-align: center;
 }
+
 .challenge_content .joinPvpForm input[type="submit"] {
     padding: 4px;
     font-size: 13px;
@@ -551,7 +553,16 @@ footer {
     font-size: 16px;
 }
 
-
 /**
   * END CHALLENGE
+  */
+
+/**
+  * MESSSAGEBOX
+  */
+
+
+
+/**
+  * END MESSSAGEBOX
   */
