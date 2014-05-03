@@ -3,22 +3,26 @@
     
 {% block content %}
 
-	<form class="joinPvpForm" enctype="multipart/form-data" action='/challenge/' method="post">
-  {% csrf_token %}
-    <table>
-      <tr>
-    	  <td><label class="label">Tryb gry:</label></td><td>{{ form.gameMode }}</td> 
-      </tr>
-    </table>
-  	<input type="submit" value="Join" />
-	</form>
-  
-  <div id="Wait">
-	Czekasz na rozgrywki:
-  </div>
+  <div class="challenge_content">
 
-  <div id="Other">
-	Twoje rozgrywki:
+  	<form class="joinPvpForm" action='/challenge/' method="post">
+    {% csrf_token %}
+      <table>
+        <tr>
+      	  <td>{{ form.gameMode.label }}</td><td>{{ form.gameMode }}</td>
+        </tr>
+      </table>
+    	<input type="submit" value="Join" />
+  	</form>
+    
+    <div id="Wait">
+  	Czekasz na rozgrywki:
+    </div>
+
+    <div id="Other">
+  	Twoje rozgrywki:
+    </div>
+
   </div>
 
 {% endblock %}
