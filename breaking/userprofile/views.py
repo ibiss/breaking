@@ -127,13 +127,13 @@ def joinQueue(request):
             return HttpResponseRedirect('/challenge/')
     else:
         form = QueueForm()
-    waitingGame = Queue.objects.filter(player=usrProfile)
-    gameInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    waitingGames = Queue.objects.filter(player=usrProfile)
+    gamesInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
     args = {}
     args.update(csrf(request))
     args['form'] = form
-    args['waitingGame'] = waitingGame
-    args['gameInProgress'] = gameInProgress
+    args['waitingGames'] = waitingGames
+    args['gamesInProgress'] = gamesInProgress
     return render_to_response('challenge.html',args)
 
 @login_required(login_url='/')

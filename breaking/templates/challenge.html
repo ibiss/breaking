@@ -7,20 +7,26 @@
 
   	<form class="joinPvpForm" action='/challenge/' method="post">
     {% csrf_token %}
-      <table>
-        <tr>
-      	  <td>{{ form.gameMode.label }}</td><td>{{ form.gameMode }}</td>
-        </tr>
-      </table>
+      {{ form.gameMode.label }}{{ form.gameMode }}
     	<input type="submit" value="Join" />
   	</form>
     
-    <div id="Wait">
-  	Czekasz na rozgrywki:
+    <div class="wait_for">
+  	  <p>Czekasz na rozgrywki:</p>
+      <ul>
+        {% for game in waitingGames %}
+          <li>{{ game.mode.taskName }}</li>
+        {% endfor %}
+      </ul>
     </div>
 
-    <div id="Other">
-  	Twoje rozgrywki:
+    <div class="your_challenge">
+  	  <p>Twoje rozgrywki:</p>
+      <ul>
+        {% for game in gamesInProgress %}
+          <li>{{ game.mode.taskName }}</li>
+        {% endfor %}
+      </ul>
     </div>
 
   </div>
