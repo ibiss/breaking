@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class UserProfile(models.Model):
-	id = models.AutoField(primary_key=True)
+	# id = models.AutoField(primary_key=True)
 	user = models.OneToOneField(User, primary_key=True, unique=True)
 	points = models.IntegerField()
 	rank_points = models.IntegerField()
