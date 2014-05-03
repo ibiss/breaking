@@ -135,6 +135,7 @@ def joinQueue(request):
     args['form'] = form
     args['waitingGames'] = waitingGames
     args['gamesInProgress'] = gamesInProgress
+    print UserProfile.objects.get(pk=1).user.username
     return render_to_response('challenge.html',args)
 
 @login_required(login_url='/')
@@ -183,7 +184,11 @@ def message_view(request,userid):
             d = {}
             d.update(csrf(request))
             t = loader.get_template("messagebox.html")
-            c = Context({'contacts':contacts,'messages':messages,'messages2':messages2,'username':User.objects.get(id=userid).username,'form':form})  
+            c = Context({'contacts':contacts,
+                'messages':     messages,
+                'messages2':    messages2,
+                'userTarget':   User.objects.get(id=userid).username,
+                'form':         form
+                })  
 	    return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
-

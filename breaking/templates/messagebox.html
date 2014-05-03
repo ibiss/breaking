@@ -3,36 +3,50 @@
 
 {% block content %}
 
-	<div class="messagebox">
+	<div class="messagebox_content">
 
 		<div class="contact_list">
-			<p>Lista kontaktów:</p>
+			<p class="subtitle">Lista kontaktów:</p>
 			<ul>
 				{% for contact in contacts %}
 					<li><a href="./{{ contact.id }}">{{ contact.username }}</a></li>
 				{% endfor %}
 			</ul>
 		</div>
-		
-		<p>PISZESZ Z {{ username }}</p>
 
-		<p>WYSLANE:</p>
-		{% for message in messages %}
-			<h2><a href="./{{ ms.user_profile }}">{{ ms.description }}</a></h2>
-		{% endfor %}
+		{% if userTarget %}
+			<p class="subtitle">Piszesz z użytkownikiem: {{ userTarget }}</p>
+		{% endif %}
 
-		<p>ODEBRANE:</p>
-		{% for message in messages2 %}
-			<h2><a href="./{{ ms2.user_profile }}">{{ ms2.description }}</a></h2>
-		{% endfor %}
+		{% if messages %}
+			<p class="subtitle">Wiadomości wysłane:</p>
+			<ul>
+				{% for message in messages %}
+					<li><a href="./{{ message.user_profile }}">{{ message.description }}</a></li>
+				{% endfor %}
+			</ul>
+		{% endif %}
 
-		<form action="" method="post">
-		{% csrf_token %} {#cross site request forgery protection#}
-		<table>
-		{{ form }}
-		</table>
-		<input type="submit" value="Submit">
-		</form>
+		{% if messages2 %}
+			<p class="subtitle">Wiadomości odebrane:</p>
+			<ul>
+			{% for message in messages2 %}
+				<li><a href="./{{ message.user_profile }}">{{ message.description }}</a></li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+
+		{% if form %}
+			<form action="" method="post">
+				{% csrf_token %}
+				<table>
+					<tr>
+						<td>{{ form.description }}</td>
+					</tr>
+				</table>
+				<input type="submit" value="Submit">
+			</form>
+		{% endif %}
 
 	</div>
 
