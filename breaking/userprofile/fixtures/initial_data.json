@@ -5,7 +5,7 @@
         "fields": {
             "latitude": "50.083735",
             "points": 0,
-            "avatar": "..images/avatar.jpg",
+            "avatar": "fixtures/avatars/avatar.jpg",
             "longitude": "19.960241",
             "rank_points": 0
         }
@@ -16,7 +16,7 @@
         "fields": {
             "latitude": "50.059345",
             "points": 0,
-            "avatar": "..images/avatar.jpg",
+            "avatar": "fixtures/avatars/avatar.jpg",
             "longitude": "19.924678",
             "rank_points": 0
         }
@@ -27,7 +27,7 @@
         "fields": {
             "latitude": "50.066536",
             "points": 0,
-            "avatar": "..images/avatar.jpg",
+            "avatar": "fixtures/avatars/avatar.jpg",
             "longitude": "19.965447",
             "rank_points": 0
         }
@@ -38,7 +38,7 @@
         "fields": {
             "latitude": "50.083871",
             "points": 0,
-            "avatar": "..images/avatar.jpg",
+            "avatar": "fixtures/avatars/avatar.jpg",
             "longitude": "19.933347",
             "rank_points": 0
         }
