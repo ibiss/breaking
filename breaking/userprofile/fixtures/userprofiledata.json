@@ -1,0 +1,18 @@
+[
+  {
+    "model": "userprofile.userprofile",
+    "pk": 1,
+    "fields": {
+      "password": "1234",
+      "username": "user1",
+      "first_name": "User",
+      "last_name": "User",
+      "email": "user@user.pl",
+      "latitude": "0",
+      "points": 0,
+      "avatar": "../images/avatar.jpg",
+      "longitude": "0",
+      "rank_points": 0
+    }
+  }
+]

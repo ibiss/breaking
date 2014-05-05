@@ -1,0 +1,19 @@
+# - fields: {
+#     avatar: ..images/avatars/S6000658_1.JPG,
+#     latitude: '0',
+#     longitude: '0',
+#     points: 0,
+#     rank_points: 0
+#   }
+#   model: userprofile.userprofile
+#   pk: 1
+
+
+-model: auth.user
+  pk: 1
+  fields:
+    password: "1234"
+    username: "user1"
+    first_name: "User"
+    last_name: "User"
+    email: "user@user.pl"
