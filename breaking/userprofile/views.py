@@ -94,11 +94,14 @@ def maps(request):
     args = {}
     args.update(csrf(request))
     user = User.objects.get(username=request.user.username)
-    u = UserProfile.objects.get(user=user)
+    usrProfile = UserProfile.objects.get(user=user)
+    gInstance = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    checkpoints = Checkpoint.objects.filter(game=gInstance)
     latitude = u.latitude
     longitude = u.longitude
     args['latitude'] = u.latitude
     args['longitude'] = u.longitude
+    args['checkpoints'] = checkpoints
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
 def joinQueue(request):
@@ -114,7 +117,7 @@ def joinQueue(request):
                     player1=result.player,
                     player2=usrProfile,
                     dateTime1=datetime.datetime.now(),
-                    dateTime2=datetime.datetime.now(),
+                    dateTime2=offset+datetime.datetime.now(),
                     available=True,
                     mode=result.mode)
                 gInstance.save()
