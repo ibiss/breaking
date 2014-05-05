@@ -1,0 +1,4 @@
+#!/bin/bash
+
+manage.py loaddata usersdata.json
+manage.py loaddata initial_data.json
