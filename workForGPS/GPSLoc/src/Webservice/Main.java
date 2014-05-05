@@ -256,7 +256,7 @@ public class Main {
 				
 				//System.out.println(json.length());
 				//System.out.println(json);
-				String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitude\": \"51.032004176177544\", \"longitude\": \"19.91194725036621\"}, {\"id\": 2, \"latitude\": \"52.032004176177544\", \"longitude\": \"19.912161827087402\"}, {\"id\": 1, \"latitude\": \"53.031838773389026\", \"longitude\": \"19.911915063858032\"}]}";
+				String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitudeP1\": \"51.055558773389026\", \"longitudeP1\": \"19.91201162338257\", \"latitudeP2\": \"50.531838773389026\", \"longitudeP2\": \"20.91201162338257\"}, {\"id\": 2, \"latitudeP1\": \"52.031838773389026\", \"longitudeP1\": \"18.912016666666\", \"latitudeP2\": \"49.531838773389026\", \"longitudeP2\": \"20.9120133333357\"}]}";
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();

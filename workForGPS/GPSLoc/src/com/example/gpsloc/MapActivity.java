@@ -88,13 +88,29 @@ public class MapActivity extends FragmentActivity {
 				destinationMarkers.get(i).remove();
 			}*/
 			
-			destinationMarkers.add( 
-					map.addMarker(new MarkerOptions()
-					.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitude()), Double.valueOf(checkPoints.get(i).getLongitude()) ))
-					.title("Checkpoint "+(i+1))
-					.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
-					.snippet(""))
-		    );
+			if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
+			{
+				System.out.println("sdssssssssssssssssssssssssssssssssssss");
+				destinationMarkers.add( 
+						map.addMarker(new MarkerOptions()
+						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
+						.title("Checkpoint "+(i+1))
+						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+						.snippet(""))
+			    );
+			}
+			else
+			{
+				destinationMarkers.add( 
+						map.addMarker(new MarkerOptions()
+						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP2()), Double.valueOf(checkPoints.get(i).getLongitudeP2()) ))
+						.title("Checkpoint "+(i+1))
+						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+						.snippet(""))
+			    );
+			}
+			
+			
 			
 			completed.add(false);
 			
