@@ -1,1 +1,0 @@
-[{"pk": 1, "model": "userprofile.userprofile", "fields": {"latitude": "0", "points": 0, "avatar": "images/avatars/S6000658_1.JPG", "longitude": "0", "rank_points": 0}}, {"pk": 1, "model": "userprofile.messagebox", "fields": {"fromUser": 1, "toUser": 1, "description": "Cze\u015b\u0107, jak leci", "title": ""}}]
