@@ -1,4 +1,4 @@
 #!/bin/bash
 
-manage.py loaddata usersdata.json
-manage.py loaddata initial_data.json
+manage.py loaddata auth_data.json
+manage.py loaddata userprofile_data.json
