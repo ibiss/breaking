@@ -15,7 +15,7 @@ from django.template import loader, Context
 from django.db.models import Q
 import datetime
 from funcCoord import generateCheckpoint
-
+from functions import offsetTime
 def home(request):
     c = {}
     c.update(csrf(request))
@@ -110,22 +110,37 @@ def joinQueue(request):
     if request.method == 'POST':
         form = QueueForm(request.POST)
         if form.is_valid():
+            timeStart = form.cleaned_data['timeStart']
+            timeEnd = form.cleaned_data['timeEnd']
             result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
-            result = result[0]
+            player = False
             if result:
-                gInstance = GameInstance(
-                    player1=result.player,
-                    player2=usrProfile,
-                    dateTime1=datetime.datetime.now(),
-                    dateTime2=offset+datetime.datetime.now(),
-                    available=True,
-                    mode=result.mode)
-                gInstance.save()
-                checkpoint = generateCheckpoint(result.player, usrProfile, gInstance)
-                checkpoint.save()
-                result.delete()
+                for r in result:
+                    if r.timeEnd > timeStart or r.timeStart < timeEnd:
+                        player = r
+            if player:
+                if result.timeEnd > timeStart:
+                    whenGenerateCheckpoints = offsetTime(
+                        player.timeStart,
+                        player.timeEnd,
+                        timeStart,
+                        timeEnd)#moment w ktorym checkpointy powinny zostac udostępnione przez Webservice
+                    gInstance = GameInstance(
+                        player1=result.player,
+                        player2=usrProfile,
+                        dateTime1=datetime.datetime.now(),
+                        dateTime2=whenGenerateCheckpoints,
+                        available=True,
+                        mode=result.mode)
+                    gInstance.save()
+                    checkpoint = generateCheckpoint(result.player, usrProfile, gInstance)
+                    checkpoint.save()
+                    player.delete()
             else:
-			    queuePVP = Queue(player=usrProfile, mode=form.cleaned_data['gameMode'])
+			    queuePVP = Queue(player=usrProfile,
+                 mode=form.cleaned_data['gameMode'],
+                 timeStart=timeStart,
+                 timeEnd=timeEnd)
 			    queuePVP.save()
             return HttpResponseRedirect('/challenge/')
     else:

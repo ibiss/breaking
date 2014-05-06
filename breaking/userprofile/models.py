@@ -40,6 +40,8 @@ class Subcategory(models.Model):
 class Queue(models.Model): #queueing player for create game
 	player = models.ForeignKey(UserProfile)
 	mode = models.ForeignKey(Subcategory)
+	timeStart = models.IntegerField()
+	timeEnd = models.IntegerField()
 
 class GameInstance(models.Model): #model of game
 	id = models.AutoField(primary_key=True)
