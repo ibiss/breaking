@@ -35,7 +35,7 @@ class AcceptGameViev(generics.ListAPIView):
         
         if queryset[0].winner==0:
             a = GameInstance.objects.get(id=queryset[0].id)
-            a.winner = queryset[0].id
+            a.winner = user_id
             a.save()
             queryset = GameInstance.objects.filter(player1=user_id)|GameInstance.objects.filter(player2=user_id)        
             return queryset
