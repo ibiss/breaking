@@ -37,4 +37,4 @@ class CheckpointsSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id','latitudeP1','longitudeP1','latitudeP2','longitudeP2')
         permission_classes = (permissions.IsAuthenticated,) 
 
-
+#
