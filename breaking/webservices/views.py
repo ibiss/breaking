@@ -45,6 +45,6 @@ class AcceptGameViev(generics.ListAPIView):
             queryset = GameInstance.objects.filter(player1=user_id)|GameInstance.objects.filter(player2=user_id)        
             return queryset
         else:
-            return queryset
+            return queryset 
             
         
