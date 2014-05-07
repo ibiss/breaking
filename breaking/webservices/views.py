@@ -25,3 +25,21 @@ class CheckpointsViev(generics.ListAPIView):
         gid = self.kwargs['gid']
         queryset = Checkpoint.objects.filter(game=gid)
         return queryset
+    
+class AcceptGameViev(generics.ListAPIView):
+    serializer_class = AcceptGameSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    def get_queryset(self):
+        user_id= self.kwargs['player1']
+        queryset = GameInstance.objects.filter(player1=user_id)|GameInstance.objects.filter(player2=user_id)
+        
+        if queryset[0].winner==0:
+            a = GameInstance.objects.get(id=queryset[0].id)
+            a.winner = queryset[0].id
+            a.save()
+            queryset = GameInstance.objects.filter(player1=user_id)|GameInstance.objects.filter(player2=user_id)        
+            return queryset
+        else:
+            return queryset
+            
+        

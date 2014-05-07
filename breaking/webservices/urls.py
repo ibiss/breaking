@@ -10,4 +10,6 @@ urlpatterns = patterns('',
     url(r'^login/(?P<username>[^/]+)/$', views.LoginUser.as_view()),
     url(r'^gameinstance/(?P<player1>[^/]+)/$', views.GameInstanceViev.as_view()),
     url(r'^checkpoints/(?P<gid>[^/]+)/$', views.CheckpointsViev.as_view()),
+    url(r'^acceptgame/(?P<player1>[^/]+)/$', views.AcceptGameViev.as_view()),
+    url(r'^snippets/(?P<pk>[0-9]+)$', 'snippet_detail'),
 )
