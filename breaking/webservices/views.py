@@ -2,7 +2,7 @@ from userprofile.models import UserProfile
 from rest_framework import viewsets
 from rest_framework import generics,permissions
 from webservices.serializers import *
-
+from django.utils import timezone
 class LoginUser(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -23,8 +23,13 @@ class CheckpointsViev(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         gid = self.kwargs['gid']
-        queryset = Checkpoint.objects.filter(game=gid)
-        return queryset
+        game = GameInstance.objects.filter(id=gid)
+        if game[0].dateTime2 <= timezone.now():
+            queryset = Checkpoint.objects.filter(game=gid)
+            return queryset
+        else:
+            queryset = Checkpoint.objects.filter(game=-1)
+            return queryset
     
 class AcceptGameViev(generics.ListAPIView):
     serializer_class = AcceptGameSerializer
