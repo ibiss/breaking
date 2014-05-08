@@ -1,12 +1,20 @@
 package Webservice;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class Main {
 
@@ -295,6 +303,66 @@ public class Main {
 		}
 
 		return chekcPoints;
+
+	}
+	
+	public void callWinner(final int uid, final int gid, final String name,
+			final String password) throws Exception {
+		
+		new Thread(new Runnable() {
+			public void run() {
+				while(true)
+				{
+				
+				// String webPage =
+				// "http://projectbreaking.herokuapp.com/webservices/login/" +
+				// name + "/?format=json";
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/checkpoints/"+ uid +"/"+ gid + "/?format=json";
+				URL url = null;
+				try {
+					url = new URL(webPage);
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					break;
+				}
+				URLConnection urlConnection = null;
+				try {
+					urlConnection = url.openConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					break;
+				}
+				String val = (new StringBuffer(name).append(":")
+						.append(password)).toString();
+				byte[] base = val.getBytes();
+				String authorizationString = "Basic "
+						+ new String(new Base64().encode(base));
+				urlConnection.setRequestProperty("Authorization",
+						authorizationString);
+				String json = "";
+				try {
+					InputStream is = urlConnection.getInputStream();
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader reader = new BufferedReader(isr);
+					String str;
+					while ((str = reader.readLine()) != null) {
+						json += str;
+						System.out.println(str);
+
+					}
+				} catch (Exception e) {
+					
+					System.out.println("nieporpawne dane");
+					break;
+				}
+				
+				
+				}
+			}
+		}).start();
+
 
 	}
 

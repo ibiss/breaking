@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Webservice.CheckPoint;
 import Webservice.GameInstance;
+import Webservice.Main;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -36,6 +37,7 @@ public class MapActivity extends FragmentActivity {
 	private SharedPreferences preferences;
 	private GameInstance game;
 	private ArrayList<Boolean> completed;
+	private Main main;
 	
 	
 	@Override
@@ -90,7 +92,6 @@ public class MapActivity extends FragmentActivity {
 			
 			if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
 			{
-				System.out.println("sdssssssssssssssssssssssssssssssssssss");
 				destinationMarkers.add( 
 						map.addMarker(new MarkerOptions()
 						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
@@ -161,6 +162,13 @@ public class MapActivity extends FragmentActivity {
 		if(all==true)
 		{
 			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
+			main = new Main();
+			try {
+				main.callWinner(preferences.getInt("userID", -1), game.getId(), preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
 		}
 		
 		
