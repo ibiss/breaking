@@ -14,7 +14,7 @@ from django.conf import settings
 from django.template import loader, Context
 from django.db.models import Q
 import datetime
-from funcCoord import generateCheckpoint
+from funcCoord import generateCheckpoint, makeGameInstance
 from functions import offsetTime
 def home(request):
     c = {}
@@ -120,7 +120,8 @@ def joinQueue(request):
                         player = r
             if player:
                 if result.timeEnd > timeStart:
-                    whenGenerateCheckpoints = offsetTime(
+                    makeGameInstance(playerQ1=result.player, player2=usrProfile, gameMode=result.mode)
+                    """whenGenerateCheckpoints = offsetTime(
                         player.timeStart,
                         player.timeEnd,
                         timeStart,
@@ -135,7 +136,7 @@ def joinQueue(request):
                     gInstance.save()
                     checkpoint = generateCheckpoint(result.player, usrProfile, gInstance)
                     checkpoint.save()
-                    player.delete()
+                    player.delete()"""
             else:
 			    queuePVP = Queue(player=usrProfile,
                  mode=form.cleaned_data['gameMode'],

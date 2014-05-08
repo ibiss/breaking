@@ -2,6 +2,15 @@ from datetime import datetime, timedelta
 import random
 
 def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
+	if(timeStart1 <= 1 and timeStart1 >=23):
+		timeStart1 = 16;
+	if(timeEnd1 <= 1 and timeEnd1 >=23):
+		timeEnd1 = 21;
+	if(timeStart2 <= 1 and timeStart2 >=23):
+		timeStart2 = 16;
+	if(timeEnd1 <= 1 and timeEnd1 >=23):
+		timeEnd1 = 21;
+
 	if timeStart1 > timeStart2:
 		beginTime = timeStart1
 	else:
@@ -21,3 +30,21 @@ def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	m = m + mTime
 	dtWithOffset = now + timedelta(hours=h,minutes=m)
 	return dtWithOffset
+
+def makeGameInstance(playerQ1, player2, gameMode):
+	whenGenerateCheckpoints = offsetTime(
+		playerQ1.timeStart,
+		playerQ1.timeEnd,
+		player2.timeStart,
+		player2.timeEnd)#moment w ktorym checkpointy powinny zostac udostępnione przez Webservice
+    gInstance = GameInstance(
+     	player1=player1,
+     	player2=player2,
+     	dateTime1=datetime.datetime.now(),
+     	dateTime2=whenGenerateCheckpoints,
+     	available=True,
+     	mode=gameMode)
+    gInstance.save()
+    checkpoint = generateCheckpoint(playerQ1, player2, gInstance)
+    checkpoint.save()
+    playerQ1.delete()
