@@ -209,5 +209,4 @@ def message_view(request,userid):
                 'userTarget':   User.objects.get(id=userid).username,
                 'form':         form
                 })  
-	    return render_to_response('messagebox.html', c,
-			context_instance=RequestContext(request))
+	    return render_to_response('messagebox.html', c,context_instance=RequestContext(request))
