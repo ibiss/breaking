@@ -27,14 +27,18 @@ class GameInstanceSerializer(serializers.HyperlinkedModelSerializer):
     mode = SubcategorySerializer()
     class Meta:
         model = GameInstance
-        fields = ('id','player1','player2','dateTime1', 'dateTime2','available' 
-	,'mode','winner')
+        fields = ('id','player1','player2','available')
         permission_classes = (permissions.IsAuthenticated,)  
 
 class CheckpointsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Checkpoint
         fields = ('id','latitudeP1','longitudeP1','latitudeP2','longitudeP2')
-        permission_classes = (permissions.IsAuthenticated,) 
-
+        permission_classes = (permissions.IsAuthenticated,)
+        
+class AcceptGameSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = GameInstance
+        fields = ('winner',)
+        permission_classes = (permissions.IsAuthenticated,)
 
