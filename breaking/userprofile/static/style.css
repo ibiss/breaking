@@ -36,7 +36,7 @@ body {
 
 #content {
     width: 960px;
-    margin: 0 auto;
+    margin: 20px auto;
 
 }
 
@@ -119,6 +119,7 @@ header {
 
 .header_bottom .user_navigation li i {
     float: left;
+    margin-right: 6px;
 }
 
 .header_bottom .user_navigation li {
@@ -256,6 +257,7 @@ footer {
     width: 960px;
     margin: 0 auto;
     padding: 6px 0px;
+    overflow: hidden;
 }
 
 .footer .left li {
@@ -512,6 +514,74 @@ footer {
 }
 
 /**
-  * ACCOUNT
+  * CHALLENGE
   */
 
+.challenge_content .joinPvpForm {
+    margin: 0 0 10px 0;
+}
+
+.challenge_content .joinPvpForm label {
+    padding-right: 15px;
+}
+
+.challenge_content .joinPvpForm #id_gameMode {
+    width: 150px;
+    padding: 4px;
+    text-align: center;
+}
+
+.challenge_content .joinPvpForm input[type="submit"] {
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+}
+
+.challenge_content .wait_for,
+.challenge_content .your_challenge {
+    overflow: hidden;
+    margin: 20px 0;
+    }
+
+.challenge_content .wait_for p,
+.challenge_content .your_challenge p {
+    font-size: 20px;
+}
+
+.challenge_content .wait_for li,
+.challenge_content .your_challenge li {
+    font-size: 16px;
+}
+
+/**
+  * END CHALLENGE
+  */
+
+/**
+  * MESSSAGEBOX
+  */
+
+.messagebox_content .contact_list,
+.messagebox_content .sended_messages,
+.messagebox_content .received_messages {
+    margin: 0 0 20px 0;
+}
+
+.messagebox_content p.subtitle {
+    font-size: 20px;
+}
+
+.messagebox_content li {
+    display: block;
+    padding: 3px;
+}
+
+.messagebox_content .message_form textarea {
+    width: 500px;
+    resize: vertical;
+    height: 150px;
+}
+
+/**
+  * END MESSSAGEBOX
+  */
