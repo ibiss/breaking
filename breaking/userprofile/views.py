@@ -101,6 +101,7 @@ def maps(request):
     args['longitude'] = u.longitude
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
+@login_required(login_url='/')
 def joinQueue(request):
     usr=User.objects.get(username=request.user.username)
     usrProfile=UserProfile.objects.get(user=usr)
@@ -127,20 +128,21 @@ def joinQueue(request):
             return HttpResponseRedirect('/challenge/')
     else:
         form = QueueForm()
-    waitingGame = Queue.objects.filter(player=usrProfile)
-    gameInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    waitingGames = Queue.objects.filter(player=usrProfile)
+    gamesInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
     args = {}
     args.update(csrf(request))
     args['form'] = form
-    args['waitingGame'] = waitingGame
-    args['gameInProgress'] = gameInProgress
+    args['waitingGames'] = waitingGames
+    args['gamesInProgress'] = gamesInProgress
+    print UserProfile.objects.get(pk=1).user.username
     return render_to_response('challenge.html',args)
 
 @login_required(login_url='/')
 def messagebox_view(request):
-    coms = User.objects.all
+    contacts = User.objects.all
     t = loader.get_template("messagebox.html")
-    c = Context({'coms':coms})
+    c = Context({'contacts':contacts})
     return HttpResponse(t.render(c))
 
 @login_required(login_url='/')
@@ -150,39 +152,43 @@ def message_view(request,userid):
             form = MessageForm(request.POST)
 	    if form.is_valid():
 		cd = form.cleaned_data
-		coms = MessageBox(description=cd['description'],
+		contacts = MessageBox(description=cd['description'],
                                     fromUser=UserProfile.objects.get(user=User.objects.get(username=request.user.username))
                                     ,toUser=UserProfile.objects.get(user=User.objects.get(id=userid)))#timestamp=datetime.now()
-		coms.save()
-		coms = User.objects.all
+		contacts.save()
+		contacts = User.objects.all
 		form = MessageForm(request.POST)
 		try:
-                    msg = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
+                    messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
                 except MessageBox.DoesNotExist:
                     print'safsa';
                 try:
-                    msg2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
+                    messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
                 except MessageBox.DoesNotExist:
                     print'safsa';
-		c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form}) 
+		c = Context({'contacts':contacts,'messages':messages,'messages2':messages2,'username':User.objects.get(id=userid).username,'form':form}) 
                 return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
         else:
             print 'else'
-            coms = User.objects.all
+            contacts = User.objects.all
             try:
-                msg = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
+                messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
             except MessageBox.DoesNotExist:
                 print'safsa';
             try:
-                msg2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
+                messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
             except MessageBox.DoesNotExist:
                 print'safsa';
             form = MessageForm(request.POST)
             d = {}
             d.update(csrf(request))
             t = loader.get_template("messagebox.html")
-            c = Context({'coms':coms,'msg':msg,'msg2':msg2,'username':User.objects.get(id=userid).username,'form':form})  
+            c = Context({'contacts':contacts,
+                'messages':     messages,
+                'messages2':    messages2,
+                'userTarget':   User.objects.get(id=userid).username,
+                'form':         form
+                })  
 	    return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
-
