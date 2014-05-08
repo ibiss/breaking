@@ -17,32 +17,33 @@ class GameInstanceViev(generics.ListAPIView):
     def get_queryset(self):
         user_name = self.kwargs['player1']
         queryset = GameInstance.objects.filter(player1=user_name)|GameInstance.objects.filter(player2=user_name)
+        for x in queryset:
+            if x.dateTime2 <= timezone.now():
+                x.available=True
+                x.save()
+                
         return queryset
 class CheckpointsViev(generics.ListAPIView):
     serializer_class = CheckpointsSerializer
     permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         gid = self.kwargs['gid']
-        game = GameInstance.objects.filter(id=gid)
-        if game[0].dateTime2 <= timezone.now():
-            queryset = Checkpoint.objects.filter(game=gid)
-            return queryset
-        else:
-            queryset = Checkpoint.objects.filter(game=-1)
-            return queryset
+        queryset = Checkpoint.objects.filter(game=gid)
+        return queryset
     
 class AcceptGameViev(generics.ListAPIView):
     serializer_class = AcceptGameSerializer
     permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         user_id= self.kwargs['player1']
-        queryset = GameInstance.objects.filter(player1=user_id)|GameInstance.objects.filter(player2=user_id)
+        game_id= self.kwargs['gid']
+        queryset = GameInstance.objects.filter(id=game_id)
         
         if queryset[0].winner==0:
-            a = GameInstance.objects.get(id=queryset[0].id)
+            a = GameInstance.objects.get(id=game_id)
             a.winner = user_id
             a.save()
-            queryset = GameInstance.objects.filter(player1=user_id)|GameInstance.objects.filter(player2=user_id)        
+            queryset = GameInstance.objects.filter(id=game_id)        
             return queryset
         else:
             return queryset 
