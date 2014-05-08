@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class UserProfile(models.Model):
-	id = models.AutoField(primary_key=True)
 	user = models.OneToOneField(User, primary_key=True, unique=True)
 	points = models.IntegerField()
 	rank_points = models.IntegerField()
@@ -14,21 +13,18 @@ class UserProfile(models.Model):
 		return self.user.username
 
 class MessageBox(models.Model):
-	id = models.AutoField(primary_key=True)
 	fromUser = models.ForeignKey(UserProfile, related_name ='fromUser')
 	toUser = models.ForeignKey(UserProfile, related_name ='toUser')
 	title = models.CharField(max_length=500)
 	description = models.TextField()
 
 class Category(models.Model):
-	id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=200,unique=True)
 	description = models.CharField(max_length=4000)
 	def __unicode__(self):
 		return self.name
 
 class Subcategory(models.Model):
-	id = models.AutoField(primary_key=True)
 	task_name = models.CharField(max_length=200,unique=True)
 	description = models.CharField(max_length=4000)
 	category = models.ForeignKey(Category)
@@ -40,9 +36,10 @@ class Subcategory(models.Model):
 class Queue(models.Model): #queueing player for create game
 	player = models.ForeignKey(UserProfile)
 	mode = models.ForeignKey(Subcategory)
+	timeStart = models.IntegerField()
+	timeEnd = models.IntegerField()
 
 class GameInstance(models.Model): #model of game
-	id = models.AutoField(primary_key=True)
 	player1 = models.ForeignKey(UserProfile, related_name='player1')
 	player2 = models.ForeignKey(UserProfile, related_name='player2')
 	dateTime1 = models.DateTimeField()

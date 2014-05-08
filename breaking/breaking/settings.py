@@ -79,6 +79,18 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_DIRECTORY,'templates/'),
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+)
+
+# Additional locations of fixtures files
+FIXTURE_DIRS = (
+   os.path.join(PROJECT_DIRECTORY, 'userprofile/fixtures/'),
+)
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -112,13 +124,6 @@ ROOT_URLCONF = 'breaking.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'breaking.wsgi.application'
-
-TEMPLATE_DIRS = (
-	os.path.join(PROJECT_DIRECTORY,'templates/'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
