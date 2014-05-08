@@ -1,6 +1,11 @@
 package com.example.gpsloc;
 
 
+import java.util.ArrayList;
+
+import Webservice.CheckPoint;
+import Webservice.GameInstance;
+import Webservice.Main;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -18,6 +23,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 public class MapActivity extends FragmentActivity {
 	
@@ -25,15 +31,23 @@ public class MapActivity extends FragmentActivity {
 	private int userIcon, destinationIcon;
 	private LocationManager mlocManager;
 	private double lat,lng;
-	private Marker userMarker,destinationMarker;
+	private Marker userMarker;
+	private ArrayList<Marker> destinationMarkers;
 	public static final String MY_PREFERENCES = "myPreferences";
 	private SharedPreferences preferences;
+	private GameInstance game;
+	private ArrayList<Boolean> completed;
+	private Main main;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
+		
+		Gson gS = new Gson();
+		String src = getIntent().getStringExtra("game");
+		game = gS.fromJson(src, GameInstance.class);
 		
 		preferences = getSharedPreferences(MY_PREFERENCES, MainActivity.MODE_PRIVATE);
 		
@@ -63,15 +77,48 @@ public class MapActivity extends FragmentActivity {
 
 		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 		
-		if(destinationMarker!=null) {
-			destinationMarker.remove();
+		
+		
+		destinationMarkers=new ArrayList<Marker>();
+		completed=new ArrayList<Boolean>();
+		
+		ArrayList<CheckPoint> checkPoints = game.getList();
+		
+		for(int i=0; i<checkPoints.size(); i++)
+		{
+			/*if(destinationMarkers.get(i)!=null) {
+				destinationMarkers.get(i).remove();
+			}*/
+			
+			if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
+			{
+				destinationMarkers.add( 
+						map.addMarker(new MarkerOptions()
+						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
+						.title("Checkpoint "+(i+1))
+						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+						.snippet(""))
+			    );
+			}
+			else
+			{
+				destinationMarkers.add( 
+						map.addMarker(new MarkerOptions()
+						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP2()), Double.valueOf(checkPoints.get(i).getLongitudeP2()) ))
+						.title("Checkpoint "+(i+1))
+						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+						.snippet(""))
+			    );
+			}
+			
+			
+			
+			completed.add(false);
+			
 		}
 		
-		destinationMarker = map.addMarker(new MarkerOptions()
-	    .position(new LatLng( Double.valueOf(preferences.getString("destLat", "0.0")), Double.valueOf(preferences.getString("destLong", "0.0")) ))
-	    .title(preferences.getString("destName", ""))
-	    .icon(BitmapDescriptorFactory.fromResource(destinationIcon))
-	    .snippet(""));
+		
+		
 		
 		
 	}
@@ -93,10 +140,38 @@ public class MapActivity extends FragmentActivity {
 	    .icon(BitmapDescriptorFactory.fromResource(userIcon))
 	    .snippet(""));
 		
-		if( destinationMarker!=null && (Math.abs(userMarker.getPosition().latitude-destinationMarker.getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarker.getPosition().longitude))<0.005 )
+		boolean all=true;
+		
+		for(int i=0; i<destinationMarkers.size(); i++)
 		{
-			Toast.makeText( getApplicationContext(),"Zdobyles!!!",	Toast.LENGTH_SHORT ).show();
+			
+			if( destinationMarkers.get(i)!=null && (Math.abs(userMarker.getPosition().latitude-destinationMarkers.get(i).getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarkers.get(i).getPosition().longitude))<0.005 )
+			{
+				Toast.makeText( getApplicationContext(),"Zdobyles ten checkpoint",	Toast.LENGTH_SHORT ).show();
+				completed.set(i, true);
+			}
+			
+			if(completed.get(i)==false)
+			{
+				all=false;
+			}
+			
 		}
+		
+		
+		if(all==true)
+		{
+			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
+			main = new Main();
+			try {
+				main.callWinner(preferences.getInt("userID", -1), game.getId(), preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		
 		
 		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 1000, null);
 	}
