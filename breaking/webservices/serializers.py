@@ -20,7 +20,7 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('task_name','description','points_to_achive','number_of_checkpoints')
         permission_classes = (permissions.IsAuthenticated,)
 
-class GameInstanceSer(serializers.HyperlinkedModelSerializer):
+class GameInstanceSerializer(serializers.HyperlinkedModelSerializer):
     
     player1 = UserProfileSerializer()
     player2 = UserProfileSerializer()
@@ -34,7 +34,7 @@ class GameInstanceSer(serializers.HyperlinkedModelSerializer):
 class CheckpointsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Checkpoint
-        fields = ('id','latitude','longitude')
+        fields = ('id','latitudeP1','longitudeP1','latitudeP2','longitudeP2')
         permission_classes = (permissions.IsAuthenticated,) 
 
 

@@ -12,7 +12,7 @@ class LoginUser(generics.ListAPIView):
         return queryset
 
 class GameInstanceViev(generics.ListAPIView):
-    serializer_class = GameInstanceSer
+    serializer_class = GameInstanceSerializer
     permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         user_name = self.kwargs['player1']
