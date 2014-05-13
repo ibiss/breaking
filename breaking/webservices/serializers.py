@@ -12,7 +12,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserProfileSerializer(serializers.RelatedField):
     def to_native(self, value):
-        return value.user.id
+        return value.user.username
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
