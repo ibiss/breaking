@@ -8,6 +8,10 @@
   	<form class="joinPvpForm" action='/challenge/' method="post">
     {% csrf_token %}
       <label for="id_gameMode">{{ form.gameMode.label }}</label>{{ form.gameMode }}
+      </br>
+      Od godziny: {{form.timeStart}}
+      </br>
+      Do godziny: {{form.timeEnd}}
     	<input type="submit" value="Dołącz do rozgrywki" />
   	</form>
     
@@ -15,7 +19,7 @@
   	  <p>Czekasz na rozgrywki:</p>
       <ul>
         {% for game in waitingGames %}
-          <li>{{ game.mode.taskName }}</li>
+          <li>{{ game.mode }}</li>
         {% endfor %}
       </ul>
     </div>
@@ -24,7 +28,7 @@
   	  <p>Twoje rozgrywki:</p>
       <ul>
         {% for game in gamesInProgress %}
-          <li>{{ game.mode.taskName }}</li>
+          <li>{{ game.mode }}</li>
         {% endfor %}
       </ul>
     </div>

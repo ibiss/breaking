@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 import random
+from userprofile.models import Queue, GameInstance 
+from funcCoord import generateCheckpoint
 
 def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	if(timeStart1 <= 1 and timeStart1 >=23):
@@ -22,7 +25,7 @@ def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 		endTime = timeEnd2
 
 	now = datetime.now()
-	hTime = random.randint(int(beginTime), int(endTime) - 1)
+	hTime = random.randint(beginTime, endTime - int(1))
 	mTime = random.randint(1, 59)
 	h = 23 - now.hour
 	m = 60 - now.minute
@@ -32,19 +35,21 @@ def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	return dtWithOffset
 
 def makeGameInstance(playerQ1, player2, gameMode):
+	print player2.timeStart
 	whenGenerateCheckpoints = offsetTime(
-		playerQ1.timeStart,
-		playerQ1.timeEnd,
-		player2.timeStart,
-		player2.timeEnd)#moment w ktorym checkpointy powinny zostac udostępnione przez Webservice
-    gInstance = GameInstance(
-     	player1=player1,
-     	player2=player2,
-     	dateTime1=datetime.datetime.now(),
-     	dateTime2=whenGenerateCheckpoints,
-     	available=True,
-     	mode=gameMode)
-    gInstance.save()
-    checkpoint = generateCheckpoint(playerQ1, player2, gInstance)
-    checkpoint.save()
-    playerQ1.delete()
+		timeStart1=playerQ1.timeStart,
+		timeEnd1=playerQ1.timeEnd,
+		timeStart2=player2.timeStart,
+		timeEnd2=player2.timeEnd)#moment w ktorym checkpointy powinny zostac udostępnione przez Webservice
+
+	gInstance = GameInstance(
+	 	player1=playerQ1.player,
+	 	player2=player2.player,
+	 	dateTime1=datetime.now(),
+	 	dateTime2=whenGenerateCheckpoints,
+	 	available=False,
+	 	mode=gameMode)
+	gInstance.save()
+	checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
+	checkpoint.save()
+	playerQ1.delete()

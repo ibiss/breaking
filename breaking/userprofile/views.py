@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.loader import get_template
@@ -14,8 +15,8 @@ from django.conf import settings
 from django.template import loader, Context
 from django.db.models import Q
 import datetime
-from funcCoord import generateCheckpoint, makeGameInstance
-from functions import offsetTime
+from funcCoord import generateCheckpoint
+from functions import offsetTime, makeGameInstance
 def home(request):
     c = {}
     c.update(csrf(request))
@@ -97,10 +98,10 @@ def maps(request):
     usrProfile = UserProfile.objects.get(user=user)
     gInstance = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
     checkpoints = Checkpoint.objects.filter(game=gInstance)
-    latitude = u.latitude
-    longitude = u.longitude
-    args['latitude'] = u.latitude
-    args['longitude'] = u.longitude
+    latitude = usrProfile.latitude
+    longitude = usrProfile.longitude
+    args['latitude'] = usrProfile.latitude
+    args['longitude'] = usrProfile.longitude
     args['checkpoints'] = checkpoints
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
@@ -111,17 +112,19 @@ def joinQueue(request):
     if request.method == 'POST':
         form = QueueForm(request.POST)
         if form.is_valid():
-            timeStart = form.cleaned_data['timeStart']
-            timeEnd = form.cleaned_data['timeEnd']
+            timeStart = int(form.cleaned_data['timeStart'])
+            timeEnd = int(form.cleaned_data['timeEnd'])
             result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
-            player = False
+            playerInQueue = False
             if result:
                 for r in result:
                     if r.timeEnd > timeStart or r.timeStart < timeEnd:
-                        player = r
-            if player:
-                if result.timeEnd > timeStart:
-                    makeGameInstance(playerQ1=result.player, player2=usrProfile, gameMode=result.mode)
+                        playerInQueue = r
+            if playerInQueue:
+                if playerInQueue.timeEnd > timeStart:
+                    makeGameInstance(playerQ1=playerInQueue,
+                    player2=Queue(player=usrProfile, mode=playerInQueue.mode, timeStart=timeStart, timeEnd=timeEnd),
+                    gameMode=playerInQueue.mode)
                     """whenGenerateCheckpoints = offsetTime(
                         player.timeStart,
                         player.timeEnd,
@@ -154,7 +157,6 @@ def joinQueue(request):
     args['form'] = form
     args['waitingGames'] = waitingGames
     args['gamesInProgress'] = gamesInProgress
-    print UserProfile.objects.get(pk=1).user.username
     return render_to_response('challenge.html',args)
 
 @login_required(login_url='/')
