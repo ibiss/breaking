@@ -30,6 +30,7 @@ public class MapActivity extends FragmentActivity {
 	private GoogleMap map;
 	private int userIcon, destinationIcon;
 	private LocationManager mlocManager;
+	private LocationListener mlocListener;
 	private double lat,lng;
 	private Marker userMarker;
 	private ArrayList<Marker> destinationMarkers;
@@ -73,7 +74,7 @@ public class MapActivity extends FragmentActivity {
 		
 		map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),12.0f), 3000, null);
 		
-		LocationListener mlocListener = new MyLocationListener();
+		mlocListener = new MyLocationListener();
 
 		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 		
@@ -165,15 +166,22 @@ public class MapActivity extends FragmentActivity {
 			main = new Main();
 			try {
 				main.callWinner(preferences.getInt("userID", -1), game.getId(), preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+				mlocManager=null;
+				mlocListener=null;
+				finish();
 			} catch (Exception e) {
 				
 				e.printStackTrace();
 			}
+			finish();
 		}
 		
 		
 		
 		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 1000, null);
+		
+		
+		
 	}
 	
 	public class MyLocationListener implements LocationListener
@@ -217,8 +225,16 @@ public class MapActivity extends FragmentActivity {
 		{
 			
 		}
+		
+		
+		
 
 	}/* End of Class MyLocationListener */
+	
+	@Override
+	public void onBackPressed() {
+	    finish();
+	}
 	
 	/*
 	 * public AlertDialog loginDialog(Context c, String message) {

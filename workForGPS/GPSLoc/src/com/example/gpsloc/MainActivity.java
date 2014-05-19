@@ -47,16 +47,17 @@ public class MainActivity extends FragmentActivity {
 		
 		Intent i;
 		
-		/*if(userId==-1)
+		if(userId==-1)
 		{
 			i = new Intent(this, LoginActivity.class);
 			startActivity(i);
-		}*/
+		}
 		
 		main=new Main();
 		missions=new ArrayList<GameInstance>();
 		missionList = (ListView) findViewById(R.id.missions);
 		missionAdapter = new ArrayAdapter<GameInstance>(this, R.layout.text, missions);
+		missionList.setAdapter(missionAdapter);
 		
 		Button button = (Button) findViewById(R.id.getMission);
 		
@@ -142,6 +143,9 @@ public class MainActivity extends FragmentActivity {
 		
 		loguj.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
+		    	
+		    	missionAdapter.clear();
+		    	missionList.setAdapter(missionAdapter);
 		    	
 		    	Intent i = new Intent(MainActivity.this, LoginActivity.class);
 				startActivity(i);

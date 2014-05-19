@@ -32,7 +32,7 @@ public class Main {
 				while(true){
 					
 				
-				/*String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
 				URL url = null;
 				try {
 					url = new URL(webPage);
@@ -71,11 +71,12 @@ public class Main {
 					returnInt = -1;
 					break;
 					
-				}*/
+				}
 					
-				String json =  "{\"count\": 1, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1}]}";
+				//String json =  "{\"count\": 1, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1}]}";
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
+				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
 
 				UserId userId = null;
 				try {
@@ -114,7 +115,7 @@ public class Main {
 			public void run() {
 				while(true)
 				{
-				/*System.out.println(id + name + password);
+				System.out.println(id + name + password);
 				
 				// String webPage =
 				// "http://projectbreaking.herokuapp.com/webservices/login/" +
@@ -162,38 +163,49 @@ public class Main {
 				}
 				
 				System.out.println(json.length());
-				System.out.println(json);*/
-				String json = "{\"count\": 2, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1, \"player1\": \"kuba\", \"player2\": \"suchar\",  \"available\": true}, {\"id\": 2, \"player1\": \"kuba\", \"player2\": \"suchar\", \"available\": false}]}";
+				System.out.println(json);
+				//String json = "{\"count\": 2, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1, \"player1\": \"kuba\", \"player2\": \"suchar\",  \"available\": true}, {\"id\": 2, \"player1\": \"kuba\", \"player2\": \"suchar\", \"available\": false}]}";
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
 				GameInstance game = new GameInstance();
 				
-				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
-
-				while (newjson.indexOf("}") + 2 <= newjson.length()) {
-					try {
-						game = (GameInstance) converter.fromJsonG(newjson);
-					} catch (JsonParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (JsonMappingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
+				try
+				{
+					newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
+					
+					while (newjson.indexOf("}") + 2 <= newjson.length()) {
+						try {
+							game = (GameInstance) converter.fromJsonG(newjson);
+						} catch (JsonParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (JsonMappingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+						gamesInstance.add(game);
+						newjson = newjson.substring(newjson.indexOf("}") + 2,
+								newjson.length());
 					}
-					gamesInstance.add(game);
-					newjson = newjson.substring(newjson.indexOf("}") + 2,
-							newjson.length());
+
+					returnInt = 1;
+					break;
+					
+				}
+				catch (StringIndexOutOfBoundsException e)
+				{
+					returnInt = 1;
+					break;
 				}
 
-				returnInt = 1;
-				break;
+				
 				}
 			}
 		}).start();
@@ -215,7 +227,7 @@ public class Main {
 			public void run() {
 				while(true)
 				{
-				/*System.out.println(id + name + password);
+				System.out.println(id + name + password);
 				
 				// String webPage =
 				// "http://projectbreaking.herokuapp.com/webservices/login/" +
@@ -260,41 +272,51 @@ public class Main {
 					returnInt = 1;
 					System.out.println("nieporpawne dane");
 					break;
-				}*/
+				}
 				
 				//System.out.println(json.length());
 				//System.out.println(json);
-				String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitudeP1\": \"51.055558773389026\", \"longitudeP1\": \"19.91201162338257\", \"latitudeP2\": \"50.531838773389026\", \"longitudeP2\": \"20.91201162338257\"}, {\"id\": 2, \"latitudeP1\": \"52.031838773389026\", \"longitudeP1\": \"18.912016666666\", \"latitudeP2\": \"49.531838773389026\", \"longitudeP2\": \"20.9120133333357\"}]}";
+				//String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitudeP1\": \"51.055558773389026\", \"longitudeP1\": \"19.91201162338257\", \"latitudeP2\": \"50.531838773389026\", \"longitudeP2\": \"20.91201162338257\"}, {\"id\": 2, \"latitudeP1\": \"52.031838773389026\", \"longitudeP1\": \"18.912016666666\", \"latitudeP2\": \"49.531838773389026\", \"longitudeP2\": \"20.9120133333357\"}]}";
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
 				CheckPoint check = new CheckPoint();
 				
-				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
-
-				while (newjson.indexOf("}") + 2 <= newjson.length()) {
-					try {
-						check = (CheckPoint) converter.fromJsonC(newjson);
-					} catch (JsonParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (JsonMappingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
+				try
+				{
+					newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
+					
+					while (newjson.indexOf("}") + 2 <= newjson.length()) {
+						try {
+							check = (CheckPoint) converter.fromJsonC(newjson);
+						} catch (JsonParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (JsonMappingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+						chekcPoints.add(check);
+						newjson = newjson.substring(newjson.indexOf("}") + 2,
+								newjson.length());
 					}
-					chekcPoints.add(check);
-					newjson = newjson.substring(newjson.indexOf("}") + 2,
-							newjson.length());
-				}
 
-				returnInt = 1;
-				break;
+					returnInt = 1;
+					break;
+					
+				}
+				catch (StringIndexOutOfBoundsException e)
+				{
+					returnInt = 1;
+					break;
+				}
+				
 				}
 			}
 		}).start();
@@ -317,7 +339,7 @@ public class Main {
 				// String webPage =
 				// "http://projectbreaking.herokuapp.com/webservices/login/" +
 				// name + "/?format=json";
-				String webPage = "http://projectbreaking.herokuapp.com/webservices/checkpoints/"+ uid +"/"+ gid + "/?format=json";
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/acceptgame/"+ uid +"/"+ gid + "/?format=json";
 				URL url = null;
 				try {
 					url = new URL(webPage);
