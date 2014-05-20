@@ -96,13 +96,14 @@ def maps(request):
     args.update(csrf(request))
     user = User.objects.get(username=request.user.username)
     usrProfile = UserProfile.objects.get(user=user)
-    gInstance = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    gInstances = GameInstance.objects.filter(player1=usrProfile) + GameInstance.objects.filter(player2=usrProfile)
     checkpoints = Checkpoint.objects.filter(game=gInstance)
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
     args['longitude'] = usrProfile.longitude
     args['checkpoints'] = checkpoints
+    args['gamesInProgress'] = gInstances
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
@@ -125,22 +126,6 @@ def joinQueue(request):
                     makeGameInstance(playerQ1=playerInQueue,
                     player2=Queue(player=usrProfile, mode=playerInQueue.mode, timeStart=timeStart, timeEnd=timeEnd),
                     gameMode=playerInQueue.mode)
-                    """whenGenerateCheckpoints = offsetTime(
-                        player.timeStart,
-                        player.timeEnd,
-                        timeStart,
-                        timeEnd)#moment w ktorym checkpointy powinny zostac udostępnione przez Webservice
-                    gInstance = GameInstance(
-                        player1=result.player,
-                        player2=usrProfile,
-                        dateTime1=datetime.datetime.now(),
-                        dateTime2=whenGenerateCheckpoints,
-                        available=True,
-                        mode=result.mode)
-                    gInstance.save()
-                    checkpoint = generateCheckpoint(result.player, usrProfile, gInstance)
-                    checkpoint.save()
-                    player.delete()"""
             else:
 			    queuePVP = Queue(player=usrProfile,
                  mode=form.cleaned_data['gameMode'],
@@ -151,7 +136,7 @@ def joinQueue(request):
     else:
         form = QueueForm()
     waitingGames = Queue.objects.filter(player=usrProfile)
-    gamesInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    gamesInProgress = GameInstance.objects.filter(player1=usrProfile) + GameInstance.objects.filter(player2=usrProfile)
     args = {}
     args.update(csrf(request))
     args['form'] = form

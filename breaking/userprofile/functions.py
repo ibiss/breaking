@@ -50,6 +50,9 @@ def makeGameInstance(playerQ1, player2, gameMode):
 	 	available=False,
 	 	mode=gameMode)
 	gInstance.save()
-	checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
-	checkpoint.save()
+
+	for i in gameMode.number_of_checkpoints:
+		checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
+		checkpoint.save()
+
 	playerQ1.delete()
