@@ -1,0 +1,61 @@
+header {
+    background-color: #176C4C;
+    overflow: hidden;
+    min-width: 1000px;
+}
+.header_top {
+    margin: 0 auto;
+    overflow: hidden;
+    width: 960px;
+}
+.header_top #logo h1 {
+    font-size: 0;
+}
+.header_top #logo {
+    float: left;
+    overflow: hidden;
+    padding: 6px 24px;
+}
+.header_top #logo img {
+    height: 150px;
+    width: 150px;
+}
+.registration_link {
+    line-height: 49px;
+    margin: 0 auto;
+    width: 960px;
+}
+.registration_link a {
+    color: #6C0000;
+    float: right;
+    font-size: 25px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.registration_link a:hover {
+    color: #FF0000;
+}
+.header_bottom {
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+}
+.header_bottom #user_navigation {
+    width: 960px;
+    margin: 0 auto;
+}
+.header_bottom #user_navigation i {
+    margin-right: 6px;
+}
+.header_bottom #user_navigation li {
+    display: inline-block;
+    text-align: center;
+}
+.header_bottom #user_navigation a {
+    color: #000000;
+    float: left;
+    font-size: 18px;
+    padding: 12px;
+    text-transform: uppercase;
+}
+.header_bottom #user_navigation a:hover {
