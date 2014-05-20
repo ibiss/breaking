@@ -76,9 +76,7 @@ public class MapActivity extends FragmentActivity {
 		
 		mlocListener = new MyLocationListener();
 
-		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
-		
-		
+		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 1000, 0, mlocListener);
 		
 		destinationMarkers=new ArrayList<Marker>();
 		completed=new ArrayList<Boolean>();
@@ -112,16 +110,36 @@ public class MapActivity extends FragmentActivity {
 			    );
 			}
 			
-			
-			
 			completed.add(false);
 			
 		}
 		
-		
-		
-		
-		
+	}
+	
+	@Override
+	public void onResume(){
+		System.out.println("onResume MapActivity");
+		mlocListener = new MyLocationListener();
+		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 1000, 0, mlocListener);
+	    super.onResume();
+	}
+	
+	@Override
+	public void onPause(){
+		System.out.println("onPause MapActivity");
+		if(mlocListener!=null)
+		{
+			mlocManager.removeUpdates(mlocListener);
+			mlocListener=null;
+		}
+	    
+	    super.onPause();
+	} 
+	
+	@Override
+	protected void onDestroy() {
+		System.out.println("onDestroy MapActivity");
+		super.onDestroy();
 	}
 	
 	private void updatePlaces()
@@ -165,10 +183,12 @@ public class MapActivity extends FragmentActivity {
 			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
 			main = new Main();
 			try {
+				System.out.println("chyba kpisz");
 				main.callWinner(preferences.getInt("userID", -1), game.getId(), preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
-				mlocManager=null;
+				mlocManager.removeUpdates(mlocListener);
 				mlocListener=null;
 				finish();
+				
 			} catch (Exception e) {
 				
 				e.printStackTrace();
@@ -176,11 +196,7 @@ public class MapActivity extends FragmentActivity {
 			finish();
 		}
 		
-		
-		
 		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 1000, null);
-		
-		
 		
 	}
 	
@@ -235,42 +251,5 @@ public class MapActivity extends FragmentActivity {
 	public void onBackPressed() {
 	    finish();
 	}
-	
-	/*
-	 * public AlertDialog loginDialog(Context c, String message) {
-	 * System.out.println("jestem"); final SharedPreferences.Editor
-	 * preferencesEditor = preferences.edit();
-	 * 
-	 * LayoutInflater factory = LayoutInflater.from(c); final View textEntryView
-	 * = factory.inflate(R.layout.login, null); final AlertDialog.Builder
-	 * failAlert = new AlertDialog.Builder(c);
-	 * failAlert.setTitle("Login/ Register Failed");
-	 * 
-	 * failAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) { //
-	 * Cancelled } });
-	 * 
-	 * AlertDialog.Builder alert = new AlertDialog.Builder(c);
-	 * alert.setTitle("Login/ Register"); alert.setMessage(message);
-	 * alert.setView(textEntryView);
-	 * 
-	 * alert.setPositiveButton("Login", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) { try {
-	 * final EditText usernameInput = (EditText)
-	 * textEntryView.findViewById(R.id.userNameEditText); final EditText
-	 * passwordInput = (EditText)
-	 * textEntryView.findViewById(R.id.passwordEditText);
-	 * preferencesEditor.putString("UserName",
-	 * usernameInput.getText().toString());
-	 * preferencesEditor.putString("Password",
-	 * passwordInput.getText().toString()); } catch (Exception e) {
-	 * e.printStackTrace(); } } });
-	 * 
-	 * alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) { //
-	 * Canceled. } });
-	 * 
-	 * return alert.create(); }
-	 */
 	
 }
