@@ -163,15 +163,22 @@ public class MainActivity extends FragmentActivity {
 		//whoLogin = (TextView) findViewById(R.id.whoIn);
 		//whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
 		
+		button = (Button) findViewById(R.id.synchonize);
+		
+		button.setOnClickListener(new View.OnClickListener() {
+		    public void onClick(View v) {
+		    	
+		        //ToDo 
+		    }
+		});
+		
 	}
 	
 	@Override
 	protected void onResume(){
-		super.onResume();
-		
 		whoLogin = (TextView) findViewById(R.id.whoIn);
 		whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
-		
+		super.onResume();
 	}
 	
 	@Override

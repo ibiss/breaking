@@ -38,10 +38,17 @@
 
         <Button
             android:id="@+id/loggin"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|left"
             android:text="Zaloguj" />
+
+        <Button
+            android:id="@+id/synchonize"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="Synchronizuj" />
 
         <TextView
             android:id="@+id/whoIn"
