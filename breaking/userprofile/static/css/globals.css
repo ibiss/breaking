@@ -1,6 +1,7 @@
 html {
     min-width: 1000px;
 	font-family: 'aleo';
+    background-color: #00A047;
 }
 
 body {
@@ -10,30 +11,7 @@ body {
 #content {
     width: 960px;
     margin: 20px auto;
-    background-color: 
 }
-
-
-/************** INDEX-LEWA KOLUMNA **************/
-/*
-
-*/
-
-/*
- * END INDEX
- */
-
-/*
- * FOOTER
-*/
-/*
-*/
-
-/*
- * END FOOTER
- */
-
-/*
 
 .register_form {
 	padding: 24px 0px; 
@@ -43,19 +21,19 @@ body {
 	padding: 6px;
 }
 
-.register_form table tr td .label {
+.register_form table .label {
 	font-size: 18px;
 }
 
-.register_form table tr td input {
+.register_form td input {
 	padding: 3px;
 	width: 150px;
-}*/
+}
 
 
 /**
 * MAPS
-**//*
+***/
 
 .generate_mission {
     float: left;
@@ -133,7 +111,7 @@ body {
 .missions .mission ul li p {
     font-size: 15px;
     padding: 4px 0 0 15px;
-}*/
+}
 
 /**
 * END MAPS
@@ -144,7 +122,7 @@ body {
 /**
 * USER_PROFILE
 **/
-/*
+
 .avatar {
 	width: 150px;
 	height: 150px;
@@ -207,7 +185,7 @@ body {
 .right_menu ul .menu_button {
 	padding: 6px;
 	text-transform: uppercase;
-}*/
+}
 
 
 /**
@@ -217,7 +195,7 @@ body {
 /**
   * ACCOUNT
   */
-/*
+
 #user_data {
     float: left;
 }
@@ -250,12 +228,12 @@ body {
 #user_data #submit:hover {
     background-color: #f42d2d;
     color: #000000;
-}*/
+}
 
 /**
   * CHALLENGE
   */
-/*
+
 .challenge_content .joinPvpForm {
     margin: 0 0 10px 0;
 }
@@ -290,7 +268,7 @@ body {
 .challenge_content .wait_for li,
 .challenge_content .your_challenge li {
     font-size: 16px;
-}*/
+}
 
 /**
   * END CHALLENGE
@@ -299,7 +277,7 @@ body {
 /**
   * MESSSAGEBOX
   */
-/*
+
 .messagebox_content .contact_list,
 .messagebox_content .sended_messages,
 .messagebox_content .received_messages {
@@ -320,7 +298,7 @@ body {
     resize: vertical;
     height: 150px;
 }
-*/
+
 /**
   * END MESSSAGEBOX
 */  

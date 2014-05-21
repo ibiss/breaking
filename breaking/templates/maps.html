@@ -8,7 +8,7 @@
     <style type="text/css">
         #map-canvas {
             height: 500px;
-            width: 500px;
+            width: 500px; 
             float: left;
             margin: 0 20px 20px 0;
         }
@@ -156,27 +156,18 @@
 
 {% block content %}
 
-        <div id="map-canvas"></div>
-        
-        <div class="generate_mission">
-            <form id="form_mission" action="/generate/" method="POST">{% csrf_token %}
-                <table>
-                    {% for field in form %}
-                        <tr><td><span>{{ field.label }}</span></td><td>{{ field }}</td></tr>
-                    {% endfor %}
-                </table>
-                <input type="submit" id="generate" value="generuj">
-            </form>
-        </div>
+    <div id="map-canvas"></div>
 
-        <div class="missions">
-            {% for task in tasks %}
-            <div class="mission">
-                <ul>
-                    <li class="title{{ task.id }}" onclick="showMissionPosition({{ task.latitude }}, {{ task.longitude }})"><label>{{ i }}Nazwa misji: </label><a href="#">{{ task.mission.name }}</a></li>
-                    <li class="description"><p>{{ task.mission.description }}</p></li>
-                </ul>
-            </div>
-            {% endfor %}
+    {% if mission %}
+    <div class="missions">
+        {% for task in tasks %}
+        <div class="mission">
+            <ul>
+                <li class="title{{ task.id }}" onclick="showMissionPosition({{ task.latitude }}, {{ task.longitude }})"><label>{{ i }}Nazwa misji: </label><a href="#">{{ task.mission.name }}</a></li>
+                <li class="description"><p>{{ task.mission.description }}</p></li>
+            </ul>
         </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 {% endblock %}
