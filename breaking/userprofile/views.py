@@ -96,8 +96,8 @@ def maps(request):
     args.update(csrf(request))
     user = User.objects.get(username=request.user.username)
     usrProfile = UserProfile.objects.get(user=user)
-    gInstances = GameInstance.objects.filter(player1=usrProfile) + GameInstance.objects.filter(player2=usrProfile)
-    checkpoints = Checkpoint.objects.filter(game=gInstance)
+    gInstances = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
+    checkpoints = Checkpoint.objects.filter(game=gInstances)
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
@@ -136,7 +136,7 @@ def joinQueue(request):
     else:
         form = QueueForm()
     waitingGames = Queue.objects.filter(player=usrProfile)
-    gamesInProgress = GameInstance.objects.filter(player1=usrProfile) + GameInstance.objects.filter(player2=usrProfile)
+    gamesInProgress = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
     args = {}
     args.update(csrf(request))
     args['form'] = form

@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 import random
 from userprofile.models import Queue, GameInstance 
-from funcCoord import generateCheckpoint
+from funcCoord import generateCheckpoint, generateCheckpointClosePlayer
 
 def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	if(timeStart1 <= 1 and timeStart1 >=23):
@@ -50,9 +50,14 @@ def makeGameInstance(playerQ1, player2, gameMode):
 	 	available=False,
 	 	mode=gameMode)
 	gInstance.save()
+	if gameMode.pk == 1 or gameMode.pk == 2:
+		for i in range(1,gameMode.number_of_checkpoints):
+			checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
+			checkpoint.save()
 
-	for i in gameMode.number_of_checkpoints:
-		checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
-		checkpoint.save()
+	elif gameMode.pk == 3:
+		for i in range(1,gameMode.number_of_checkpoints):
+			checkpoint = generateCheckpointClosePlayer(playerQ1.player, player2.player, gInstance)
+			checkpoint.save()
 
 	playerQ1.delete()
