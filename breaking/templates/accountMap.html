@@ -1,0 +1,50 @@
+{% load staticfiles %}
+
+<script type="text/javascript">
+    var map;
+    var marker;
+    var area;
+    var initialLocation;
+
+    function initialize()
+    {
+        initialLocation = new google.maps.LatLng("{{ latitude }}", "{{ longitude }}");  //Pobranie wspolrzednych
+
+        //Opcje mapy
+        map = new google.maps.Map(document.getElementById("map-canvas"), {
+            zoom: 16,
+            center: initialLocation,
+            mapTypeId: google.maps.MapTypeId.SATELLITE                
+        });
+
+
+        document.getElementsByName('latitude')[0].value = "{{ latitude }}";    //Ustawiam aktualne wartosci dla wspolrzednych
+        document.getElementsByName('longitude')[0].value = "{{ longitude }}";
+
+        //Nowy marker
+        marker = new google.maps.Marker({
+            map: map,
+            position: initialLocation,
+            icon: "{% static 'images/marker.png' %}",
+            title: 'Twoja baza'
+        });
+
+        //Ustwawinie nowej pozycji na mapie
+        google.maps.event.addListener(map, 'click', function(event) {   //Uzytkownk ustawia swoja pozycje na mapie
+            var lat = event.latLng.lat();
+            var lng = event.latLng.lng();
+            document.getElementsByName('latitude')[0].value = lat; //Wypisuje zaznaczone wspolrzedne
+            document.getElementsByName('longitude')[0].value = lng;
+            initialLocation = new google.maps.LatLng(lat, lng);
+            marker.setMap(null);
+            marker = new google.maps.Marker({
+                map: map,
+                position: initialLocation,
+                icon: "{% static 'images/marker.png' %}"
+            });
+        });
+      
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
