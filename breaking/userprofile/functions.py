@@ -61,3 +61,26 @@ def makeGameInstance(playerQ1, player2, gameMode):
 			checkpoint.save()
 
 	playerQ1.delete()
+
+def challengeRequest(result,timeStart,timeEnd,usrProfile,form):
+	playerInQueue = False
+	if result:
+		for r in result:
+			if r.timeEnd > timeStart or r.timeStart < timeEnd:
+				if r.player == usrProfile:
+					if r.timeEnd == timeEnd and r.timeStart == timeStart:
+						return
+					playerInQueue = r
+					break
+	if playerInQueue:
+		if playerInQueue.player != usrProfile:
+			if playerInQueue.timeEnd > timeStart:
+				makeGameInstance(playerQ1=playerInQueue,
+				player2=Queue(player=usrProfile, mode=playerInQueue.mode, timeStart=timeStart, timeEnd=timeEnd),
+				gameMode=playerInQueue.mode)
+	else:
+		queuePVP = Queue(player=usrProfile,
+		mode=form.cleaned_data['gameMode'],
+		timeStart=timeStart,
+		timeEnd=timeEnd)
+		queuePVP.save()

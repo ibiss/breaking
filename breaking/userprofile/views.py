@@ -5,7 +5,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm
+from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm, ChangeQueueTimeForm
 from userprofile.models import UserProfile, MessageBox, Queue, GameInstance, Subcategory, Checkpoint
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -16,7 +16,7 @@ from django.template import loader, Context
 from django.db.models import Q
 import datetime
 from funcCoord import generateCheckpoint
-from functions import offsetTime, makeGameInstance
+from functions import offsetTime, makeGameInstance, challengeRequest
 def home(request):
     c = {}
     c.update(csrf(request))
@@ -116,28 +116,17 @@ def joinQueue(request):
             timeStart = int(form.cleaned_data['timeStart'])
             timeEnd = int(form.cleaned_data['timeEnd'])
             result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
-            playerInQueue = False
-            if result:
-                for r in result:
-                    if r.timeEnd > timeStart or r.timeStart < timeEnd:
-                        if r.player == usrProfile:
-                            if r.timeEnd == timeEnd and r.timeStart == timeStart:
-                                return HttpResponseRedirect('/challenge/')
-                            playerInQueue = r
-                            break
-            if playerInQueue:
-                if playerInQueue.player != usrProfile:
-                    if playerInQueue.timeEnd > timeStart:
-                        makeGameInstance(playerQ1=playerInQueue,
-                        player2=Queue(player=usrProfile, mode=playerInQueue.mode, timeStart=timeStart, timeEnd=timeEnd),
-                        gameMode=playerInQueue.mode)
-            else:
-                queuePVP = Queue(player=usrProfile,
-                 mode=form.cleaned_data['gameMode'],
-                 timeStart=timeStart,
-                 timeEnd=timeEnd)
-                queuePVP.save()
+            challengeRequest(result,timeStart,timeEnd,usrProfile,form)
             return HttpResponseRedirect('/challenge/')
+        form = ChangeQueueTimeForm(request.POST)
+        if form.is_valid():
+            timeStart = int(form.cleaned_data['timeStart'])
+            timeEnd = int(form.cleaned_data['timeEnd'])
+            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
+            result = result.objects.filter(player = usrProfile)
+            result.timeStart = timeStart
+            result.timeEnd = timeEnd
+            result.save()
     else:
         form = QueueForm()
     waitingGames = Queue.objects.filter(player=usrProfile)
