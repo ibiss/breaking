@@ -1,0 +1,88 @@
+.avatar {
+    width: 150px;
+    height: 150px;
+    background-color: #000000;
+    float: left;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: auto;
+}
+
+.info {
+    float: left;
+    margin: 0px 0px 0px 10px;
+}
+
+.info table td {
+    padding: 3px 10px;
+    text-align: center;
+    vertical-align:middle;
+}
+
+.info p {
+    font-family: 'aleo';
+}
+
+
+.matrials {
+    float: right;
+}
+
+.materials li {
+    display: inline-block;
+    float: right;
+    margin: 0px 5px;
+    font-family: 'aleo';
+}
+
+.materials .points span {
+    color: #4b47ff;
+}
+
+.right_menu {
+    float: left;
+    clear: both;
+    margin: 12px 0px;
+}
+
+.right_menu ul .menu_button {
+    padding: 6px;
+    text-transform: uppercase;
+}
+
+.edit_account #user_data {
+    float: left;
+}
+
+.edit_account #user_data table tr .title {
+    padding-right: 15px;
+    text-transform: uppercase;
+}
+
+.edit_account #user_data table tr td input {
+    margin: 2px 0;
+    padding: 3px;
+}
+
+.edit_account #user_data #submit {
+    float: right;
+    margin-top: 5px;
+    width: 140px;
+    padding: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+    color: #176C4C;
+    background-color: #000000;
+    border: none;
+    cursor:pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.edit_account #user_data #submit:hover {
+    background-color: #f42d2d;
+    color: #000000;
+}

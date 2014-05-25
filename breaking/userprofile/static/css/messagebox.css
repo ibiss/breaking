@@ -1,0 +1,20 @@
+.messagebox_content .contact_list,
+.messagebox_content .sended_messages,
+.messagebox_content .received_messages {
+    margin: 0 0 20px 0;
+}
+
+.messagebox_content p.subtitle {
+    font-size: 20px;
+}
+
+.messagebox_content li {
+    display: block;
+    padding: 3px;
+}
+
+.messagebox_content .message_form textarea {
+    width: 500px;
+    resize: vertical;
+    height: 150px;
+}
