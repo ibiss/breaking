@@ -87,10 +87,6 @@ def account(request):
     return render_to_response('account.html', args)
 
 @login_required(login_url='/')
-def generate(request):
-    return HttpResponseRedirect('/maps/')
-
-@login_required(login_url='/')
 def maps(request):
     args = {}
     args.update(csrf(request))
@@ -148,7 +144,6 @@ def messagebox_view(request):
 @login_required(login_url='/')
 def message_view(request,userid):
         if request.method == 'POST':
-            print 'if'
             form = MessageForm(request.POST)
 	    if form.is_valid():
 		cd = form.cleaned_data
@@ -161,25 +156,20 @@ def message_view(request,userid):
 		try:
                     messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
                 except MessageBox.DoesNotExist:
-                    print'safsa';
                 try:
                     messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
                 except MessageBox.DoesNotExist:
-                    print'safsa';
 		c = Context({'contacts':contacts,'messages':messages,'messages2':messages2,'username':User.objects.get(id=userid).username,'form':form}) 
                 return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
         else:
-            print 'else'
             contacts = User.objects.all
             try:
                 messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
             except MessageBox.DoesNotExist:
-                print'safsa';
             try:
                 messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
             except MessageBox.DoesNotExist:
-                print'safsa';
             form = MessageForm(request.POST)
             d = {}
             d.update(csrf(request))
