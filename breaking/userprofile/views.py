@@ -156,9 +156,11 @@ def message_view(request,userid):
 		try:
                     messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
                 except MessageBox.DoesNotExist:
+                    raise Exception('MessageBox does not exist')
                 try:
                     messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
                 except MessageBox.DoesNotExist:
+                    raise Exception('MessageBox does not exist')
 		c = Context({'contacts':contacts,'messages':messages,'messages2':messages2,'username':User.objects.get(id=userid).username,'form':form}) 
                 return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
@@ -167,9 +169,11 @@ def message_view(request,userid):
             try:
                 messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
             except MessageBox.DoesNotExist:
+                raise Exception('MessageBox does not exist')
             try:
                 messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
             except MessageBox.DoesNotExist:
+                raise Exception('MessageBox does not exist')
             form = MessageForm(request.POST)
             d = {}
             d.update(csrf(request))
