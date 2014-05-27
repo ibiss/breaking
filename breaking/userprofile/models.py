@@ -50,6 +50,9 @@ class GameInstance(models.Model): #model of game
 
 class Checkpoint(models.Model):
 	game = models.ForeignKey(GameInstance)
+	dateTimePlayer1 = models.DateTimeField(null=True,blank=True)
+	dateTimePlayer2 = models.DateTimeField(null=True,blank=True)
+	models.DateTimeField
 	latitudeP1 = models.CharField(max_length=50)
 	longitudeP1 = models.CharField(max_length=50)
 	latitudeP2 = models.CharField(max_length=50)
