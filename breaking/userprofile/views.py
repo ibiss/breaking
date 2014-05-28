@@ -37,7 +37,10 @@ def auth_view(request):
 def user_panel(request):
     user = User.objects.get(username=request.user.username)
     user_profile = UserProfile.objects.get(user=user)
-    return render_to_response('user_panel.html',{'user_profile':user_profile,'MEDIA_URL':settings.MEDIA_URL})
+    return render_to_response('user_panel.html',{
+        'user_profile':user_profile,
+        'MEDIA_URL':settings.MEDIA_URL
+        })
 
 
 def invalid_login(request):
