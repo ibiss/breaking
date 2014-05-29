@@ -42,6 +42,7 @@ public class MapActivity extends FragmentActivity {
 	private GameInstance game;
 	private ArrayList<Boolean> completed;
 	private Main main;
+	private ArrayList<CheckPoint> checkPoints;
 	
 	
 	@Override
@@ -84,7 +85,7 @@ public class MapActivity extends FragmentActivity {
 		destinationMarkers=new ArrayList<Marker>();
 		completed=new ArrayList<Boolean>();
 		
-		ArrayList<CheckPoint> checkPoints = game.getList();
+		checkPoints = game.getList();
 		
 		for(int i=0; i<checkPoints.size(); i++)
 		{
@@ -169,8 +170,36 @@ public class MapActivity extends FragmentActivity {
 			
 			if( destinationMarkers.get(i)!=null && (Math.abs(userMarker.getPosition().latitude-destinationMarkers.get(i).getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarkers.get(i).getPosition().longitude))<0.005 )
 			{
+				
 				Toast.makeText( getApplicationContext(),"Zdobyles ten checkpoint",	Toast.LENGTH_SHORT ).show();
+				
 				completed.set(i, true);
+				
+				main = new Main();
+				
+				try {
+					
+					Calendar rightNow = Calendar.getInstance();
+					
+					if(isNetworkAvailable())
+					{
+						main.callWinner(preferences.getInt("userID", -1), game.getId(), rightNow.getTimeInMillis(),preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+					}
+					else
+					{
+						Toast.makeText( getApplicationContext(),"Brak po³¹czenia z internetem, zsynchronizuj dane potem",	Toast.LENGTH_SHORT ).show();
+						
+						preferences.getInt("GameID", game.getId());
+						preferences.getInt("NumOfChek", checkPoints.size());
+						preferences.getLong("Hour", rightNow.getTimeInMillis());
+						
+					}
+					
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+				}
+				
 			}
 			
 			if(completed.get(i)==false)
@@ -184,24 +213,9 @@ public class MapActivity extends FragmentActivity {
 		if(all==true)
 		{
 			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
-			main = new Main();
+			
 			try {
-				
-				if(isNetworkAvailable())
-				{
-					main.callWinner(preferences.getInt("userID", -1), game.getId(), preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
-				}
-				else
-				{
-					Toast.makeText( getApplicationContext(),"Brak po³¹czenia z internetem, zsynchronizuj dane potem",	Toast.LENGTH_SHORT ).show();
-					
-					preferences.getInt("GameID", game.getId());
-					
-					Calendar rightNow = Calendar.getInstance();
-					
-					preferences.getLong("Hour", rightNow.getTimeInMillis());
-				}
-				
+								
 				mlocManager.removeUpdates(mlocListener);
 				mlocListener=null;
 				finish();
@@ -210,6 +224,7 @@ public class MapActivity extends FragmentActivity {
 				
 				e.printStackTrace();
 			}
+			
 			finish();
 		}
 		
@@ -233,8 +248,6 @@ public class MapActivity extends FragmentActivity {
 			
 			lat = loc.getLatitude();
 			lng = loc.getLongitude();
-			//Globals.lastLatitude=lat;
-			//Globals.lastLongitude=lng;
 			
 			preferencesEditor.putString("lastLatitude", Double.toString(lat));
 			preferencesEditor.putString("lastLongitude", Double.toString(lng));

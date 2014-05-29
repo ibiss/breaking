@@ -6,8 +6,11 @@ import java.util.List;
 
 import Webservice.GameInstance;
 import Webservice.Main;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -168,10 +171,46 @@ public class MainActivity extends FragmentActivity {
 		button.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	
+		    	
+				
+				try {
+					
+					if(isNetworkAvailable() && preferences.getInt("GameID", -1)!=-1)
+					{
+						for(int i=0; i<preferences.getInt("NumOfChek", -1); i++)
+						{
+							main.callWinner(preferences.getInt("userID", -1), preferences.getInt("GameID", -1), preferences.getLong("Hour", 0),preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+						}
+						
+						Toast.makeText( getApplicationContext(),"Dane zsynchronizowane",	Toast.LENGTH_SHORT ).show();
+						
+						SharedPreferences.Editor preferencesEditor = preferences.edit();
+						
+						preferencesEditor.putInt("GameID", -1);
+						preferencesEditor.putInt("NumOfChek", -1);
+						preferencesEditor.putLong("Hour", 0);
+					}
+					else
+					{
+						
+						Toast.makeText( getApplicationContext(),"Brak po³¹czenia z internetem, zsynchronizuj dane potem",	Toast.LENGTH_SHORT ).show();
+						
+					}
+					
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+				}
 		         
 		    }
 		});
 		
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 	@Override
