@@ -57,7 +57,7 @@ class Queue(models.Model): #queueing player for create game
 	timeEnd = models.IntegerField(verbose_name="Koniec przedziału czasowego")
 
 	def __unicode__(self):
-		return str(self.player) + " " + str(self.mode)
+		return str(self.player)
 
 	class Meta:
 		verbose_name = "Kolejka"
@@ -73,7 +73,7 @@ class GameInstance(models.Model): #model of game
 	winner = models.IntegerField(default=0,verbose_name="Zwycięzca")
 
 	def __unicode__(self):
-		return str(self.player1) + " " + str(self.player2) + " " + str(self.mode)
+		return str(self.player1) + " " + str(self.player2) + " " + self.mode.task_name
 
 	class Meta:
 		verbose_name = "Instancja gry"
@@ -89,7 +89,7 @@ class Checkpoint(models.Model):
 	timePlayer2 = models.DateTimeField()
 
 	def __unicode__(self):
-		return str(self.game)
+		return unicode(self.game)
 
 	class Meta:
 		verbose_name = "Punkt kontrolny"

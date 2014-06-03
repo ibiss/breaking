@@ -35,7 +35,6 @@ def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	return dtWithOffset
 
 def makeGameInstance(playerQ1, player2, gameMode):
-	print player2.timeStart
 	whenGenerateCheckpoints = offsetTime(
 		timeStart1=playerQ1.timeStart,
 		timeEnd1=playerQ1.timeEnd,
@@ -51,12 +50,12 @@ def makeGameInstance(playerQ1, player2, gameMode):
 	 	mode=gameMode)
 	gInstance.save()
 	if gameMode.pk == 1 or gameMode.pk == 2:
-		for i in range(1,gameMode.number_of_checkpoints):
+		for i in range(1,gameMode.number_of_checkpoints+1):
 			checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
 			checkpoint.save()
 
 	elif gameMode.pk == 3:
-		for i in range(1,gameMode.number_of_checkpoints):
+		for i in range(1,gameMode.number_of_checkpoints+1):
 			checkpoint = generateCheckpointClosePlayer(playerQ1.player, player2.player, gInstance)
 			checkpoint.save()
 
@@ -66,12 +65,13 @@ def challengeRequest(result,timeStart,timeEnd,usrProfile,form):
 	playerInQueue = False
 	if result:
 		for r in result:
+			print r
 			if r.timeEnd > timeStart or r.timeStart < timeEnd:
 				if r.player == usrProfile:
 					if r.timeEnd == timeEnd and r.timeStart == timeStart:
 						return
-					playerInQueue = r
-					break
+				playerInQueue = r
+				break
 	if playerInQueue:
 		if playerInQueue.player != usrProfile:
 			if playerInQueue.timeEnd > timeStart:

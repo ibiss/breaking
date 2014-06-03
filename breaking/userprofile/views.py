@@ -17,6 +17,7 @@ from django.db.models import Q
 import datetime
 from funcCoord import generateCheckpoint
 from functions import offsetTime, makeGameInstance, challengeRequest
+
 def home(request):
     c = {}
     c.update(csrf(request))
@@ -89,17 +90,29 @@ def account(request):
 @login_required(login_url='/')
 def maps(request):
     args = {}
+    checkpoints = []
     args.update(csrf(request))
     user = User.objects.get(username=request.user.username)
     usrProfile = UserProfile.objects.get(user=user)
     gInstances = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
-    checkpoints = Checkpoint.objects.filter(game=gInstances)
+    w = {}
+    for g in gInstances:
+        cs = Checkpoint.objects.filter(game=g)
+        for c in cs:
+            if(g.player1.user.username == user.username):
+                checkpoints.extend([c.latitudeP1, c.longitudeP1])
+                w[g] = [c.latitudeP1, c.longitudeP1]
+            else:
+                checkpoints.extend([c.latitudeP2, c.longitudeP2])
+                w[g] = [c.latitudeP2, c.longitudeP2]
+            print w[g]
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
     args['longitude'] = usrProfile.longitude
     args['checkpoints'] = checkpoints
     args['gamesInProgress'] = gInstances
+    args['gameWithCheckpoints'] = w
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
@@ -118,11 +131,7 @@ def joinQueue(request):
         if form.is_valid():
             timeStart = int(form.cleaned_data['timeStart'])
             timeEnd = int(form.cleaned_data['timeEnd'])
-            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
-            result = result.objects.filter(player = usrProfile)
-            result.timeStart = timeStart
-            result.timeEnd = timeEnd
-            result.save()
+            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'],player=usrProfile).update(timeStart=timeStart, timeEnd=timeEnd)
     else:
         form = QueueForm()
     waitingGames = Queue.objects.filter(player=usrProfile)
