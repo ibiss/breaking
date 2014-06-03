@@ -27,7 +27,7 @@ class GameInstanceSerializer(serializers.HyperlinkedModelSerializer):
     mode = SubcategorySerializer()
     class Meta:
         model = GameInstance
-        fields = ('id','player1','player2','available')
+        fields = ('id','player1','player2','available','mode')
         permission_classes = (permissions.IsAuthenticated,)  
 
 class CheckpointsSerializer(serializers.HyperlinkedModelSerializer):
