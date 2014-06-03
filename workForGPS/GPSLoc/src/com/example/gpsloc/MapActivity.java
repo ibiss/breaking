@@ -43,6 +43,8 @@ public class MapActivity extends FragmentActivity {
 	private ArrayList<Boolean> completed;
 	private Main main;
 	private ArrayList<CheckPoint> checkPoints;
+	private boolean secondMode=false;
+	private int licznik,licznik2;
 	
 	
 	@Override
@@ -87,18 +89,18 @@ public class MapActivity extends FragmentActivity {
 		
 		checkPoints = game.getList();
 		
-		for(int i=0; i<checkPoints.size(); i++)
+		licznik2=0;
+		
+		if(game.getMode()==2)
 		{
-			/*if(destinationMarkers.get(i)!=null) {
-				destinationMarkers.get(i).remove();
-			}*/
-			
+			secondMode=true;
+			licznik=0;
 			if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
 			{
 				destinationMarkers.add( 
 						map.addMarker(new MarkerOptions()
-						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
-						.title("Checkpoint "+(i+1))
+						.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP1()), Double.valueOf(checkPoints.get(licznik).getLongitudeP1()) ))
+						.title("Checkpoint ")
 						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
 						.snippet(""))
 			    );
@@ -107,14 +109,51 @@ public class MapActivity extends FragmentActivity {
 			{
 				destinationMarkers.add( 
 						map.addMarker(new MarkerOptions()
-						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP2()), Double.valueOf(checkPoints.get(i).getLongitudeP2()) ))
-						.title("Checkpoint "+(i+1))
+						.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP2()), Double.valueOf(checkPoints.get(licznik).getLongitudeP2()) ))
+						.title("Checkpoint ")
 						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
 						.snippet(""))
 			    );
 			}
 			
-			completed.add(false);
+			licznik++;
+			
+			for(int i=0; i<checkPoints.size(); i++)
+			{
+				completed.add(false);
+			}
+			
+		}
+		else
+		{
+			
+			for(int i=0; i<checkPoints.size(); i++)
+			{
+				
+				if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
+				{
+					destinationMarkers.add( 
+							map.addMarker(new MarkerOptions()
+							.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
+							.title("Checkpoint "+(i+1))
+							.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+							.snippet(""))
+				    );
+				}
+				else
+				{
+					destinationMarkers.add( 
+							map.addMarker(new MarkerOptions()
+							.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP2()), Double.valueOf(checkPoints.get(i).getLongitudeP2()) ))
+							.title("Checkpoint "+(i+1))
+							.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+							.snippet(""))
+				    );
+				}
+				
+				completed.add(false);
+				
+			}
 			
 		}
 		
@@ -149,8 +188,7 @@ public class MapActivity extends FragmentActivity {
 	private void updatePlaces()
 	{
 		Location lastLoc = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		//lat = lastLoc.getLatitude();
-		//lng = lastLoc.getLongitude();
+
 		LatLng lastLatLng = new LatLng(lat,lng);
 		
 		if(userMarker!=null){
@@ -158,10 +196,10 @@ public class MapActivity extends FragmentActivity {
 		}
 		
 		userMarker = map.addMarker(new MarkerOptions()
-	    .position(lastLatLng)
-	    .title("Your last position")
-	    .icon(BitmapDescriptorFactory.fromResource(userIcon))
-	    .snippet(""));
+	    	.position(lastLatLng)
+	    	.title("Your last position")
+	    	.icon(BitmapDescriptorFactory.fromResource(userIcon))
+	    	.snippet(""));
 		
 		boolean all=true;
 		
@@ -172,8 +210,38 @@ public class MapActivity extends FragmentActivity {
 			{
 				
 				Toast.makeText( getApplicationContext(),"Zdobyles ten checkpoint",	Toast.LENGTH_SHORT ).show();
+				destinationMarkers.remove(i);
+				completed.set(licznik2, true);
+				licznik2++;
 				
-				completed.set(i, true);
+				//////////// jesli tryb gry wymaga wyswietlania pojedynczo checkpointow /////////////////////
+				if(secondMode==true && licznik!=checkPoints.size())
+				{
+					if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
+					{
+						destinationMarkers.add( 
+								map.addMarker(new MarkerOptions()
+								.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP1()), Double.valueOf(checkPoints.get(licznik).getLongitudeP1()) ))
+								.title("Checkpoint ")
+								.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+								.snippet(""))
+					    );
+					}
+					else
+					{
+						destinationMarkers.add( 
+								map.addMarker(new MarkerOptions()
+								.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP2()), Double.valueOf(checkPoints.get(licznik).getLongitudeP2()) ))
+								.title("Checkpoint ")
+								.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+								.snippet(""))
+					    );
+					}
+					
+					licznik++;
+				}
+				/////////////////////////////////////////////////////////////////////////////////////////////
+				
 				
 				main = new Main();
 				
@@ -202,10 +270,14 @@ public class MapActivity extends FragmentActivity {
 				
 			}
 			
-			if(completed.get(i)==false)
+			for(int j=0; j<checkPoints.size(); j++)
 			{
-				all=false;
+				if(completed.get(j)==false)
+				{
+					all=false;
+				}
 			}
+			
 			
 		}
 		
@@ -215,7 +287,10 @@ public class MapActivity extends FragmentActivity {
 			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
 			
 			try {
-								
+				
+				secondMode=false;
+				licznik=0;
+				licznik2=0;
 				mlocManager.removeUpdates(mlocListener);
 				mlocListener=null;
 				finish();

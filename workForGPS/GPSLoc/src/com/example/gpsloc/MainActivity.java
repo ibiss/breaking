@@ -189,6 +189,7 @@ public class MainActivity extends FragmentActivity {
 						preferencesEditor.putInt("GameID", -1);
 						preferencesEditor.putInt("NumOfChek", -1);
 						preferencesEditor.putLong("Hour", 0);
+						preferencesEditor.commit();
 					}
 					else
 					{

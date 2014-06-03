@@ -10,8 +10,9 @@ public class GameInstance{
 	//private String dateTime1;
 	//private String dateTime2;
 	private boolean available;
+	private int mode;
 	private ArrayList<CheckPoint> list;
-	//private Object mode;
+	
 	//private int winner;
 	
 	
@@ -21,12 +22,15 @@ public class GameInstance{
 	public void setWinner(int winner) {
 		this.winner = winner;
 	}*/
-	//public Object getMode() {
-	//	return mode;
-	//}
-	//public void setMode(Object mode) {
-	//	this.mode = mode;
-	//}
+	
+	public int getMode() {
+		return mode;
+	}
+	
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
+	
 	public boolean isAvailable() {
 		return available;
 	}
