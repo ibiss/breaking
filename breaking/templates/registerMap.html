@@ -8,8 +8,23 @@ var map;
   function initialize() 
   {
     var markers = [];
+    var initialLocation;
+
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+        map.setCenter(initialLocation);
+      }, function() {
+        handleNoGeolocation(browserSupportFlag);
+      });
+    }
+    else {
+      handleNoGeolocation(browserSupportFlag);
+    }
+
     map = new google.maps.Map(document.getElementById('map-canvas'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: initialLocation
     });
 
     var defaultBounds = new google.maps.LatLngBounds(

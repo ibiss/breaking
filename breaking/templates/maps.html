@@ -24,13 +24,12 @@
 
     <div id="map-canvas"></div>
 
-    {% if mission %}
+    {% if gamesInProgress %}
     <div class="missions">
-        {% for task in tasks %}
+        {% for game in gamesInProgress %}
         <div class="single_mission">
             <ul>
-                <li class="title{{ task.id }}" onclick="showMissionPosition({{ task.latitude }}, {{ task.longitude }})"><label>{{ i }}Nazwa misji: </label><a href="#">{{ task.mission.name }}</a></li>
-                <li class="description"><p>{{ task.mission.description }}</p></li>
+                <li class="">{{ game.mode }}</li>
             </ul>
         </div>
         {% endfor %}
