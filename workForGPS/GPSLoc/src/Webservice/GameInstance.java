@@ -7,21 +7,9 @@ public class GameInstance{
 	private int id;
 	private String player1;
 	private String player2;
-	//private String dateTime1;
-	//private String dateTime2;
 	private boolean available;
 	private int mode;
 	private ArrayList<CheckPoint> list;
-	
-	//private int winner;
-	
-	
-	/*public int getWinner() {
-		return winner;
-	}
-	public void setWinner(int winner) {
-		this.winner = winner;
-	}*/
 	
 	public int getMode() {
 		return mode;
@@ -37,18 +25,7 @@ public class GameInstance{
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-	/*public String getDateTime2() {
-		return dateTime2;
-	}
-	public void setDateTime2(String dateTime2) {
-		this.dateTime2 = dateTime2;
-	}
-	public String getDateTime1() {
-		return dateTime1;
-	}
-	public void setDateTime1(String dateTime1) {
-		this.dateTime1 = dateTime1;
-	}*/
+	
 	public String getPlayer2() {
 		return player2;
 	}
@@ -87,7 +64,7 @@ public class GameInstance{
 		}
 		
 		returnStr+="\nDostêpna: "+this.available;
-		returnStr+=" "+ player1 +" vs "+player2;
+		returnStr+="; "+ player1 +" vs "+player2;
 		
     	return returnStr;
     }

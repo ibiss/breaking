@@ -25,13 +25,11 @@ public class Main {
 
 		returnInt = 0;
 		
-			System.out.println("Jestem w funkcji login");
 		
 		new Thread(new Runnable() {
 			public void run() {
 				while(true){
 					
-				
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
 				URL url = null;
 				try {
@@ -66,14 +64,12 @@ public class Main {
 
 					}
 				} catch (Exception e) {
-					System.out.println("niepoprawne dane");
 					System.out.println(e.toString());
 					returnInt = -1;
 					break;
 					
 				}
 					
-				//String json =  "{\"count\": 1, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1}]}";
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
 				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
@@ -115,11 +111,6 @@ public class Main {
 			public void run() {
 				while(true)
 				{
-				System.out.println(id + name + password);
-				
-				// String webPage =
-				// "http://projectbreaking.herokuapp.com/webservices/login/" +
-				// name + "/?format=json";
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/gameinstance/"
 						+ id + "/?format=json";
 				URL url = null;
@@ -158,13 +149,8 @@ public class Main {
 					}
 				} catch (Exception e) {
 					returnInt = 1;
-					System.out.println("nieporpawne dane");
 					break;
 				}
-				
-				System.out.println(json.length());
-				System.out.println(json);
-				//String json = "{\"count\": 2, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1, \"player1\": \"kuba\", \"player2\": \"suchar\",  \"available\": true}, {\"id\": 2, \"player1\": \"kuba\", \"player2\": \"suchar\", \"available\": false}]}";
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
@@ -227,11 +213,6 @@ public class Main {
 			public void run() {
 				while(true)
 				{
-				System.out.println(id + name + password);
-				
-				// String webPage =
-				// "http://projectbreaking.herokuapp.com/webservices/login/" +
-				// name + "/?format=json";
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/checkpoints/"
 						+ id + "/?format=json";
 				URL url = null;
@@ -270,13 +251,8 @@ public class Main {
 					}
 				} catch (Exception e) {
 					returnInt = 1;
-					System.out.println("nieporpawne dane");
 					break;
 				}
-				
-				//System.out.println(json.length());
-				//System.out.println(json);
-				//String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitudeP1\": \"51.055558773389026\", \"longitudeP1\": \"19.91201162338257\", \"latitudeP2\": \"50.531838773389026\", \"longitudeP2\": \"20.91201162338257\"}, {\"id\": 2, \"latitudeP1\": \"52.031838773389026\", \"longitudeP1\": \"18.912016666666\", \"latitudeP2\": \"49.531838773389026\", \"longitudeP2\": \"20.9120133333357\"}]}";
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
@@ -337,9 +313,6 @@ public class Main {
 				while(true)
 				{
 				
-				// String webPage =
-				// "http://projectbreaking.herokuapp.com/webservices/login/" +
-				// name + "/?format=json";
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/acceptgame/"+ uid +"/"+ gid + "/"+ date +"/?format=json";
 				
 				URL url = null;
@@ -378,7 +351,6 @@ public class Main {
 					}
 				} catch (Exception e) {
 					
-					System.out.println("nieporpawne dane");
 					break;
 				}
 				
@@ -396,13 +368,6 @@ public class Main {
 
 		return garima;
 	}
-
-	/*public Object fromJsonM(String json) throws JsonParseException,
-			JsonMappingException, IOException {
-		Mission garima = new ObjectMapper().readValue(json, Mission.class);
-
-		return garima;
-	}*/
 	
 	public Object fromJsonG(String json) throws JsonParseException,
 			JsonMappingException, IOException {

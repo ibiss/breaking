@@ -67,18 +67,20 @@ public class MainActivity extends FragmentActivity {
 		button.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	missions=new ArrayList<GameInstance>();
+		    	
 		        try {
+		        	
 		        	missionAdapter.clear();
 					missionList.setAdapter(missionAdapter);
-					//userId=main.login("kuba", "1234");
 		        	userId=preferences.getInt("userID", -1);
 		    		userLogin=preferences.getString("userLogin", "");
 		    		userPassword=preferences.getString("userPassword", "");
 		        	System.out.println(preferences.getInt("userID", -1));
 					System.out.println(preferences.getString("userLogin", ""));
 					System.out.println(preferences.getString("userPassword", ""));
+					
 					if(userId!=-1){
-						System.out.println("jestem");
+						
 						missions=main.getGames(userId, userLogin, userPassword);
 						System.out.println(missions);
 						missionAdapter.addAll(missions);
@@ -91,9 +93,6 @@ public class MainActivity extends FragmentActivity {
 		        
 		    }
 		});
-		
-		//missionAdapter = new ArrayAdapter<Mission>(this, R.layout.text, missions);
-		//missionList.setAdapter(missionAdapter);
 		
 		missionList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -132,15 +131,10 @@ public class MainActivity extends FragmentActivity {
 	    		{
 	    			Toast.makeText( getApplicationContext(),"Ta gra nie jest jescze dostêpna",	Toast.LENGTH_SHORT ).show();
 	    		}
-	    		
-				//SharedPreferences.Editor preferencesEditor = preferences.edit();
-				//preferencesEditor.putString("currentGame", clicked);
-				//preferencesEditor.commit();
 				
 			}
 			
 		});
-		//////////////////////////////////////////////////////////////////////////////////
 		
 		Button loguj = (Button) findViewById(R.id.loggin);
 		
@@ -156,22 +150,14 @@ public class MainActivity extends FragmentActivity {
 				userId=preferences.getInt("userID", -1);
 				userLogin=preferences.getString("userLogin", "");
 				userPassword=preferences.getString("userPassword", "");
-				
-				//whoLogin = (TextView) findViewById(R.id.whoIn);
-				///whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
 		        
 		    }
 		});
-		
-		//whoLogin = (TextView) findViewById(R.id.whoIn);
-		//whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
 		
 		button = (Button) findViewById(R.id.synchonize);
 		
 		button.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
-		    	
-		    	
 				
 				try {
 					

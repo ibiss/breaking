@@ -307,7 +307,6 @@ public class MapActivity extends FragmentActivity {
 				licznik=0;
 				licznik2=0;
 				mlocManager.removeUpdates(mlocListener);
-				//mlocListener=null;
 				finish();
 				
 			} catch (Exception e) {
@@ -368,10 +367,7 @@ public class MapActivity extends FragmentActivity {
 			
 		}
 		
-		
-		
-
-	}/* End of Class MyLocationListener */
+	}
 	
 	@Override
 	public void onBackPressed() {
