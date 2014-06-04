@@ -5,7 +5,7 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.contrib import auth
 from django.core.context_processors import csrf
-from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm
+from userprofile.forms import UserCreateForm, UserUpdateForm, MessageForm, QueueForm, ChangeQueueTimeForm
 from userprofile.models import UserProfile, MessageBox, Queue, GameInstance, Subcategory, Checkpoint
 import random, math, datetime
 from django.contrib.auth.models import User
@@ -16,7 +16,8 @@ from django.template import loader, Context
 from django.db.models import Q
 import datetime
 from funcCoord import generateCheckpoint
-from functions import offsetTime, makeGameInstance
+from functions import offsetTime, makeGameInstance, challengeRequest
+
 def home(request):
     c = {}
     c.update(csrf(request))
@@ -90,10 +91,6 @@ def account(request):
     return render_to_response('account.html', args)
 
 @login_required(login_url='/')
-def generate(request):
-    return HttpResponseRedirect('/maps/')
-
-@login_required(login_url='/')
 def maps(request):
     args = {}
     checkpoints = []
@@ -101,7 +98,7 @@ def maps(request):
     user = User.objects.get(username=request.user.username)
     usrProfile = UserProfile.objects.get(user=user)
     gInstances = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
-    w = {}
+    checkpoints = {}
     for g in gInstances:
         cs = Checkpoint.objects.filter(game=g)
         for c in cs:
@@ -111,14 +108,12 @@ def maps(request):
             else:
                 checkpoints.extend([c.latitudeP2, c.longitudeP2])
                 w[g] = [c.latitudeP2, c.longitudeP2]
-            print w[g]
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
     args['longitude'] = usrProfile.longitude
     args['checkpoints'] = checkpoints
     args['gamesInProgress'] = gInstances
-    args['gameWithCheckpoints'] = w
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
@@ -131,39 +126,13 @@ def joinQueue(request):
             timeStart = int(form.cleaned_data['timeStart'])
             timeEnd = int(form.cleaned_data['timeEnd'])
             result = Queue.objects.filter(mode=form.cleaned_data['gameMode'])
-            playerInQueue = False
-            if result:
-                for r in result:
-                    if r.timeEnd > timeStart or r.timeStart < timeEnd:
-                        playerInQueue = r
-            if playerInQueue:
-                if playerInQueue.timeEnd > timeStart:
-                    makeGameInstance(playerQ1=playerInQueue,
-                    player2=Queue(player=usrProfile, mode=playerInQueue.mode, timeStart=timeStart, timeEnd=timeEnd),
-                    gameMode=playerInQueue.mode)
-                    """whenGenerateCheckpoints = offsetTime(
-                        player.timeStart,
-                        player.timeEnd,
-                        timeStart,
-                        timeEnd)#moment w ktorym checkpointy powinny zostac udostępnione przez Webservice
-                    gInstance = GameInstance(
-                        player1=result.player,
-                        player2=usrProfile,
-                        dateTime1=datetime.datetime.now(),
-                        dateTime2=whenGenerateCheckpoints,
-                        available=True,
-                        mode=result.mode)
-                    gInstance.save()
-                    checkpoint = generateCheckpoint(result.player, usrProfile, gInstance)
-                    checkpoint.save()
-                    player.delete()"""
-            else:
-			    queuePVP = Queue(player=usrProfile,
-                 mode=form.cleaned_data['gameMode'],
-                 timeStart=timeStart,
-                 timeEnd=timeEnd)
-			    queuePVP.save()
+            challengeRequest(result,timeStart,timeEnd,usrProfile,form)
             return HttpResponseRedirect('/challenge/')
+        form = ChangeQueueTimeForm(request.POST)
+        if form.is_valid():
+            timeStart = int(form.cleaned_data['timeStart'])
+            timeEnd = int(form.cleaned_data['timeEnd'])
+            result = Queue.objects.filter(mode=form.cleaned_data['gameMode'],player=usrProfile).update(timeStart=timeStart, timeEnd=timeEnd)
     else:
         form = QueueForm()
     waitingGames = Queue.objects.filter(player=usrProfile)
@@ -185,7 +154,6 @@ def messagebox_view(request):
 @login_required(login_url='/')
 def message_view(request,userid):
         if request.method == 'POST':
-            print 'if'
             form = MessageForm(request.POST)
 	    if form.is_valid():
 		cd = form.cleaned_data
@@ -198,25 +166,24 @@ def message_view(request,userid):
 		try:
                     messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
                 except MessageBox.DoesNotExist:
-                    print'safsa';
+                    raise Exception('MessageBox does not exist')
                 try:
                     messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
                 except MessageBox.DoesNotExist:
-                    print'safsa';
+                    raise Exception('MessageBox does not exist')
 		c = Context({'contacts':contacts,'messages':messages,'messages2':messages2,'username':User.objects.get(id=userid).username,'form':form}) 
                 return render_to_response('messagebox.html', c,
 			context_instance=RequestContext(request))
         else:
-            print 'else'
             contacts = User.objects.all
             try:
                 messages = MessageBox.objects.filter(fromUser=User.objects.get(username=request.user.username),toUser=userid)
             except MessageBox.DoesNotExist:
-                print'safsa';
+                raise Exception('MessageBox does not exist')
             try:
                 messages2 = MessageBox.objects.filter(fromUser=userid,toUser=User.objects.get(username=request.user.username))
             except MessageBox.DoesNotExist:
-                print'safsa';
+                raise Exception('MessageBox does not exist')
             form = MessageForm(request.POST)
             d = {}
             d.update(csrf(request))

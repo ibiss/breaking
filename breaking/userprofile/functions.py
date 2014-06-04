@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 import random
 from userprofile.models import Queue, GameInstance 
-from funcCoord import generateCheckpoint
+from funcCoord import generateCheckpoint, generateCheckpointClosePlayer
 
 def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	if(timeStart1 <= 1 and timeStart1 >=23):
@@ -35,7 +35,6 @@ def offsetTime(timeStart1, timeEnd1, timeStart2, timeEnd2):
 	return dtWithOffset
 
 def makeGameInstance(playerQ1, player2, gameMode):
-	print player2.timeStart
 	whenGenerateCheckpoints = offsetTime(
 		timeStart1=playerQ1.timeStart,
 		timeEnd1=playerQ1.timeEnd,
@@ -50,6 +49,38 @@ def makeGameInstance(playerQ1, player2, gameMode):
 	 	available=False,
 	 	mode=gameMode)
 	gInstance.save()
-	checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
-	checkpoint.save()
+	if gameMode.pk == 1 or gameMode.pk == 2:
+		for i in range(1,gameMode.number_of_checkpoints+1):
+			checkpoint = generateCheckpoint(playerQ1.player, player2.player, gInstance)
+			checkpoint.save()
+
+	elif gameMode.pk == 3:
+		for i in range(1,gameMode.number_of_checkpoints+1):
+			checkpoint = generateCheckpointClosePlayer(playerQ1.player, player2.player, gInstance)
+			checkpoint.save()
+
 	playerQ1.delete()
+
+def challengeRequest(result,timeStart,timeEnd,usrProfile,form):
+	playerInQueue = False
+	if result:
+		for r in result:
+			print r
+			if r.timeEnd > timeStart or r.timeStart < timeEnd:
+				if r.player == usrProfile:
+					if r.timeEnd == timeEnd and r.timeStart == timeStart:
+						return
+				playerInQueue = r
+				break
+	if playerInQueue:
+		if playerInQueue.player != usrProfile:
+			if playerInQueue.timeEnd > timeStart:
+				makeGameInstance(playerQ1=playerInQueue,
+				player2=Queue(player=usrProfile, mode=playerInQueue.mode, timeStart=timeStart, timeEnd=timeEnd),
+				gameMode=playerInQueue.mode)
+	else:
+		queuePVP = Queue(player=usrProfile,
+		mode=form.cleaned_data['gameMode'],
+		timeStart=timeStart,
+		timeEnd=timeEnd)
+		queuePVP.save()

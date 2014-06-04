@@ -127,24 +127,24 @@
         "pk": 1,
         "model": "userprofile.category",
         "fields": {
-            "name": "Kategoria1",
-            "description": "Kategoria1"
+            "name": "Kto pierwszy ten lepszy",
+            "description": "Wygrywa osoba, która dotarła do wszystkich punktów kontrolnych"
         }
     },
     {
         "pk": 2,
         "model": "userprofile.category",
         "fields": {
-            "name": "Kategoria2",
-            "description": "Kategoria2"
+            "name": "Łańcuch zdarzeń",
+            "description": "Wygrywa osoba, która dotarła do większej liczby punktów kontrolnych w wyznaczonym czasie."
         }
     },
     {
         "pk": 3,
         "model": "userprofile.category",
         "fields": {
-            "name": "Kategoria3",
-            "description": "Kategoria3"
+            "name": "Potyczki",
+            "description": "Jeżeli gracz znajdzie osobę mieszkającą blisko to może z nią rywalizować."
         }
     },
     {
@@ -154,8 +154,8 @@
             "category": 1,
             "points_to_achive": 100,
             "number_of_checkpoints": 1,
-            "description": "Subcategory1",
-            "task_name": "Subcategory1"
+            "description": "Wygrywa osoba, która dotrze pierwsza do wyznaczonego punktu kontrolnego.",
+            "task_name": "Król wzgórza."
         }
     },
     {
@@ -163,10 +163,10 @@
         "model": "userprofile.subcategory",
         "fields": {
             "category": 2,
-            "points_to_achive": 150,
+            "points_to_achive": 250,
             "number_of_checkpoints": 2,
-            "description": "Subcategory2",
-            "task_name": "Subcategory2"
+            "description": "W wyznaczonym czasie gracz będzie zdobywał punkty kontrolne. Ale tylko do jednego na raz będzie miał dostęp i dopiero po dotarciu do punktu i zatwierdzeniu pokaże mu się następne zadanie.",
+            "task_name": "Więcej znaczy lepiej."
         }
     },
     {
@@ -176,8 +176,8 @@
             "category": 3,
             "points_to_achive": 200,
             "number_of_checkpoints": 3,
-            "description": "Subcategory3",
-            "task_name": "Subcategory3"
+            "description": "Punkty kontrolne losowane są w odpowiednich odległośćiach od graczy. Wygrywa gracz, który przejmie większą ich część.",
+            "task_name": "Walka gangów."
         }
     },
     {
@@ -228,102 +228,6 @@
             "timeStart": 15,
             "timeEnd": 20,
             "mode": 3
-        }
-    },
-    {
-        "pk": 1,
-        "model": "userprofile.gameinstance",
-        "fields": {
-            "available": true,
-            "winner": 0,
-            "dateTime1": "2014-05-05T15:09:51Z",
-            "dateTime2": "2014-05-06T15:10:07Z",
-            "player2": 3,
-            "player1": 2,
-            "mode": 1
-        }
-    },
-    {
-        "pk": 2,
-        "model": "userprofile.gameinstance",
-        "fields": {
-            "available": true,
-            "winner": 0,
-            "dateTime1": "2014-05-05T15:10:29Z",
-            "dateTime2": "2014-05-06T15:10:34Z",
-            "player2": 4,
-            "player1": 3,
-            "mode": 2
-        }
-    },
-    {
-        "pk": 3,
-        "model": "userprofile.gameinstance",
-        "fields": {
-            "available": true,
-            "winner": 0,
-            "dateTime1": "2014-05-05T15:10:45Z",
-            "dateTime2": "2014-05-06T15:10:46Z",
-            "player2": 2,
-            "player1": 4,
-            "mode": 3
-        }
-    },
-    {
-        "pk": 4,
-        "model": "userprofile.gameinstance",
-        "fields": {
-            "available": true,
-            "winner": 0,
-            "dateTime1": "2014-05-05T15:15:13.846Z",
-            "dateTime2": "2014-05-05T15:15:13.846Z",
-            "player2": 2,
-            "player1": 3,
-            "mode": 1
-        }
-    },
-    {
-        "pk": 1,
-        "model": "userprofile.checkpoint",
-        "fields": {
-            "latitudeP2": "50.066536",
-            "game": 1,
-            "latitudeP1": "50.059345",
-            "longitudeP1": "19.924678",
-            "longitudeP2": "19.965447"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "userprofile.checkpoint",
-        "fields": {
-            "latitudeP2": "50.083871",
-            "game": 2,
-            "latitudeP1": "50.066536",
-            "longitudeP1": "19.965447",
-            "longitudeP2": "19.933347"
-        }
-    },
-    {
-        "pk": 3,
-        "model": "userprofile.checkpoint",
-        "fields": {
-            "latitudeP2": "50.059345",
-            "game": 3,
-            "latitudeP1": "50.083871",
-            "longitudeP1": "19.933347",
-            "longitudeP2": "19.924678"
-        }
-    },
-    {
-        "pk": 4,
-        "model": "userprofile.checkpoint",
-        "fields": {
-            "latitudeP2": "50.0676241402",
-            "game": 4,
-            "latitudeP1": "50.0582568598",
-            "longitudeP1": "19.9704216093",
-            "longitudeP2": "19.9197033907"
         }
     }
 ]

@@ -1,6 +1,6 @@
 import math, random
 from userprofile.models import UserProfile, MessageBox, Queue, GameInstance, Subcategory, Checkpoint
-
+from datetime import datetime
 def generateCheckpointCoords(latitudeP, longitudeP):
     radius = random.uniform(0.002, 10*0.001)
     angle = random.randint(0,360)
@@ -38,4 +38,20 @@ def generateCheckpoint(player1, player2, gameInstance):
         if isOK:
             tLatP2, tLongP2 = generateCheckpointCoordsFromRadius(latP2, longP2, radius)
             break
-    return Checkpoint(game=gameInstance, latitudeP1=tLatP1, longitudeP1=tLongP1, latitudeP2=tLatP2, longitudeP2=tLongP2)
+    return Checkpoint(game=gameInstance, latitudeP1=tLatP1, longitudeP1=tLongP1, latitudeP2=tLatP2, longitudeP2=tLongP2, timePlayer1 = datetime.now(),timePlayer2 = datetime.now())
+
+
+def generateCheckpointClosePlayer(player1, player2, gameInstance):
+    latP1 = player1.latitude
+    longP1 = player1.longitude
+    latP2 = player2.latitude
+    longP2 = player2.longitude
+    latCenter = (float(latP1)  + float(latP2)) / 2
+    longCenter = (float(longP1)  + float(longP2)) / 2
+    while(True):
+        tLatCenter, tLongCenter, radius = generateCheckpointCoords(latCenter, longCenter)
+        isOKP1 = checkCheckpointPositionByCoords(tLatCenter, tLatCenter, latP1, longP1)
+        isOKP2 = checkCheckpointPositionByCoords(tLatCenter, tLatCenter, latP2, longP2)
+        if isOKP1 and isOKP2:
+            break
+    return Checkpoint(game=gameInstance, latitudeP1=tLatCenter, longitudeP1=tLongCenter, latitudeP2=tLatCenter, longitudeP2=tLongCenter, timePlayer1 = datetime.now(),timePlayer2 = datetime.now())
