@@ -8,20 +8,17 @@
 	<div class="info">
 		<p>Współrzędne Twojej bazy:</p>
 		<table>
-			<tr><td>Szerokość</td><td>Wysokość:</td></tr>
-			<tr><td>{{ user_profile.latitude|floatformat:-4 }}</td><td>{{ user_profile.longitude|floatformat:-4 }}</td></tr>
+			<thead>
+				<tr><td>Szerokość</td><td>Wysokość:</td></tr>	
+			</thead>
+			<tbody>
+				<tr><td>{{ user_profile.latitude|floatformat:-4 }}</td><td>{{ user_profile.longitude|floatformat:-4 }}</td></tr>
+			</tbody>
 		</table>
 	</div>
 	<div class="materials">
 		<ul>
 			<li><img src=""><p class="points">Punkty: <span>{{ user_profile.points }}</span></p></li>
-		</ul>
-	</div>
-
-	<div class="right_menu">
-		<ul>
-			<li class="menu_button"><a href="#">Rozbuduj</a></li>
-			<li class="menu_button"><a href="#">Twoje obiekty</a></li>
 		</ul>
 	</div>
 

@@ -1,0 +1,86 @@
+.left_sidebar {
+    width: 50%;
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+    padding: 12px 0px;
+}
+
+.left_sidebar .title {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 12px;
+}
+
+.left_sidebar .node {
+    padding: 12px 0px;
+    width: 340px;
+    margin: 0 auto;
+    overflow: hidden;
+    float: left;
+}
+
+.left_sidebar .node .info_title {
+    font-size: 18px;
+    padding: 12px 24px;
+}
+
+.left_sidebar .node .description {
+  font-size: 16px;
+    padding: 6px 0px;
+}
+
+.left_sidebar .node a {
+  float: right;
+  margin-right: 10px;
+}
+
+/************** INDEX-LEWA KOLUMNA **************/
+
+.right_sidebar {
+    float: right;
+    overflow: hidden;
+    display: inline-block;
+    width: 50%;
+}
+
+.right_sidebar .login_panel {
+    padding: 12px 0px;
+    float: right;
+    padding: 24px;
+    margin: 50px 0px;
+}
+
+.right_sidebar .login_panel .title {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 12px;
+}
+
+.right_sidebar .login_panel .login_form {
+    padding: 6px 0px;
+    display: inline-block;
+}
+
+.right_sidebar .login_panel .login_form p {
+    padding: 6px 0px;
+    clear: both;
+}
+
+.right_sidebar .login_panel .login_form span {
+    margin: 0px 6px;
+}
+    
+.right_sidebar .login_panel .login_form input {
+    float: right;
+    line-height: 12px;
+    padding: 3px;
+    width: 150px;
+}
+
+.right_sidebar .login_panel .login_form #submit {
+    padding: 3px;
+  width: 70px;
+    float: right;
+    margin: 6px 0px;
+}
