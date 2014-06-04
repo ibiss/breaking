@@ -38,7 +38,7 @@ def generateCheckpoint(player1, player2, gameInstance):
         if isOK:
             tLatP2, tLongP2 = generateCheckpointCoordsFromRadius(latP2, longP2, radius)
             break
-    return Checkpoint(game=gameInstance, latitudeP1=tLatP1, longitudeP1=tLongP1, latitudeP2=tLatP2, longitudeP2=tLongP2, timePlayer1 = datetime.now(),timePlayer2 = datetime.now())
+    return Checkpoint(game=gameInstance, latitudeP1=tLatP1, longitudeP1=tLongP1, latitudeP2=tLatP2, longitudeP2=tLongP2, dateTimePlayer1 = datetime.now(),dateTimePlayer2 = datetime.now())
 
 
 def generateCheckpointClosePlayer(player1, player2, gameInstance):
@@ -54,4 +54,4 @@ def generateCheckpointClosePlayer(player1, player2, gameInstance):
         isOKP2 = checkCheckpointPositionByCoords(tLatCenter, tLatCenter, latP2, longP2)
         if isOKP1 and isOKP2:
             break
-    return Checkpoint(game=gameInstance, latitudeP1=tLatCenter, longitudeP1=tLongCenter, latitudeP2=tLatCenter, longitudeP2=tLongCenter, timePlayer1 = datetime.now(),timePlayer2 = datetime.now())
+    return Checkpoint(game=gameInstance, latitudeP1=tLatCenter, longitudeP1=tLongCenter, latitudeP2=tLatCenter, longitudeP2=tLongCenter, dateTimePlayer1 = datetime.now(),dateTimePlayer2 = datetime.now())

@@ -88,8 +88,6 @@ class Checkpoint(models.Model):
 	longitudeP1 = models.CharField(max_length=50)
 	latitudeP2 = models.CharField(max_length=50)
 	longitudeP2 = models.CharField(max_length=50)
-	timePlayer1 = models.DateTimeField()
-	timePlayer2 = models.DateTimeField()
 
 	def __unicode__(self):
 		return unicode(self.game)
