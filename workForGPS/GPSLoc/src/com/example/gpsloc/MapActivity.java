@@ -1,6 +1,7 @@
 package com.example.gpsloc;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -33,7 +34,7 @@ public class MapActivity extends FragmentActivity {
 	private GoogleMap map;
 	private int userIcon, destinationIcon;
 	private LocationManager mlocManager;
-	private LocationListener mlocListener;
+	private MyLocationListener mlocListener;
 	private double lat,lng;
 	private Marker userMarker;
 	private ArrayList<Marker> destinationMarkers;
@@ -163,7 +164,7 @@ public class MapActivity extends FragmentActivity {
 	public void onResume(){
 		System.out.println("onResume MapActivity");
 		mlocListener = new MyLocationListener();
-		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 1000, 0, mlocListener);
+		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 3000, 0, mlocListener);
 	    super.onResume();
 	}
 	
@@ -173,7 +174,7 @@ public class MapActivity extends FragmentActivity {
 		if(mlocListener!=null)
 		{
 			mlocManager.removeUpdates(mlocListener);
-			mlocListener=null;
+			//mlocListener=null;
 		}
 	    
 	    super.onPause();
@@ -203,6 +204,11 @@ public class MapActivity extends FragmentActivity {
 		
 		boolean all=true;
 		
+		if(destinationMarkers.size()==0)
+		{
+			all=false;
+		}
+		
 		for(int i=0; i<destinationMarkers.size(); i++)
 		{
 			
@@ -210,6 +216,7 @@ public class MapActivity extends FragmentActivity {
 			{
 				
 				Toast.makeText( getApplicationContext(),"Zdobyles ten checkpoint",	Toast.LENGTH_SHORT ).show();
+				
 				destinationMarkers.remove(i);
 				completed.set(licznik2, true);
 				licznik2++;
@@ -248,10 +255,12 @@ public class MapActivity extends FragmentActivity {
 				try {
 					
 					Calendar rightNow = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+					String strDate = sdf.format(rightNow.getTime());
 					
 					if(isNetworkAvailable())
 					{
-						main.callWinner(preferences.getInt("userID", -1), game.getId(), rightNow.getTimeInMillis(),preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+						main.callWinner(preferences.getInt("userID", -1), game.getId(), strDate, preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
 					}
 					else
 					{
@@ -259,7 +268,7 @@ public class MapActivity extends FragmentActivity {
 						
 						preferences.getInt("GameID", game.getId());
 						preferences.getInt("NumOfChek", checkPoints.size());
-						preferences.getLong("Hour", rightNow.getTimeInMillis());
+						preferences.getString("Hour", strDate);
 						
 					}
 					
@@ -281,10 +290,16 @@ public class MapActivity extends FragmentActivity {
 			
 		}
 		
-		
 		if(all==true)
 		{
 			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
+			
+			all=false;
+			
+			for(int j=0; j<completed.size(); j++)
+			{
+				completed.set(j, false);
+			}
 			
 			try {
 				
@@ -292,7 +307,7 @@ public class MapActivity extends FragmentActivity {
 				licznik=0;
 				licznik2=0;
 				mlocManager.removeUpdates(mlocListener);
-				mlocListener=null;
+				//mlocListener=null;
 				finish();
 				
 			} catch (Exception e) {
@@ -303,7 +318,7 @@ public class MapActivity extends FragmentActivity {
 			finish();
 		}
 		
-		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 1000, null);
+		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 3000, null);
 		
 	}
 	

@@ -328,7 +328,7 @@ public class Main {
 
 	}
 	
-	public void callWinner(final int uid, final int gid, final long date, final String name,
+	public void callWinner(final int uid, final int gid, final String date, final String name,
 			final String password) throws Exception {
 		
 		new Thread(new Runnable() {
@@ -341,6 +341,7 @@ public class Main {
 				// "http://projectbreaking.herokuapp.com/webservices/login/" +
 				// name + "/?format=json";
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/acceptgame/"+ uid +"/"+ gid + "/"+ date +"/?format=json";
+				
 				URL url = null;
 				try {
 					url = new URL(webPage);

@@ -179,7 +179,7 @@ public class MainActivity extends FragmentActivity {
 					{
 						for(int i=0; i<preferences.getInt("NumOfChek", -1); i++)
 						{
-							main.callWinner(preferences.getInt("userID", -1), preferences.getInt("GameID", -1), preferences.getLong("Hour", 0),preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+							main.callWinner(preferences.getInt("userID", -1), preferences.getInt("GameID", -1), preferences.getString("Hour", "0"),preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
 						}
 						
 						Toast.makeText( getApplicationContext(),"Dane zsynchronizowane",	Toast.LENGTH_SHORT ).show();
@@ -188,7 +188,7 @@ public class MainActivity extends FragmentActivity {
 						
 						preferencesEditor.putInt("GameID", -1);
 						preferencesEditor.putInt("NumOfChek", -1);
-						preferencesEditor.putLong("Hour", 0);
+						preferencesEditor.putString("Hour", "0");
 						preferencesEditor.commit();
 					}
 					else
