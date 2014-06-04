@@ -1,7 +1,9 @@
 package com.example.gpsloc;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import Webservice.CheckPoint;
 import Webservice.GameInstance;
@@ -11,6 +13,8 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ public class MapActivity extends FragmentActivity {
 	private GoogleMap map;
 	private int userIcon, destinationIcon;
 	private LocationManager mlocManager;
+	private MyLocationListener mlocListener;
 	private double lat,lng;
 	private Marker userMarker;
 	private ArrayList<Marker> destinationMarkers;
@@ -38,6 +43,9 @@ public class MapActivity extends FragmentActivity {
 	private GameInstance game;
 	private ArrayList<Boolean> completed;
 	private Main main;
+	private ArrayList<CheckPoint> checkPoints;
+	private boolean secondMode=false;
+	private int licznik,licznik2;
 	
 	
 	@Override
@@ -73,29 +81,27 @@ public class MapActivity extends FragmentActivity {
 		
 		map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),12.0f), 3000, null);
 		
-		LocationListener mlocListener = new MyLocationListener();
+		mlocListener = new MyLocationListener();
 
-		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
-		
-		
+		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 1000, 0, mlocListener);
 		
 		destinationMarkers=new ArrayList<Marker>();
 		completed=new ArrayList<Boolean>();
 		
-		ArrayList<CheckPoint> checkPoints = game.getList();
+		checkPoints = game.getList();
 		
-		for(int i=0; i<checkPoints.size(); i++)
+		licznik2=0;
+		
+		if(game.getMode()==2)
 		{
-			/*if(destinationMarkers.get(i)!=null) {
-				destinationMarkers.get(i).remove();
-			}*/
-			
+			secondMode=true;
+			licznik=0;
 			if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
 			{
 				destinationMarkers.add( 
 						map.addMarker(new MarkerOptions()
-						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
-						.title("Checkpoint "+(i+1))
+						.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP1()), Double.valueOf(checkPoints.get(licznik).getLongitudeP1()) ))
+						.title("Checkpoint ")
 						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
 						.snippet(""))
 			    );
@@ -104,30 +110,86 @@ public class MapActivity extends FragmentActivity {
 			{
 				destinationMarkers.add( 
 						map.addMarker(new MarkerOptions()
-						.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP2()), Double.valueOf(checkPoints.get(i).getLongitudeP2()) ))
-						.title("Checkpoint "+(i+1))
+						.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP2()), Double.valueOf(checkPoints.get(licznik).getLongitudeP2()) ))
+						.title("Checkpoint ")
 						.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
 						.snippet(""))
 			    );
 			}
 			
+			licznik++;
 			
+			for(int i=0; i<checkPoints.size(); i++)
+			{
+				completed.add(false);
+			}
 			
-			completed.add(false);
+		}
+		else
+		{
+			
+			for(int i=0; i<checkPoints.size(); i++)
+			{
+				
+				if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
+				{
+					destinationMarkers.add( 
+							map.addMarker(new MarkerOptions()
+							.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP1()), Double.valueOf(checkPoints.get(i).getLongitudeP1()) ))
+							.title("Checkpoint "+(i+1))
+							.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+							.snippet(""))
+				    );
+				}
+				else
+				{
+					destinationMarkers.add( 
+							map.addMarker(new MarkerOptions()
+							.position(new LatLng( Double.valueOf(checkPoints.get(i).getLatitudeP2()), Double.valueOf(checkPoints.get(i).getLongitudeP2()) ))
+							.title("Checkpoint "+(i+1))
+							.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+							.snippet(""))
+				    );
+				}
+				
+				completed.add(false);
+				
+			}
 			
 		}
 		
-		
-		
-		
-		
+	}
+	
+	@Override
+	public void onResume(){
+		System.out.println("onResume MapActivity");
+		mlocListener = new MyLocationListener();
+		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 3000, 0, mlocListener);
+	    super.onResume();
+	}
+	
+	@Override
+	public void onPause(){
+		System.out.println("onPause MapActivity");
+		if(mlocListener!=null)
+		{
+			mlocManager.removeUpdates(mlocListener);
+			//mlocListener=null;
+		}
+	    
+	    super.onPause();
+	} 
+	
+	@Override
+	protected void onDestroy() {
+		System.out.println("onDestroy MapActivity");
+		super.onDestroy();
 	}
 	
 	private void updatePlaces()
 	{
 		Location lastLoc = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		//lat = lastLoc.getLatitude();
-		//lng = lastLoc.getLongitude();
+
 		LatLng lastLatLng = new LatLng(lat,lng);
 		
 		if(userMarker!=null){
@@ -135,45 +197,134 @@ public class MapActivity extends FragmentActivity {
 		}
 		
 		userMarker = map.addMarker(new MarkerOptions()
-	    .position(lastLatLng)
-	    .title("Your last position")
-	    .icon(BitmapDescriptorFactory.fromResource(userIcon))
-	    .snippet(""));
+	    	.position(lastLatLng)
+	    	.title("Your last position")
+	    	.icon(BitmapDescriptorFactory.fromResource(userIcon))
+	    	.snippet(""));
 		
 		boolean all=true;
+		
+		if(destinationMarkers.size()==0)
+		{
+			all=false;
+		}
 		
 		for(int i=0; i<destinationMarkers.size(); i++)
 		{
 			
 			if( destinationMarkers.get(i)!=null && (Math.abs(userMarker.getPosition().latitude-destinationMarkers.get(i).getPosition().latitude))<0.005 && (Math.abs(userMarker.getPosition().longitude-destinationMarkers.get(i).getPosition().longitude))<0.005 )
 			{
+				
 				Toast.makeText( getApplicationContext(),"Zdobyles ten checkpoint",	Toast.LENGTH_SHORT ).show();
-				completed.set(i, true);
+				
+				destinationMarkers.remove(i);
+				completed.set(licznik2, true);
+				licznik2++;
+				
+				//////////// jesli tryb gry wymaga wyswietlania pojedynczo checkpointow /////////////////////
+				if(secondMode==true && licznik!=checkPoints.size())
+				{
+					if(preferences.getString("userLogin", "").equals(game.getPlayer1()))
+					{
+						destinationMarkers.add( 
+								map.addMarker(new MarkerOptions()
+								.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP1()), Double.valueOf(checkPoints.get(licznik).getLongitudeP1()) ))
+								.title("Checkpoint ")
+								.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+								.snippet(""))
+					    );
+					}
+					else
+					{
+						destinationMarkers.add( 
+								map.addMarker(new MarkerOptions()
+								.position(new LatLng( Double.valueOf(checkPoints.get(licznik).getLatitudeP2()), Double.valueOf(checkPoints.get(licznik).getLongitudeP2()) ))
+								.title("Checkpoint ")
+								.icon(BitmapDescriptorFactory.fromResource(destinationIcon))
+								.snippet(""))
+					    );
+					}
+					
+					licznik++;
+				}
+				/////////////////////////////////////////////////////////////////////////////////////////////
+				
+				
+				main = new Main();
+				
+				try {
+					
+					Calendar rightNow = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+					String strDate = sdf.format(rightNow.getTime());
+					
+					if(isNetworkAvailable())
+					{
+						main.callWinner(preferences.getInt("userID", -1), game.getId(), strDate, preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+					}
+					else
+					{
+						Toast.makeText( getApplicationContext(),"Brak po³¹czenia z internetem, zsynchronizuj dane potem",	Toast.LENGTH_SHORT ).show();
+						
+						preferences.getInt("GameID", game.getId());
+						preferences.getInt("NumOfChek", checkPoints.size());
+						preferences.getString("Hour", strDate);
+						
+					}
+					
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+				}
+				
 			}
 			
-			if(completed.get(i)==false)
+			for(int j=0; j<checkPoints.size(); j++)
 			{
-				all=false;
+				if(completed.get(j)==false)
+				{
+					all=false;
+				}
 			}
+			
 			
 		}
-		
 		
 		if(all==true)
 		{
 			Toast.makeText( getApplicationContext(),"Zaliczyles gre! Gratulacje!",	Toast.LENGTH_SHORT ).show();
-			main = new Main();
+			
+			all=false;
+			
+			for(int j=0; j<completed.size(); j++)
+			{
+				completed.set(j, false);
+			}
+			
 			try {
-				main.callWinner(preferences.getInt("userID", -1), game.getId(), preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+				
+				secondMode=false;
+				licznik=0;
+				licznik2=0;
+				mlocManager.removeUpdates(mlocListener);
+				finish();
+				
 			} catch (Exception e) {
 				
 				e.printStackTrace();
 			}
+			
+			finish();
 		}
 		
+		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 3000, null);
 		
-		
-		map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 1000, null);
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 	public class MyLocationListener implements LocationListener
@@ -186,8 +337,6 @@ public class MapActivity extends FragmentActivity {
 			
 			lat = loc.getLatitude();
 			lng = loc.getLongitude();
-			//Globals.lastLatitude=lat;
-			//Globals.lastLongitude=lng;
 			
 			preferencesEditor.putString("lastLatitude", Double.toString(lat));
 			preferencesEditor.putString("lastLongitude", Double.toString(lng));
@@ -217,44 +366,12 @@ public class MapActivity extends FragmentActivity {
 		{
 			
 		}
-
-	}/* End of Class MyLocationListener */
+		
+	}
 	
-	/*
-	 * public AlertDialog loginDialog(Context c, String message) {
-	 * System.out.println("jestem"); final SharedPreferences.Editor
-	 * preferencesEditor = preferences.edit();
-	 * 
-	 * LayoutInflater factory = LayoutInflater.from(c); final View textEntryView
-	 * = factory.inflate(R.layout.login, null); final AlertDialog.Builder
-	 * failAlert = new AlertDialog.Builder(c);
-	 * failAlert.setTitle("Login/ Register Failed");
-	 * 
-	 * failAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) { //
-	 * Cancelled } });
-	 * 
-	 * AlertDialog.Builder alert = new AlertDialog.Builder(c);
-	 * alert.setTitle("Login/ Register"); alert.setMessage(message);
-	 * alert.setView(textEntryView);
-	 * 
-	 * alert.setPositiveButton("Login", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) { try {
-	 * final EditText usernameInput = (EditText)
-	 * textEntryView.findViewById(R.id.userNameEditText); final EditText
-	 * passwordInput = (EditText)
-	 * textEntryView.findViewById(R.id.passwordEditText);
-	 * preferencesEditor.putString("UserName",
-	 * usernameInput.getText().toString());
-	 * preferencesEditor.putString("Password",
-	 * passwordInput.getText().toString()); } catch (Exception e) {
-	 * e.printStackTrace(); } } });
-	 * 
-	 * alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) { //
-	 * Canceled. } });
-	 * 
-	 * return alert.create(); }
-	 */
+	@Override
+	public void onBackPressed() {
+	    finish();
+	}
 	
 }

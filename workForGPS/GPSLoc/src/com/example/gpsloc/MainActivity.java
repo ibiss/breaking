@@ -6,8 +6,11 @@ import java.util.List;
 
 import Webservice.GameInstance;
 import Webservice.Main;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -47,34 +50,37 @@ public class MainActivity extends FragmentActivity {
 		
 		Intent i;
 		
-		/*if(userId==-1)
+		if(userId==-1)
 		{
 			i = new Intent(this, LoginActivity.class);
 			startActivity(i);
-		}*/
+		}
 		
 		main=new Main();
 		missions=new ArrayList<GameInstance>();
 		missionList = (ListView) findViewById(R.id.missions);
 		missionAdapter = new ArrayAdapter<GameInstance>(this, R.layout.text, missions);
+		missionList.setAdapter(missionAdapter);
 		
 		Button button = (Button) findViewById(R.id.getMission);
 		
 		button.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	missions=new ArrayList<GameInstance>();
+		    	
 		        try {
+		        	
 		        	missionAdapter.clear();
 					missionList.setAdapter(missionAdapter);
-					//userId=main.login("kuba", "1234");
 		        	userId=preferences.getInt("userID", -1);
 		    		userLogin=preferences.getString("userLogin", "");
 		    		userPassword=preferences.getString("userPassword", "");
 		        	System.out.println(preferences.getInt("userID", -1));
 					System.out.println(preferences.getString("userLogin", ""));
 					System.out.println(preferences.getString("userPassword", ""));
+					
 					if(userId!=-1){
-						System.out.println("jestem");
+						
 						missions=main.getGames(userId, userLogin, userPassword);
 						System.out.println(missions);
 						missionAdapter.addAll(missions);
@@ -87,9 +93,6 @@ public class MainActivity extends FragmentActivity {
 		        
 		    }
 		});
-		
-		//missionAdapter = new ArrayAdapter<Mission>(this, R.layout.text, missions);
-		//missionList.setAdapter(missionAdapter);
 		
 		missionList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -128,20 +131,18 @@ public class MainActivity extends FragmentActivity {
 	    		{
 	    			Toast.makeText( getApplicationContext(),"Ta gra nie jest jescze dostêpna",	Toast.LENGTH_SHORT ).show();
 	    		}
-	    		
-				//SharedPreferences.Editor preferencesEditor = preferences.edit();
-				//preferencesEditor.putString("currentGame", clicked);
-				//preferencesEditor.commit();
 				
 			}
 			
 		});
-		//////////////////////////////////////////////////////////////////////////////////
 		
 		Button loguj = (Button) findViewById(R.id.loggin);
 		
 		loguj.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
+		    	
+		    	missionAdapter.clear();
+		    	missionList.setAdapter(missionAdapter);
 		    	
 		    	Intent i = new Intent(MainActivity.this, LoginActivity.class);
 				startActivity(i);
@@ -149,25 +150,61 @@ public class MainActivity extends FragmentActivity {
 				userId=preferences.getInt("userID", -1);
 				userLogin=preferences.getString("userLogin", "");
 				userPassword=preferences.getString("userPassword", "");
-				
-				//whoLogin = (TextView) findViewById(R.id.whoIn);
-				///whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
 		        
 		    }
 		});
 		
-		//whoLogin = (TextView) findViewById(R.id.whoIn);
-		//whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
+		button = (Button) findViewById(R.id.synchonize);
 		
+		button.setOnClickListener(new View.OnClickListener() {
+		    public void onClick(View v) {
+				
+				try {
+					
+					if(isNetworkAvailable() && preferences.getInt("GameID", -1)!=-1)
+					{
+						for(int i=0; i<preferences.getInt("NumOfChek", -1); i++)
+						{
+							main.callWinner(preferences.getInt("userID", -1), preferences.getInt("GameID", -1), preferences.getString("Hour", "0"),preferences.getString("userLogin", ""), preferences.getString("userPassword", ""));
+						}
+						
+						Toast.makeText( getApplicationContext(),"Dane zsynchronizowane",	Toast.LENGTH_SHORT ).show();
+						
+						SharedPreferences.Editor preferencesEditor = preferences.edit();
+						
+						preferencesEditor.putInt("GameID", -1);
+						preferencesEditor.putInt("NumOfChek", -1);
+						preferencesEditor.putString("Hour", "0");
+						preferencesEditor.commit();
+					}
+					else
+					{
+						
+						Toast.makeText( getApplicationContext(),"Brak po³¹czenia z internetem, zsynchronizuj dane potem",	Toast.LENGTH_SHORT ).show();
+						
+					}
+					
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+				}
+		         
+		    }
+		});
+		
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 	@Override
 	protected void onResume(){
-		super.onResume();
-		
 		whoLogin = (TextView) findViewById(R.id.whoIn);
 		whoLogin.setText("Zalogowany jako: "+preferences.getString("userLogin", ""));
-		
+		super.onResume();
 	}
 	
 	@Override

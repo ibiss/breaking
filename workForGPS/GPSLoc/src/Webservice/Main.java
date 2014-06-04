@@ -25,14 +25,12 @@ public class Main {
 
 		returnInt = 0;
 		
-			System.out.println("Jestem w funkcji login");
 		
 		new Thread(new Runnable() {
 			public void run() {
 				while(true){
 					
-				
-				/*String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/login/"+ name + "/?format=json";
 				URL url = null;
 				try {
 					url = new URL(webPage);
@@ -66,16 +64,15 @@ public class Main {
 
 					}
 				} catch (Exception e) {
-					System.out.println("niepoprawne dane");
 					System.out.println(e.toString());
 					returnInt = -1;
 					break;
 					
-				}*/
+				}
 					
-				String json =  "{\"count\": 1, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1}]}";
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
+				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
 
 				UserId userId = null;
 				try {
@@ -114,11 +111,6 @@ public class Main {
 			public void run() {
 				while(true)
 				{
-				/*System.out.println(id + name + password);
-				
-				// String webPage =
-				// "http://projectbreaking.herokuapp.com/webservices/login/" +
-				// name + "/?format=json";
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/gameinstance/"
 						+ id + "/?format=json";
 				URL url = null;
@@ -157,43 +149,49 @@ public class Main {
 					}
 				} catch (Exception e) {
 					returnInt = 1;
-					System.out.println("nieporpawne dane");
 					break;
 				}
-				
-				System.out.println(json.length());
-				System.out.println(json);*/
-				String json = "{\"count\": 2, \"next\": null, \"previous\": null, \"results\": [{\"id\": 1, \"player1\": \"kuba\", \"player2\": \"suchar\",  \"available\": true}, {\"id\": 2, \"player1\": \"kuba\", \"player2\": \"suchar\", \"available\": false}]}";
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
 				GameInstance game = new GameInstance();
 				
-				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
-
-				while (newjson.indexOf("}") + 2 <= newjson.length()) {
-					try {
-						game = (GameInstance) converter.fromJsonG(newjson);
-					} catch (JsonParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (JsonMappingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
+				try
+				{
+					newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
+					
+					while (newjson.indexOf("}") + 2 <= newjson.length()) {
+						try {
+							game = (GameInstance) converter.fromJsonG(newjson);
+						} catch (JsonParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (JsonMappingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+						gamesInstance.add(game);
+						newjson = newjson.substring(newjson.indexOf("}") + 2,
+								newjson.length());
 					}
-					gamesInstance.add(game);
-					newjson = newjson.substring(newjson.indexOf("}") + 2,
-							newjson.length());
+
+					returnInt = 1;
+					break;
+					
+				}
+				catch (StringIndexOutOfBoundsException e)
+				{
+					returnInt = 1;
+					break;
 				}
 
-				returnInt = 1;
-				break;
+				
 				}
 			}
 		}).start();
@@ -215,11 +213,6 @@ public class Main {
 			public void run() {
 				while(true)
 				{
-				/*System.out.println(id + name + password);
-				
-				// String webPage =
-				// "http://projectbreaking.herokuapp.com/webservices/login/" +
-				// name + "/?format=json";
 				String webPage = "http://projectbreaking.herokuapp.com/webservices/checkpoints/"
 						+ id + "/?format=json";
 				URL url = null;
@@ -258,43 +251,48 @@ public class Main {
 					}
 				} catch (Exception e) {
 					returnInt = 1;
-					System.out.println("nieporpawne dane");
 					break;
-				}*/
-				
-				//System.out.println(json.length());
-				//System.out.println(json);
-				String json = "{\"count\": 3, \"next\": null, \"previous\": null, \"results\": [{\"id\": 3, \"latitudeP1\": \"51.055558773389026\", \"longitudeP1\": \"19.91201162338257\", \"latitudeP2\": \"50.531838773389026\", \"longitudeP2\": \"20.91201162338257\"}, {\"id\": 2, \"latitudeP1\": \"52.031838773389026\", \"longitudeP1\": \"18.912016666666\", \"latitudeP2\": \"49.531838773389026\", \"longitudeP2\": \"20.9120133333357\"}]}";
+				}
 				
 				String newjson = json.substring(1, json.length());
 				Main converter = new Main();
 				CheckPoint check = new CheckPoint();
 				
-				newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
-
-				while (newjson.indexOf("}") + 2 <= newjson.length()) {
-					try {
-						check = (CheckPoint) converter.fromJsonC(newjson);
-					} catch (JsonParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (JsonMappingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
+				try
+				{
+					newjson = newjson.substring(newjson.indexOf("{"), newjson.length());
+					
+					while (newjson.indexOf("}") + 2 <= newjson.length()) {
+						try {
+							check = (CheckPoint) converter.fromJsonC(newjson);
+						} catch (JsonParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (JsonMappingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+						chekcPoints.add(check);
+						newjson = newjson.substring(newjson.indexOf("}") + 2,
+								newjson.length());
 					}
-					chekcPoints.add(check);
-					newjson = newjson.substring(newjson.indexOf("}") + 2,
-							newjson.length());
-				}
 
-				returnInt = 1;
-				break;
+					returnInt = 1;
+					break;
+					
+				}
+				catch (StringIndexOutOfBoundsException e)
+				{
+					returnInt = 1;
+					break;
+				}
+				
 				}
 			}
 		}).start();
@@ -306,18 +304,17 @@ public class Main {
 
 	}
 	
-	public void callWinner(final int uid, final int gid, final String name,
+	public void callWinner(final int uid, final int gid, final String date, final String name,
 			final String password) throws Exception {
 		
 		new Thread(new Runnable() {
 			public void run() {
+				
 				while(true)
 				{
 				
-				// String webPage =
-				// "http://projectbreaking.herokuapp.com/webservices/login/" +
-				// name + "/?format=json";
-				String webPage = "http://projectbreaking.herokuapp.com/webservices/checkpoints/"+ uid +"/"+ gid + "/?format=json";
+				String webPage = "http://projectbreaking.herokuapp.com/webservices/acceptgame/"+ uid +"/"+ gid + "/"+ date +"/?format=json";
+				
 				URL url = null;
 				try {
 					url = new URL(webPage);
@@ -354,11 +351,10 @@ public class Main {
 					}
 				} catch (Exception e) {
 					
-					System.out.println("nieporpawne dane");
 					break;
 				}
 				
-				
+				break;
 				}
 			}
 		}).start();
@@ -372,13 +368,6 @@ public class Main {
 
 		return garima;
 	}
-
-	/*public Object fromJsonM(String json) throws JsonParseException,
-			JsonMappingException, IOException {
-		Mission garima = new ObjectMapper().readValue(json, Mission.class);
-
-		return garima;
-	}*/
 	
 	public Object fromJsonG(String json) throws JsonParseException,
 			JsonMappingException, IOException {

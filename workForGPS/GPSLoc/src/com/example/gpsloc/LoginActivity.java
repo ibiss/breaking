@@ -40,12 +40,9 @@ public class LoginActivity extends Activity {
 				} 
 				else 
 				{
-					System.out.println("przed try");
 					try 
 					{
-						System.out.println("try1");
 						UID = main.login(log, pswd);
-						System.out.println("try");
 						if (UID != -1) 
 						{
 							System.out.println(UID);
@@ -67,7 +64,6 @@ public class LoginActivity extends Activity {
 					catch (Exception e) 
 					{
 						Toast.makeText(getApplicationContext(),"Nie udalo sie zalogowac, sprawdz polaczenie z interentem",Toast.LENGTH_SHORT).show();
-						System.out.println("wypisuje blad");
 						e.printStackTrace();
 					}
 				}
@@ -78,11 +74,9 @@ public class LoginActivity extends Activity {
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)  {
-	    if (  Integer.valueOf(android.os.Build.VERSION.SDK) < 7 //Instead use android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ECLAIR
+	    if (  Integer.valueOf(android.os.Build.VERSION.SDK) < 7 
 	            && keyCode == KeyEvent.KEYCODE_BACK
 	            && event.getRepeatCount() == 0) {
-	        // Take care of calling this method on earlier versions of
-	        // the platform where it doesn't exist.
 	        onBackPressed();
 	    }
 
@@ -91,9 +85,6 @@ public class LoginActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-	    // This will be called either automatically for you on 2.0
-	    // or later, or by the code above on earlier versions of the
-	    // platform.
 	    return;
 	}
 	
