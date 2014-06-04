@@ -1,0 +1,4 @@
+#!/bin/bash
+
+python manage.py loaddata auth_data.json
+python manage.py loaddata userprofile_data.json

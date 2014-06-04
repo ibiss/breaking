@@ -38,7 +38,9 @@ class UserUpdateForm(forms.Form):
         self.fields.keyOrder = ['first_name', 'last_name', 'email', 'latitude', 'longitude']
 
 class QueueForm(forms.Form):
-	gameMode = forms.ModelChoiceField(queryset=Subcategory.objects.all())
+    gameMode = forms.ModelChoiceField(queryset=Subcategory.objects.all(), label='Tryb gry')
+    timeStart = forms.IntegerField()
+    timeEnd = forms.IntegerField()
 
 class MessageForm(forms.Form):
 	description = forms.CharField(required=True, widget=forms.Textarea, label='wiadomosc',

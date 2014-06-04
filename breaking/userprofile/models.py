@@ -13,8 +13,9 @@ class UserProfile(models.Model):
 		return self.user.username
 
 class MessageBox(models.Model):
-	user_profile = models.ForeignKey(UserProfile, related_name ='user_profile_c')
-	user_address = models.ForeignKey(UserProfile, related_name ='user_address_c')
+	fromUser = models.ForeignKey(UserProfile, related_name ='fromUser')
+	toUser = models.ForeignKey(UserProfile, related_name ='toUser')
+	title = models.CharField(max_length=500)
 	description = models.TextField()
 
 class Category(models.Model):
@@ -35,10 +36,12 @@ class Subcategory(models.Model):
 class Queue(models.Model): #queueing player for create game
 	player = models.ForeignKey(UserProfile)
 	mode = models.ForeignKey(Subcategory)
+	timeStart = models.IntegerField()
+	timeEnd = models.IntegerField()
 
 class GameInstance(models.Model): #model of game
-	player1 = models.ForeignKey('UserProfile', related_name='player1')
-	player2 = models.ForeignKey('UserProfile', related_name='player2')
+	player1 = models.ForeignKey(UserProfile, related_name='player1')
+	player2 = models.ForeignKey(UserProfile, related_name='player2')
 	dateTime1 = models.DateTimeField()
 	dateTime2 = models.DateTimeField()
 	available = models.BooleanField()
@@ -47,5 +50,7 @@ class GameInstance(models.Model): #model of game
 
 class Checkpoint(models.Model):
 	game = models.ForeignKey(GameInstance)
-	latitude = models.CharField(max_length=50)
-	longitude = models.CharField(max_length=50)
+	latitudeP1 = models.CharField(max_length=50)
+	longitudeP1 = models.CharField(max_length=50)
+	latitudeP2 = models.CharField(max_length=50)
+	longitudeP2 = models.CharField(max_length=50)

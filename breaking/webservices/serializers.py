@@ -7,8 +7,38 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('id',)
-        permission_classes = (permissions.IsAuthenticated,)        
+        permission_classes = (permissions.IsAuthenticated,)
+        
 
+class UserProfileSerializer(serializers.RelatedField):
+    def to_native(self, value):
+        return value.user.username
 
+class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Subcategory
+        fields = ('task_name','description','points_to_achive','number_of_checkpoints')
+        permission_classes = (permissions.IsAuthenticated,)
 
+class GameInstanceSerializer(serializers.HyperlinkedModelSerializer):
+    
+    player1 = UserProfileSerializer()
+    player2 = UserProfileSerializer()
+    mode = SubcategorySerializer()
+    class Meta:
+        model = GameInstance
+        fields = ('id','player1','player2','available')
+        permission_classes = (permissions.IsAuthenticated,)  
+
+class CheckpointsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Checkpoint
+        fields = ('id','latitudeP1','longitudeP1','latitudeP2','longitudeP2')
+        permission_classes = (permissions.IsAuthenticated,)
+        
+class AcceptGameSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = GameInstance
+        fields = ('winner',)
+        permission_classes = (permissions.IsAuthenticated,)
 
