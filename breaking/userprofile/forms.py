@@ -42,6 +42,11 @@ class QueueForm(forms.Form):
     timeStart = forms.IntegerField()
     timeEnd = forms.IntegerField()
 
+class ChangeQueueTimeForm(forms.Form):
+    gameMode = forms.ModelChoiceField(queryset=Subcategory.objects.all(), label='Tryb gry')
+    timeStart = forms.IntegerField()
+    timeEnd = forms.IntegerField()
+
 class MessageForm(forms.Form):
 	description = forms.CharField(required=True, widget=forms.Textarea, label='wiadomosc',
 		error_messages={'required': 'Wpisz jakas wartosc!!'})

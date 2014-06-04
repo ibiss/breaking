@@ -1,0 +1,44 @@
+footer {
+  clear: both;
+  min-width: 1000px;
+  background-color: #050505;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.footer {
+  width: 960px;
+  margin: 0 auto;
+  padding: 6px 0px;
+  overflow: hidden;
+}
+
+.footer .left li {
+  list-style-type: none;
+  display: inline;
+  float: left;
+  padding: 6px;
+  border-left: 1px dotted #ffffff;
+}
+
+.footer .left li:first-child {
+  border-left: none;
+}
+
+.footer .left li a {
+  color: #ffffff;
+  padding: 6px;
+}
+
+.footer .link_footer {
+  float: left;
+  padding: 5px 10px;
+}
+
+.footer .right li {
+  padding: 6px;
+  text-align: center;
+  float: right;
+  display: inline;
+  color: #ffffff;
+}
