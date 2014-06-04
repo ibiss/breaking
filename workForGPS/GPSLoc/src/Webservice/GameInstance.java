@@ -71,7 +71,25 @@ public class GameInstance{
 	@Override
     public String toString()
     {
-    	return player1 +" vs "+player2;
+		String returnStr="Typ gry ";
+		
+		if(mode==1)
+		{
+			returnStr+="Król wzgórza.";
+		}
+		else if(mode==2)
+		{
+			returnStr+="Wiêcej znaczy lepiej.";
+		}
+		else if(mode==3)
+		{
+			returnStr+="Walka gangów.";
+		}
+		
+		returnStr+="\nDostêpna: "+this.available;
+		returnStr+=" "+ player1 +" vs "+player2;
+		
+    	return returnStr;
     }
 	
 	public ArrayList<CheckPoint> getList() {
