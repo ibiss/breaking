@@ -68,6 +68,7 @@ class AcceptGameViev(generics.ListAPIView):
         if not c :
             game = GameInstance.objects.get(id=game_id)
             game.winner = getWinnerId(game_id)
+            game.available=False
             game.save()
             winner = UserProfile.objects.get(user_id=game.winner)
             winner.points = winner.points + game.mode.points_to_achive
