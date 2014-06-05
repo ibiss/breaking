@@ -5,6 +5,7 @@ from webservices.serializers import *
 from django.utils import timezone
 from django.db.models import Q
 from django.db import connection
+from datetime import datetime
 class LoginUser(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -51,7 +52,7 @@ class AcceptGameViev(generics.ListAPIView):
     def get_queryset(self):
         user_id= self.kwargs['player1']
         checkpoint_id= self.kwargs['cid']
-        dateTime = self.kwargs['dt']
+        dateTime = datetime.fromtimestamp(int(self.kwargs['dt']))
         a = Checkpoint.objects.get(id=checkpoint_id)    
         game_id =a.game.id; 
         p1 = GameInstance.objects.filter((Q(player1=user_id ) & Q(id=game_id)))
