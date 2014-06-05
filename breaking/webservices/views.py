@@ -5,6 +5,7 @@ from webservices.serializers import *
 from django.utils import timezone
 from django.db.models import Q
 from django.db import connection
+from datetime import datetime
 class LoginUser(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -36,10 +37,10 @@ def getWinnerId(self):
     cursor = connection.cursor()
     try:
         cursor.execute("SELECT CASE (SELECT r.win  FROM (SELECT max(c.\"dateTimePlayer2\") as dt ,2 as win FROM "
-                       +"userprofile_checkpoint as c WHERE game_id=1 UNION SELECT max(c.\"dateTimePlayer1\") as "
-                       +"dt,1 as win FROM userprofile_checkpoint as c WHERE game_id=1)as r Order By r.dt LIMIT 1)"
-                       +" WHEN 1 THEN (SELECT player1_id FROM userprofile_gameinstance WHERE id = 1) else (SELECT "
-                       +"player2_id FROM userprofile_gameinstance WHERE id = 1) END ", [self,self,self,self])
+                       +"userprofile_checkpoint as c WHERE game_id=%s UNION SELECT max(c.\"dateTimePlayer1\") as "
+                       +"dt,1 as win FROM userprofile_checkpoint as c WHERE game_id=%s)as r Order By r.dt LIMIT 1)"
+                       +" WHEN 1 THEN (SELECT player1_id FROM userprofile_gameinstance WHERE id = %s) else (SELECT "
+                       +"player2_id FROM userprofile_gameinstance WHERE id = %s) END ", [self,self,self,self])
         row = cursor.fetchone()
     finally:
         cursor.close()
@@ -51,7 +52,7 @@ class AcceptGameViev(generics.ListAPIView):
     def get_queryset(self):
         user_id= self.kwargs['player1']
         checkpoint_id= self.kwargs['cid']
-        dateTime = self.kwargs['dt']
+        dateTime = datetime.fromtimestamp(int(self.kwargs['dt']))
         a = Checkpoint.objects.get(id=checkpoint_id)    
         game_id =a.game.id; 
         p1 = GameInstance.objects.filter((Q(player1=user_id ) & Q(id=game_id)))
