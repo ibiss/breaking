@@ -13,12 +13,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class UserProfileSerializer(serializers.RelatedField):
     def to_native(self, value):
         return value.user.username
-
-class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Subcategory
-        fields = ('task_name','description','points_to_achive','number_of_checkpoints')
-        permission_classes = (permissions.IsAuthenticated,)
+class SubcategorySerializer(serializers.RelatedField):
+    def to_native(self, value):
+        return value.id
 
 class GameInstanceSerializer(serializers.HyperlinkedModelSerializer):
     
