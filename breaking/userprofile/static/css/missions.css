@@ -33,6 +33,11 @@
     padding: 4px 0 0 15px;
 }
 
+.missions .single_mission span {
+    margin-left: 20px;
+    font-size: 14px;
+}
+
 .challenge_content .joinPvpForm {
     margin: 0 0 10px 0;
 }

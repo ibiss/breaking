@@ -24,16 +24,14 @@
 
     <div id="map-canvas"></div>
 
-    {% if gamesInProgress %}
     <div class="missions">
         {% for game in gamesInProgress %}
         <div class="single_mission">
             <ul>
-                <li class="">{{ game.mode }}</li>
+                <li class="">{{ game.mode }} <span>{{ game.dateTime2 }}</span></li>
             </ul>
         </div>
         {% endfor %}
     </div>
-    {% endif %}
 
 {% endblock %}

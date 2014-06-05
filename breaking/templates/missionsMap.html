@@ -37,25 +37,28 @@
             fillOpacity: 0.35   //przezroczystosc obszaru
         });
 
-        // {% for checkpoint in checkpoints %}
-        //     marker = new google.maps.Marker({   //Nowy marker
-        //         map: map,
-        //         position: new google.maps.LatLng("{{ checkpoint.latitudeP1 }}", "{{ checkpoint.longitudeP1 }}"),
-        //         icon: "{% static 'images/marker_mission.png' %}",
-        //         title: "{{ checkpoint.mission.name }}\n{{ checkpoint.mission.description }}"
-        //     });
+        {% for game in gamesInProgress %}
 
-        //     area = new google.maps.Circle({ //opcje obszaru
-        //         map: map,   //mapa
-        //         center: new google.maps.LatLng("{{ checkpoint.latitudeP1 }}", "{{ checkpoint.longitudeP1 }}"),    //pozycja
-        //         radius: 100,    //promien
-        //         strokeColor: '#076b00', //kolor lini
-        //         strokeOpacity: 0.8, //przezroczystosc lini
-        //         strokeWeight: 2,    //grubosc lini
-        //         fillColor: '#076b00',   //Kolor obszaru
-        //         fillOpacity: 0.35   //przezroczystosc obszaru
-        //     });
-        // {% endfor %}
+            {% for checkpoint in checkpoints %}
+                marker = new google.maps.Marker({   //Nowy marker
+                    map: map,
+                    position: new google.maps.LatLng("{{ checkpoint.0 }}", "{{ checkpoint.1 }}"),
+                    icon: "{% static 'images/marker_mission.png' %}"
+                    // title: "{{ checkpoint.mission.name }}\n{{ checkpoint.mission.description }}"
+                });
+
+                area = new google.maps.Circle({ //opcje obszaru
+                    map: map,   //mapa
+                    center: new google.maps.LatLng("{{ checkpoint.0 }}", "{{ checkpoint.1 }}"),    //pozycja
+                    radius: 100,    //promien
+                    strokeColor: '#076b00', //kolor lini
+                    strokeOpacity: 0.8, //przezroczystosc lini
+                    strokeWeight: 2,    //grubosc lini
+                    fillColor: '#076b00',   //Kolor obszaru
+                    fillOpacity: 0.35   //przezroczystosc obszaru
+                });
+            {% endfor %}
+        {% endfor %}
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);

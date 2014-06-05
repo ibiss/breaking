@@ -39,13 +39,13 @@ class UserUpdateForm(forms.Form):
 
 class QueueForm(forms.Form):
     gameMode = forms.ModelChoiceField(queryset=Subcategory.objects.all(), label='Tryb gry')
-    timeStart = forms.IntegerField()
-    timeEnd = forms.IntegerField()
+    timeStart = forms.IntegerField(min_value=0, max_value=23)
+    timeEnd = forms.IntegerField(min_value=0, max_value=23)
 
 class ChangeQueueTimeForm(forms.Form):
     gameMode = forms.ModelChoiceField(queryset=Subcategory.objects.all(), label='Tryb gry')
-    timeStart = forms.IntegerField()
-    timeEnd = forms.IntegerField()
+    timeStart = forms.IntegerField(min_value=0, max_value=23)
+    timeEnd = forms.IntegerField(min_value=0, max_value=23)
 
 class MessageForm(forms.Form):
 	description = forms.CharField(required=True, widget=forms.Textarea, label='wiadomosc',

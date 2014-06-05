@@ -93,19 +93,25 @@ def account(request):
 @login_required(login_url='/')
 def maps(request):
     args = {}
-    checkpoints = []
     args.update(csrf(request))
     user = User.objects.get(username=request.user.username)
     usrProfile = UserProfile.objects.get(user=user)
     gInstances = GameInstance.objects.filter(player1=usrProfile) | GameInstance.objects.filter(player2=usrProfile)
     checkpoints = {}
+
+    counter = 0
     for g in gInstances:
         cs = Checkpoint.objects.filter(game=g)
         for c in cs:
             if(g.player1.user.username == user.username):
-                checkpoints[g] = [c.latitudeP1, c.longitudeP1]
+                checkpoints[counter] = [c.latitudeP1, c.longitudeP1]
+                counter = counter + 1;
             else:
-                checkpoints[g] = [c.latitudeP2, c.longitudeP2]
+                checkpoints[counter] = [c.latitudeP2, c.longitudeP2]
+                counter = counter + 1;
+
+
+
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
