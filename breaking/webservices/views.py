@@ -35,12 +35,9 @@ class CheckpointsViev(generics.ListAPIView):
         return queryset
 def getWinnerId(self):
     cursor = connection.cursor()
+
     try:
-        cursor.execute("SELECT CASE (SELECT r.win  FROM (SELECT max(c.dateTimePlayer2) as dt ,2 as win FROM "
-                       +"userprofile_checkpoint as c WHERE game_id=1 UNION SELECT max(c.dateTimePlayer1) as "
-                       +"dt,1 as win FROM userprofile_checkpoint as c WHERE game_id=1)as r Order By r.dt LIMIT 1)"
-                       +" WHEN 1 THEN (SELECT player1_id FROM userprofile_gameinstance WHERE id = 1) else (SELECT "
-                       +"player2_id FROM userprofile_gameinstance WHERE id = 1) END ", [self,self,self,self])
+        cursor.execute("SELECT 1", [])
         row = cursor.fetchone()
     finally:
         cursor.close()
