@@ -103,11 +103,9 @@ def maps(request):
         cs = Checkpoint.objects.filter(game=g)
         for c in cs:
             if(g.player1.user.username == user.username):
-                checkpoints.extend([c.latitudeP1, c.longitudeP1])
-                w[g] = [c.latitudeP1, c.longitudeP1]
+                checkpoints[g] = [c.latitudeP1, c.longitudeP1]
             else:
-                checkpoints.extend([c.latitudeP2, c.longitudeP2])
-                w[g] = [c.latitudeP2, c.longitudeP2]
+                checkpoints[g] = [c.latitudeP2, c.longitudeP2]
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
