@@ -110,14 +110,13 @@ def maps(request):
                 checkpoints[counter] = [c.latitudeP2, c.longitudeP2]
                 counter = counter + 1;
 
-
-
     latitude = usrProfile.latitude
     longitude = usrProfile.longitude
     args['latitude'] = usrProfile.latitude
     args['longitude'] = usrProfile.longitude
     args['checkpoints'] = checkpoints
     args['gamesInProgress'] = gInstances
+    args['now_date'] = datetime.datetime.now();
     return render_to_response('maps.html', args, context_instance=RequestContext(request))
 
 @login_required(login_url='/')

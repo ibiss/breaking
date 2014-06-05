@@ -28,7 +28,12 @@
         {% for game in gamesInProgress %}
         <div class="single_mission">
             <ul>
-                <li class="">{{ game.mode }} <span>{{ game.dateTime2 }}</span></li>
+                <li>
+                    <a {% if game.dateTime2 >= now_date %}href="" onclick="showMissionPosition({{ checkpoints.0.0 }}, {{ checkpoints.0.1 }})"{% endif %}>
+                        {{ game.mode }}
+                    </a> <span>{{ game.dateTime2 }}</span>
+                    <p>{{ now_date }}</p>
+                </li>
             </ul>
         </div>
         {% endfor %}
