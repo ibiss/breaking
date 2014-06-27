@@ -42,17 +42,6 @@
     color: #4b47ff;
 }
 
-.right_menu {
-    float: left;
-    clear: both;
-    margin: 12px 0px;
-}
-
-.right_menu ul .menu_button {
-    padding: 6px;
-    text-transform: uppercase;
-}
-
 .edit_account #user_data {
     float: left;
 }
